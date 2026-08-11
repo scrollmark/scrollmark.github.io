@@ -777,12 +777,14 @@ h3 {
   background: var(--plum);
   border-radius: 14px;
   padding: 16px 18px;
-  overflow-x: auto;
 }
 
+/* The pre scrolls, not the box — so the absolutely-positioned copy
+   button stays put while long commands scroll under it */
 .codebox pre {
   margin: 0;
   padding-right: 84px;
+  overflow-x: auto;
 }
 
 .codebox code {
