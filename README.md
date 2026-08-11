@@ -14,7 +14,7 @@ buttons) is [Datastar](https://data-star.dev) via CDN.
 Open `index.html` in a browser, or:
 
 ```bash
-python3 -m http.server
+npx serve
 ```
 
 ## Deploy
