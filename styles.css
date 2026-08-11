@@ -355,6 +355,8 @@ h3 {
   /* brand-logo.svg viewBox is 355×261 — size by width, keep aspect */
   width: 38px;
   height: auto;
+  aspect-ratio: 355 / 261;
+  display: block;
   transition: transform 0.28s var(--ease-pop);
 }
 
@@ -1097,6 +1099,8 @@ h3 {
 .about-card .icon-brand {
   width: 42px;
   height: auto;
+  aspect-ratio: 355 / 261;
+  display: block;
 }
 
 /* ── Footer ── */
