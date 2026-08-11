@@ -1055,6 +1055,36 @@ h3 {
   transform: rotate(0deg) scale(1.04);
 }
 
+/* MCP setup page: wrap the many client tabs instead of scrolling */
+.setup-box .tabs {
+  flex-wrap: wrap;
+  border-radius: 22px;
+}
+
+.client-panel {
+  max-width: 46rem;
+}
+
+/* "Just ask" example prompts */
+.ask-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 40px;
+  max-width: 60rem;
+}
+
+.ask-grid p {
+  margin: 0;
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 700px) {
+  .ask-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 /* Card-footer link pairs */
 .card-links {
   display: flex;

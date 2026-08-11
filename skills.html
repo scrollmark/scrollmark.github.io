@@ -50,7 +50,7 @@
     </a>
     <div class="nav-links">
       <a href="skills.html" aria-current="page">Skills</a>
-      <a href="index.html#mcp">MCP</a>
+      <a href="mcp.html">MCP</a>
       <a class="nav-optional" href="index.html#about">About</a>
       <a class="nav-optional" href="https://github.com/scrollmark">GitHub</a>
     </div>
@@ -104,11 +104,12 @@
         </p>
 
         <div class="install-box rise rise-4">
-          <div class="tabs" role="tablist" aria-label="Install method">
-            <button type="button" role="tab" class="active" data-class:active="$install === 'npx'" data-attr:aria-selected="$install === 'npx' ? 'true' : 'false'" data-on:click="$install = 'npx'">npx skills</button>
-            <button type="button" role="tab" data-class:active="$install === 'git'" data-attr:aria-selected="$install === 'git' ? 'true' : 'false'" data-on:click="$install = 'git'">git clone</button>
+          <div class="tabs" role="tablist" aria-label="Install method"
+            data-on:keydown="const order = ['npx', 'git']; const i = order.indexOf($install); let n = -1; if (evt.key === 'ArrowRight' || evt.key === 'ArrowDown') n = (i + 1) % order.length; if (evt.key === 'ArrowLeft' || evt.key === 'ArrowUp') n = (i + order.length - 1) % order.length; if (evt.key === 'Home') n = 0; if (evt.key === 'End') n = order.length - 1; if (n >= 0) { evt.preventDefault(); $install = order[n]; el.querySelectorAll('button')[n].focus() }">
+            <button type="button" role="tab" id="tab-npx" aria-controls="panel-npx" class="active" data-class:active="$install === 'npx'" data-attr:aria-selected="$install === 'npx' ? 'true' : 'false'" data-attr:tabindex="$install === 'npx' ? '0' : '-1'" data-on:click="$install = 'npx'">npx skills</button>
+            <button type="button" role="tab" id="tab-git" aria-controls="panel-git" data-class:active="$install === 'git'" data-attr:aria-selected="$install === 'git' ? 'true' : 'false'" data-attr:tabindex="$install === 'git' ? '0' : '-1'" data-on:click="$install = 'git'">git clone</button>
           </div>
-          <div class="codebox" data-show="$install === 'npx'">
+          <div class="codebox" role="tabpanel" id="panel-npx" aria-labelledby="tab-npx" tabindex="0" data-show="$install === 'npx'">
             <button
               class="copy-btn"
               type="button"
@@ -122,7 +123,7 @@
             <pre><code><span id="cmd-npx">npx skills add scrollmark/social-skills</span>                  # all seven
 npx skills add scrollmark/social-skills -s hook-anatomy  # just one</code></pre>
           </div>
-          <div class="codebox" data-show="$install === 'git'" style="display: none">
+          <div class="codebox" role="tabpanel" id="panel-git" aria-labelledby="tab-git" tabindex="0" data-show="$install === 'git'" style="display: none">
             <button
               class="copy-btn"
               type="button"
@@ -152,7 +153,7 @@ cd social-skills && ./install.sh</code></pre>
         <div class="section-head">
           <p class="eyebrow" style="color: var(--se-violet-text)">The full deck</p>
           <h2 class="heading-2">Seven skills, one worldview.</h2>
-          <p class="sub">Each one is a compact playbook — patterns and judgment calls, not API wrappers. They pair well with the <a href="index.html#mcp">SocialGPT MCP server</a>, which brings your real numbers into the conversation.</p>
+          <p class="sub">Each one is a compact playbook — patterns and judgment calls, not API wrappers. They pair well with the <a href="mcp.html">SocialGPT MCP server</a>, which brings your real numbers into the conversation.</p>
         </div>
 
         <div class="projects-grid">
@@ -340,7 +341,7 @@ cd social-skills && ./install.sh</code></pre>
           <h3>Projects</h3>
           <ul>
             <li><a href="skills.html">Social Skills</a></li>
-            <li><a href="https://github.com/scrollmark/socialgpt-mcp">SocialGPT MCP</a></li>
+            <li><a href="mcp.html">SocialGPT MCP</a></li>
             <li><a href="https://github.com/scrollmark/showrunner">Showrunner</a></li>
           </ul>
         </div>
