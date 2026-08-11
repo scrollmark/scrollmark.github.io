@@ -352,8 +352,9 @@ h3 {
 }
 
 .brand .mark {
-  width: 30px;
-  height: 30px;
+  /* brand-logo.svg viewBox is 355×261 — size by width, keep aspect */
+  width: 38px;
+  height: auto;
   transition: transform 0.28s var(--ease-pop);
 }
 
@@ -1091,6 +1092,11 @@ h3 {
   width: 34px;
   height: 34px;
   color: var(--se-violet);
+}
+
+.about-card .icon-brand {
+  width: 42px;
+  height: auto;
 }
 
 /* ── Footer ── */
