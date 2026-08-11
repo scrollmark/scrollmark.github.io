@@ -56,7 +56,7 @@
       <span class="chip oss-tag sticker--lime" style="--tilt: 3deg">oss</span>
     </a>
     <div class="nav-links">
-      <a href="#skills">Skills</a>
+      <a href="skills.html">Skills</a>
       <a href="#mcp">MCP</a>
       <a class="nav-optional" href="#about">About</a>
       <a class="nav-optional" href="https://github.com/scrollmark">GitHub</a>
@@ -126,7 +126,7 @@
           </span>
           <span class="sticker sticker--sky s2 pop pop-2">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg>
-            MCP compatible
+            26 MCP tools
           </span>
           <span class="sticker sticker--pink s3 pop pop-3">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l2.2 6.6L21 10l-6.8 1.4L12 18l-2.2-6.6L3 10l6.8-1.4z"/></svg>
@@ -173,26 +173,38 @@
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                 <span data-text="$copied === 'skills' ? 'Copied' : 'Copy'">Copy</span>
               </button>
-              <span class="code-label">terminal</span>
-              <pre><code id="cmd-skills">git clone https://github.com/scrollmark/social-skills.git
-cd social-skills &amp;&amp; ./install.sh</code></pre>
+              <span class="code-label">terminal · via skills.sh</span>
+              <pre><code id="cmd-skills">npx skills add scrollmark/social-skills</code></pre>
             </div>
-            <a class="card-link" href="https://github.com/scrollmark/social-skills">
-              scrollmark/social-skills
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
+            <div class="card-links">
+              <a class="card-link" href="skills.html">
+                Meet all seven skills
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+              <a class="card-link" href="https://github.com/scrollmark/social-skills">
+                scrollmark/social-skills
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
           </article>
 
           <!-- SocialGPT MCP -->
           <article class="card card--sky" id="mcp" style="--tilt: 1deg">
-            <span class="sticker sticker--pink corner-sticker" style="--tilt: -4deg">hosted</span>
-            <p class="eyebrow">MCP server</p>
+            <span class="sticker sticker--pink corner-sticker" style="--tilt: -4deg">26 tools</span>
+            <p class="eyebrow">Hosted MCP server</p>
             <h3 class="heading-3">SocialGPT MCP</h3>
             <p>
-              One URL brings your SocialGPT analytics, video analysis, and content
-              intelligence into Claude, ChatGPT, Cursor — any agent that speaks MCP.
-              OAuth sign-in, nothing to install.
+              One URL brings your SocialGPT data into Claude, ChatGPT, Cursor —
+              any agent that speaks MCP. Nothing to install, no API keys:
+              OAuth 2.1 with PKCE, read-only by default, revoke any time.
             </p>
+            <div class="fact-row" aria-label="Tool categories">
+              <span class="fact-chip sticker--butter" style="--tilt: -2deg">your content</span>
+              <span class="fact-chip sticker--lime" style="--tilt: 2deg">competitor intel</span>
+              <span class="fact-chip sticker--violet" style="--tilt: -1deg">guided workflows</span>
+              <span class="fact-chip sticker--pink" style="--tilt: 2.5deg">content profile</span>
+              <span class="fact-chip sticker--sky" style="--tilt: -2.5deg">publish &amp; post</span>
+            </div>
             <div class="tabs" role="tablist" aria-label="MCP client">
               <button type="button" role="tab" class="active" data-class:active="$client === 'code'" data-attr:aria-selected="$client === 'code' ? 'true' : 'false'" data-on:click="$client = 'code'">Claude Code</button>
               <button type="button" role="tab" data-class:active="$client === 'desktop'" data-attr:aria-selected="$client === 'desktop' ? 'true' : 'false'" data-on:click="$client = 'desktop'">Claude Desktop</button>
@@ -245,10 +257,21 @@ cd social-skills &amp;&amp; ./install.sh</code></pre>
   }
 }</code></pre>
             </div>
-            <a class="card-link" href="https://github.com/scrollmark/socialgpt-mcp">
-              scrollmark/socialgpt-mcp
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
+            <p class="mini-note">
+              Also works with ChatGPT, Claude.ai, Codex, and Gemini CLI —
+              <a href="https://gpt.social/integrations/mcp">full setup guide for every client</a>.
+            </p>
+            <p class="ask-quote annotation" aria-hidden="true">then just ask: "compare my engagement rate to similar creators"</p>
+            <div class="card-links">
+              <a class="card-link" href="https://github.com/scrollmark/socialgpt-mcp">
+                scrollmark/socialgpt-mcp
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+              <a class="card-link" href="https://gpt.social/integrations/mcp">
+                gpt.social/integrations/mcp
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
           </article>
         </div>
 
@@ -335,7 +358,7 @@ cd social-skills &amp;&amp; ./install.sh</code></pre>
         <div class="footer-col">
           <h3>Projects</h3>
           <ul>
-            <li><a href="https://github.com/scrollmark/social-skills">Social Skills</a></li>
+            <li><a href="skills.html">Social Skills</a></li>
             <li><a href="https://github.com/scrollmark/socialgpt-mcp">SocialGPT MCP</a></li>
             <li><a href="https://github.com/scrollmark/showrunner">Showrunner</a></li>
           </ul>

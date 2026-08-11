@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Social Skills — Scrollmark Open Source</title>
+  <meta name="description" content="Seven installable Claude Code skills that teach Claude the cultural literacy of the feed — tone, hooks, trends, and platform fluency. One npx command to install." />
+  <meta property="og:title" content="Social Skills — Scrollmark Open Source" />
+  <meta property="og:description" content="Seven installable Claude Code skills for understanding social media. npx skills add scrollmark/social-skills" />
+  <meta property="og:url" content="https://scrollmark.github.io/skills.html" />
+  <meta name="theme-color" content="#fffdf8" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#16101f" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='4' y='6' width='40' height='32' rx='12' fill='%237b5bff'/%3E%3Cpath d='M14 36l0 9 10-9z' fill='%237b5bff'/%3E%3Ccircle cx='19' cy='22' r='4' fill='%23fffdf8'/%3E%3Ccircle cx='31' cy='22' r='4' fill='%23fffdf8'/%3E%3Cpath d='M40 0l1.8 4.2L46 6l-4.2 1.8L40 12l-1.8-4.2L34 6l4.2-1.8z' fill='%23ffd43f'/%3E%3C/svg%3E" />
+
+  <!-- Theme before first paint: stored choice, falling back to the OS -->
+  <script>
+    (() => {
+      const stored = localStorage.getItem("theme");
+      const mq = matchMedia("(prefers-color-scheme: dark)");
+      const dark = stored ? stored === "dark" : mq.matches;
+      document.documentElement.classList.toggle("dark", dark);
+      mq.addEventListener("change", (e) => {
+        if (!localStorage.getItem("theme")) {
+          document.documentElement.classList.toggle("dark", e.matches);
+        }
+      });
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Shantell+Sans:wght@500&family=Fragment+Mono&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Datastar — all interactivity on this page -->
+  <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0/bundles/datastar.js"></script>
+</head>
+
+<body
+  data-signals="{dark: document.documentElement.classList.contains('dark'), install: 'npx', copied: ''}"
+  data-effect="document.documentElement.classList.toggle('dark', $dark)"
+>
+  <div class="paper-grain" aria-hidden="true"></div>
+
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="index.html">
+      <svg class="mark" viewBox="0 0 48 48" aria-hidden="true">
+        <rect x="4" y="6" width="40" height="32" rx="12" fill="#7b5bff" />
+        <path d="M14 36l0 9 10-9z" fill="#7b5bff" />
+        <circle cx="19" cy="22" r="4" fill="#fffdf8" />
+        <circle cx="31" cy="22" r="4" fill="#fffdf8" />
+        <path d="M40 0l1.8 4.2L46 6l-4.2 1.8L40 12l-1.8-4.2L34 6l4.2-1.8z" fill="#ffd43f" />
+      </svg>
+      Scrollmark
+      <span class="chip oss-tag sticker--lime" style="--tilt: 3deg">oss</span>
+    </a>
+    <div class="nav-links">
+      <a href="skills.html" aria-current="page">Skills</a>
+      <a href="index.html#mcp">MCP</a>
+      <a class="nav-optional" href="index.html#about">About</a>
+      <a class="nav-optional" href="https://github.com/scrollmark">GitHub</a>
+    </div>
+    <button
+      class="theme-switch"
+      type="button"
+      role="switch"
+      aria-label="Dark mode"
+      data-attr:aria-checked="$dark ? 'true' : 'false'"
+      data-on:click="document.documentElement.classList.add('theme-fade'); $dark = !$dark; localStorage.setItem('theme', $dark ? 'dark' : 'light'); setTimeout(() => document.documentElement.classList.remove('theme-fade'), 350)"
+    >
+      <span class="knob">
+        <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.4" fill="currentColor" stroke="none" />
+          <path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5.3 5.3l1.7 1.7M17 17l1.7 1.7M18.7 5.3L17 7M7 17l-1.7 1.7" />
+        </svg>
+        <svg class="icon icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20.6 14.4A8.8 8.8 0 0 1 9.6 3.4a8.8 8.8 0 1 0 11 11z" fill="currentColor" />
+        </svg>
+      </span>
+    </button>
+  </nav>
+
+  <main id="top">
+    <!-- ── Page hero ── -->
+    <header class="hero hero--page">
+      <div class="hero-washes" aria-hidden="true">
+        <span class="w1"></span><span class="w2"></span>
+      </div>
+      <div class="wrap" style="position: relative">
+        <p class="eyebrow rise rise-1" style="color: var(--se-pink-text)">Claude Code skills · scrollmark/social-skills</p>
+        <h1 class="display rise rise-2" style="font-size: clamp(2.4rem, 5.5vw, 4.2rem)">
+          Even AI needs
+          <span class="marker">social skills<svg viewBox="0 0 200 12" aria-hidden="true"><path pathLength="100" d="M3 9 C 40 3, 120 2, 197 7" /></svg></span>.
+        </h1>
+        <p class="sub rise rise-3" style="margin: 24px 0 28px">
+          Seven installable skills that teach Claude the cultural literacy of the
+          feed — reading tone, dissecting hooks, timing trends, and speaking each
+          platform's dialect. Deep coverage of Instagram, TikTok, and YouTube;
+          X and LinkedIn too.
+        </p>
+
+        <div class="install-box rise rise-4">
+          <div class="tabs" role="tablist" aria-label="Install method">
+            <button type="button" role="tab" class="active" data-class:active="$install === 'npx'" data-attr:aria-selected="$install === 'npx' ? 'true' : 'false'" data-on:click="$install = 'npx'">npx skills</button>
+            <button type="button" role="tab" data-class:active="$install === 'git'" data-attr:aria-selected="$install === 'git' ? 'true' : 'false'" data-on:click="$install = 'git'">git clone</button>
+          </div>
+          <div class="codebox" data-show="$install === 'npx'">
+            <button
+              class="copy-btn"
+              type="button"
+              aria-label="Copy npx install command"
+              data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-npx').innerText); $copied = 'npx'; setTimeout(() => { $copied = '' }, 1500)"
+            >
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span data-text="$copied === 'npx' ? 'Copied' : 'Copy'">Copy</span>
+            </button>
+            <span class="code-label">terminal · installs all seven</span>
+            <pre><code id="cmd-npx">npx skills add scrollmark/social-skills</code></pre>
+          </div>
+          <div class="codebox" data-show="$install === 'git'" style="display: none">
+            <button
+              class="copy-btn"
+              type="button"
+              aria-label="Copy git install command"
+              data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-git').innerText); $copied = 'git'; setTimeout(() => { $copied = '' }, 1500)"
+            >
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span data-text="$copied === 'git' ? 'Copied' : 'Copy'">Copy</span>
+            </button>
+            <span class="code-label">terminal · symlinks into ~/.claude/skills</span>
+            <pre><code id="cmd-git">git clone https://github.com/scrollmark/social-skills.git
+cd social-skills && ./install.sh</code></pre>
+          </div>
+          <p class="mini-note">
+            The <code style="font-family: var(--font-mono)">npx</code> route uses the
+            <a href="https://skills.sh">skills.sh CLI</a> — the open agent-skills
+            ecosystem — and works with Claude Code and other supported agents.
+            Want just one skill? Every card below has its own one-liner.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── The seven skills ── -->
+    <section class="section" id="all-skills" style="padding-top: clamp(24px, 4vw, 48px)">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow" style="color: var(--se-violet-text)">The full deck</p>
+          <h2 class="heading-2">Seven skills, one worldview.</h2>
+          <p class="sub">Each one is a compact playbook — patterns and judgment calls, not API wrappers. They pair well with the <a href="index.html#mcp">SocialGPT MCP server</a>, which brings your real numbers into the conversation.</p>
+        </div>
+
+        <div class="projects-grid">
+          <article class="card card--sky" style="--tilt: -1deg">
+            <p class="eyebrow">Interpretation</p>
+            <h3 class="heading-3 skill-name">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3C6.5 3 2 6.6 2 11c0 2.5 1.4 4.7 3.7 6.1-.2 1-.7 2.1-1.5 2.9 1.8-.1 3.4-.8 4.6-1.7.98.26 2 .4 3.2.4 5.5 0 10-3.6 10-8S17.5 3 12 3z"/></svg>
+              read-the-room
+            </h3>
+            <p>
+              Reads tone, sarcasm, and subtext the way a native does: the four
+              registers (sincere, ironic, performative, parasocial), emoji as
+              grammar, and the comment-section signals most models miss.
+            </p>
+            <span class="skill-when"><strong>Reach for it</strong>interpreting comments, captions, replies, or DMs</span>
+            <div class="codebox codebox--row">
+              <button class="copy-btn" type="button" aria-label="Copy read-the-room install command"
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-rtr').innerText); $copied = 'rtr'; setTimeout(() => { $copied = '' }, 1500)">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-text="$copied === 'rtr' ? 'Copied' : 'Copy'">Copy</span>
+              </button>
+              <pre><code id="cmd-rtr">npx skills add scrollmark/social-skills -s read-the-room</code></pre>
+            </div>
+          </article>
+
+          <article class="card card--pink" style="--tilt: 1deg">
+            <p class="eyebrow">Craft</p>
+            <h3 class="heading-3 skill-name">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg>
+              hook-anatomy
+            </h3>
+            <p>
+              The first 1–3 seconds, dissected: six structural hook patterns
+              (curiosity gap, pattern interrupt, identity call-out, and more) and
+              what separates a hook that holds from one that summarizes.
+            </p>
+            <span class="skill-when"><strong>Reach for it</strong>analyzing, scoring, or generating hooks</span>
+            <div class="codebox codebox--row">
+              <button class="copy-btn" type="button" aria-label="Copy hook-anatomy install command"
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-hook').innerText); $copied = 'hook'; setTimeout(() => { $copied = '' }, 1500)">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-text="$copied === 'hook' ? 'Copied' : 'Copy'">Copy</span>
+              </button>
+              <pre><code id="cmd-hook">npx skills add scrollmark/social-skills -s hook-anatomy</code></pre>
+            </div>
+          </article>
+
+          <article class="card card--tangerine" style="--tilt: 1deg">
+            <p class="eyebrow">Timing</p>
+            <h3 class="heading-3 skill-name">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17l5-6 4 4 7-9"/><path d="M14 6h6v6"/></svg>
+              trend-radar
+            </h3>
+            <p>
+              Maps any trend onto its lifecycle — emergence, growth, peak,
+              saturation, ironic revival — and calls whether the window is still
+              open for you, or only for the parody.
+            </p>
+            <span class="skill-when"><strong>Reach for it</strong>deciding if (and when) a trend is worth riding</span>
+            <div class="codebox codebox--row">
+              <button class="copy-btn" type="button" aria-label="Copy trend-radar install command"
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-trend').innerText); $copied = 'trend'; setTimeout(() => { $copied = '' }, 1500)">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-text="$copied === 'trend' ? 'Copied' : 'Copy'">Copy</span>
+              </button>
+              <pre><code id="cmd-trend">npx skills add scrollmark/social-skills -s trend-radar</code></pre>
+            </div>
+          </article>
+
+          <article class="card card--violet" style="--tilt: -1deg">
+            <p class="eyebrow">Strategy</p>
+            <h3 class="heading-3 skill-name">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/></svg>
+              platform-fluency
+            </h3>
+            <p>
+              How discovery actually works, platform by platform: content-graph
+              TikTok vs follower-graph Instagram vs search-driven YouTube — plus
+              formats, content lifespans, and what each audience came for.
+            </p>
+            <span class="skill-when"><strong>Reach for it</strong>platform conventions, algorithms, audience behavior</span>
+            <div class="codebox codebox--row">
+              <button class="copy-btn" type="button" aria-label="Copy platform-fluency install command"
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-plat').innerText); $copied = 'plat'; setTimeout(() => { $copied = '' }, 1500)">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-text="$copied === 'plat' ? 'Copied' : 'Copy'">Copy</span>
+              </button>
+              <pre><code id="cmd-plat">npx skills add scrollmark/social-skills -s platform-fluency</code></pre>
+            </div>
+          </article>
+
+          <article class="card card--lime" style="--tilt: 1deg">
+            <p class="eyebrow">Analysis</p>
+            <h3 class="heading-3 skill-name">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="7"/><path d="M16 16l5.5 5.5"/></svg>
+              content-autopsy
+            </h3>
+            <p>
+              Post-mortems with statistical humility: reads metrics in layers
+              (reach → engagement → saves and shares), separates signal from
+              algorithmic lottery, and insists on patterns over one-off virality.
+            </p>
+            <span class="skill-when"><strong>Reach for it</strong>figuring out why a post took off — or didn't</span>
+            <div class="codebox codebox--row">
+              <button class="copy-btn" type="button" aria-label="Copy content-autopsy install command"
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-auto').innerText); $copied = 'auto'; setTimeout(() => { $copied = '' }, 1500)">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-text="$copied === 'auto' ? 'Copied' : 'Copy'">Copy</span>
+              </button>
+              <pre><code id="cmd-auto">npx skills add scrollmark/social-skills -s content-autopsy</code></pre>
+            </div>
+          </article>
+
+          <article class="card card--butter" style="--tilt: -1deg">
+            <p class="eyebrow">Voice</p>
+            <h3 class="heading-3 skill-name">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 3v18M7 8v8M17 8v8M2.5 11v2M21.5 11v2"/></svg>
+              voice-matching
+            </h3>
+            <p>
+              Decomposes a creator's voice into learnable parts — vocabulary,
+              sentence rhythm, opening moves, humor style, CTA habits — so drafts
+              sound like them on their best day, not like an AI doing an impression.
+            </p>
+            <span class="skill-when"><strong>Reach for it</strong>writing as a creator, or auditing consistency</span>
+            <div class="codebox codebox--row">
+              <button class="copy-btn" type="button" aria-label="Copy voice-matching install command"
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-voice').innerText); $copied = 'voice'; setTimeout(() => { $copied = '' }, 1500)">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-text="$copied === 'voice' ? 'Copied' : 'Copy'">Copy</span>
+              </button>
+              <pre><code id="cmd-voice">npx skills add scrollmark/social-skills -s voice-matching</code></pre>
+            </div>
+          </article>
+
+          <article class="card card--pink" style="--tilt: 1deg">
+            <p class="eyebrow">Distribution</p>
+            <h3 class="heading-3 skill-name">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+              repurpose-engine
+            </h3>
+            <p>
+              Adaptation, not cross-posting: keeps the core message and voice,
+              re-cuts format, hook, and framing for each platform. A YouTube
+              essay, a TikTok clip, and a LinkedIn post are three different jobs.
+            </p>
+            <span class="skill-when"><strong>Reach for it</strong>taking one piece of content everywhere it can go</span>
+            <div class="codebox codebox--row">
+              <button class="copy-btn" type="button" aria-label="Copy repurpose-engine install command"
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-rep').innerText); $copied = 'rep'; setTimeout(() => { $copied = '' }, 1500)">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-text="$copied === 'rep' ? 'Copied' : 'Copy'">Copy</span>
+              </button>
+              <pre><code id="cmd-rep">npx skills add scrollmark/social-skills -s repurpose-engine</code></pre>
+            </div>
+          </article>
+
+          <div class="card placeholder" style="--tilt: -1.5deg">
+            <span class="annotation">skill #8 is yours →</span>
+            <span class="micro">contributions welcome · see CONTRIBUTING.md</span>
+          </div>
+        </div>
+
+        <div style="margin-top: clamp(36px, 5vw, 56px)">
+          <a class="btn btn--secondary" href="https://github.com/scrollmark/social-skills">
+            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+            Read the source on GitHub
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="index.html">
+            <svg class="mark" viewBox="0 0 48 48" aria-hidden="true">
+              <rect x="4" y="6" width="40" height="32" rx="12" fill="#7b5bff" />
+              <path d="M14 36l0 9 10-9z" fill="#7b5bff" />
+              <circle cx="19" cy="22" r="4" fill="#fffdf8" />
+              <circle cx="31" cy="22" r="4" fill="#fffdf8" />
+              <path d="M40 0l1.8 4.2L46 6l-4.2 1.8L40 12l-1.8-4.2L34 6l4.2-1.8z" fill="#ffd43f" />
+            </svg>
+            Scrollmark
+          </a>
+          <p>Open-source tools from the team building SocialGPT.</p>
+        </div>
+        <div class="footer-col">
+          <h3>Projects</h3>
+          <ul>
+            <li><a href="skills.html">Social Skills</a></li>
+            <li><a href="https://github.com/scrollmark/socialgpt-mcp">SocialGPT MCP</a></li>
+            <li><a href="https://github.com/scrollmark/showrunner">Showrunner</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>Scrollmark</h3>
+          <ul>
+            <li><a href="https://gpt.social">gpt.social</a></li>
+            <li><a href="https://app.gpt.social">app.gpt.social</a></li>
+            <li><a href="https://github.com/scrollmark">GitHub</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-note">
+        <span>© 2026 Scrollmark. MIT-licensed where marked.</span>
+        <a class="annotation" href="https://data-star.dev/essays/why_another_framework">
+          interactivity is 10KB of Datastar — why another framework? →
+        </a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

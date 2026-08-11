@@ -718,6 +718,8 @@ h3 {
 .card--sky { background: linear-gradient(var(--sky-tint), var(--sky-tint)), var(--card); }
 .card--violet { background: linear-gradient(var(--violet-tint), var(--violet-tint)), var(--card); }
 .card--tangerine { background: linear-gradient(var(--tangerine-tint), var(--tangerine-tint)), var(--card); }
+.card--pink { background: linear-gradient(var(--pink-tint), var(--pink-tint)), var(--card); }
+.card--butter { background: linear-gradient(var(--butter-tint), var(--butter-tint)), var(--card); }
 
 .card .eyebrow {
   margin-bottom: 8px;
@@ -727,6 +729,8 @@ h3 {
 .card--sky .eyebrow { color: var(--se-sky-text); }
 .card--violet .eyebrow { color: var(--se-violet-text); }
 .card--tangerine .eyebrow { color: var(--se-tangerine-text); }
+.card--pink .eyebrow { color: var(--se-pink-text); }
+.card--butter .eyebrow { color: var(--se-butter-text); }
 
 .card p {
   color: var(--text-secondary);
@@ -826,6 +830,26 @@ h3 {
   height: 0.9em;
 }
 
+/* Compact one-liner variant: copy button sits beside the command, not over it */
+.codebox--row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.codebox--row pre {
+  flex: 1;
+  order: 1;
+  overflow-x: auto;
+  padding-right: 0;
+}
+
+.codebox--row .copy-btn {
+  position: static;
+  order: 2;
+  flex-shrink: 0;
+}
+
 /* ── Segmented pill tabs (a control — never tilted) ── */
 .tabs {
   display: inline-flex;
@@ -900,6 +924,109 @@ h3 {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-weight: 600;
+}
+
+/* ── Skill detail cards (skills.html) ── */
+.hero--page {
+  padding: clamp(48px, 7vw, 88px) 0 clamp(40px, 6vw, 72px);
+}
+
+.skill-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.skill-name .icon {
+  width: 22px;
+  height: 22px;
+}
+
+.skill-when {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--text-tertiary);
+  margin: -8px 0 18px;
+}
+
+.skill-when strong {
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  margin-right: 6px;
+}
+
+/* Install picker on the skills page hero */
+.install-box {
+  max-width: 46rem;
+}
+
+.mini-note {
+  font-size: 0.88rem;
+  color: var(--text-tertiary);
+  margin: 10px 0 0;
+}
+
+.mini-note a {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* Small fact chips (tool categories, platforms) */
+.fact-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 8px;
+  margin: 0 0 20px;
+}
+
+.fact-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 2px solid #fff;
+  box-shadow: var(--shadow-sticker);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--plum);
+  transform: rotate(var(--tilt, -1.5deg));
+  transition: transform 0.15s ease-out;
+}
+
+.fact-chip:hover {
+  transform: rotate(0deg) scale(1.04);
+}
+
+/* Card-footer link pairs */
+.card-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 24px;
+  align-items: center;
+}
+
+/* Decorative "just ask" quote */
+.ask-quote {
+  margin: 16px 0 0;
+  font-size: 1rem;
+  color: var(--text-tertiary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fact-chip {
+    transition: none;
+  }
+  .fact-chip:hover {
+    transform: rotate(var(--tilt, -1.5deg));
+  }
 }
 
 /* ── About strip (butter tint section) ── */
