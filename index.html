@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Scrollmark Open Source</title>
+  <meta name="description" content="Claude Code skills, a hosted MCP server, and an AI video framework from the team behind SocialGPT. MIT-licensed — clone and go." />
+  <meta property="og:title" content="Scrollmark Open Source" />
+  <meta property="og:description" content="Claude Code skills, a hosted MCP server, and an AI video framework from the team behind SocialGPT." />
+  <meta property="og:url" content="https://scrollmark.github.io/" />
+  <meta name="theme-color" content="#fffdf8" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#16101f" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='4' y='6' width='40' height='32' rx='12' fill='%237b5bff'/%3E%3Cpath d='M14 36l0 9 10-9z' fill='%237b5bff'/%3E%3Ccircle cx='19' cy='22' r='4' fill='%23fffdf8'/%3E%3Ccircle cx='31' cy='22' r='4' fill='%23fffdf8'/%3E%3Cpath d='M40 0l1.8 4.2L46 6l-4.2 1.8L40 12l-1.8-4.2L34 6l4.2-1.8z' fill='%23ffd43f'/%3E%3C/svg%3E" />
+
+  <!-- Theme before first paint: stored choice, falling back to the OS -->
+  <script>
+    (() => {
+      const stored = localStorage.getItem("theme");
+      const mq = matchMedia("(prefers-color-scheme: dark)");
+      const dark = stored ? stored === "dark" : mq.matches;
+      document.documentElement.classList.toggle("dark", dark);
+      mq.addEventListener("change", (e) => {
+        if (!localStorage.getItem("theme")) {
+          document.documentElement.classList.toggle("dark", e.matches);
+        }
+      });
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Shantell+Sans:wght@500&family=Fragment+Mono&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Datastar — all interactivity on this page (https://data-star.dev,
+       see https://data-star.dev/essays/why_another_framework) -->
+  <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0/bundles/datastar.js"></script>
+</head>
+
+<body
+  data-signals="{dark: document.documentElement.classList.contains('dark'), client: 'code', copied: ''}"
+  data-effect="document.documentElement.classList.toggle('dark', $dark)"
+>
+  <div class="paper-grain" aria-hidden="true"></div>
+
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="#top">
+      <svg class="mark" viewBox="0 0 48 48" aria-hidden="true">
+        <rect x="4" y="6" width="40" height="32" rx="12" fill="#7b5bff" />
+        <path d="M14 36l0 9 10-9z" fill="#7b5bff" />
+        <circle cx="19" cy="22" r="4" fill="#fffdf8" />
+        <circle cx="31" cy="22" r="4" fill="#fffdf8" />
+        <path d="M40 0l1.8 4.2L46 6l-4.2 1.8L40 12l-1.8-4.2L34 6l4.2-1.8z" fill="#ffd43f" />
+      </svg>
+      Scrollmark
+      <span class="chip oss-tag sticker--lime" style="--tilt: 3deg">oss</span>
+    </a>
+    <div class="nav-links">
+      <a href="#skills">Skills</a>
+      <a href="#mcp">MCP</a>
+      <a class="nav-optional" href="#about">About</a>
+      <a class="nav-optional" href="https://github.com/scrollmark">GitHub</a>
+    </div>
+    <button
+      class="theme-switch"
+      type="button"
+      role="switch"
+      aria-label="Dark mode"
+      data-attr:aria-checked="$dark ? 'true' : 'false'"
+      data-on:click="document.documentElement.classList.add('theme-fade'); $dark = !$dark; localStorage.setItem('theme', $dark ? 'dark' : 'light'); setTimeout(() => document.documentElement.classList.remove('theme-fade'), 350)"
+    >
+      <span class="knob">
+        <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.4" fill="currentColor" stroke="none" />
+          <path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5.3 5.3l1.7 1.7M17 17l1.7 1.7M18.7 5.3L17 7M7 17l-1.7 1.7" />
+        </svg>
+        <svg class="icon icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20.6 14.4A8.8 8.8 0 0 1 9.6 3.4a8.8 8.8 0 1 0 11 11z" fill="currentColor" />
+        </svg>
+      </span>
+    </button>
+  </nav>
+
+  <main id="top">
+    <!-- ── Hero ── -->
+    <header class="hero">
+      <div class="hero-washes" aria-hidden="true">
+        <span class="w1"></span><span class="w2"></span><span class="w3"></span>
+      </div>
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow rise rise-1">Scrollmark · open source</p>
+          <h1 class="display rise rise-2">
+            Built for the feed,
+            <span class="marker">free to fork<svg viewBox="0 0 200 12" aria-hidden="true"><path pathLength="100" d="M3 9 C 40 3, 120 2, 197 7" /></svg></span>.
+          </h1>
+          <p class="sub rise rise-3">
+            Claude Code skills, a hosted MCP server, and an AI video framework —
+            side quests from the team building SocialGPT. MIT-licensed.
+            No waitlist, no gate: clone and go.
+          </p>
+          <div class="hero-ctas rise rise-4">
+            <a class="btn btn--primary" href="https://github.com/scrollmark">
+              <svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+              Browse on GitHub
+            </a>
+            <a class="btn btn--secondary" href="https://gpt.social">Meet SocialGPT</a>
+            <span class="annotation" aria-hidden="true">it's all MIT →</span>
+          </div>
+        </div>
+
+        <div class="hero-pile" aria-hidden="true">
+          <div class="polaroid">
+            <div class="screen">
+              <div class="fake-line short"></div>
+              <div class="fake-line tiny"></div>
+              <div class="fake-bars">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+            </div>
+            <div class="caption annotation">your analytics, in any agent →</div>
+          </div>
+          <span class="sticker sticker--lime s1 pop pop-1">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            MIT licensed
+          </span>
+          <span class="sticker sticker--sky s2 pop pop-2">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg>
+            MCP compatible
+          </span>
+          <span class="sticker sticker--pink s3 pop pop-3">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l2.2 6.6L21 10l-6.8 1.4L12 18l-2.2-6.6L3 10l6.8-1.4z"/></svg>
+            7 skills shipped
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── Projects ── -->
+    <section class="section" id="projects">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow" style="color: var(--se-violet-text)">On the shelf</p>
+          <h2 class="heading-2">Pick something up.</h2>
+          <p class="sub">Everything here is public on GitHub. Install it, break it, send a PR.</p>
+        </div>
+
+        <div class="projects-grid">
+          <!-- Social Skills -->
+          <article class="card card--lime" id="skills" style="--tilt: -1deg">
+            <span class="sticker sticker--butter corner-sticker" style="--tilt: 4deg">7 skills</span>
+            <p class="eyebrow">Claude Code skills</p>
+            <h3 class="heading-3">Social Skills</h3>
+            <p>
+              Installable skills that teach Claude to read the room — tone, hooks,
+              trend timing, and platform fluency across Instagram, TikTok, and
+              YouTube. Because even AI needs social skills.
+            </p>
+            <div class="chip-row" aria-label="Included skills">
+              <span class="chip sticker--sky" style="--tilt: -2deg">read-the-room</span>
+              <span class="chip sticker--pink" style="--tilt: 2deg">hook-anatomy</span>
+              <span class="chip sticker--butter" style="--tilt: -1deg">trend-radar</span>
+              <span class="chip sticker--violet" style="--tilt: 2.5deg">voice-matching</span>
+              <span class="chip sticker--lime" style="--tilt: -2.5deg">+3 more</span>
+            </div>
+            <div class="codebox">
+              <button
+                class="copy-btn"
+                type="button"
+                aria-label="Copy install command"
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-skills').innerText); $copied = 'skills'; setTimeout(() => { $copied = '' }, 1500)"
+              >
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-text="$copied === 'skills' ? 'Copied' : 'Copy'">Copy</span>
+              </button>
+              <span class="code-label">terminal</span>
+              <pre><code id="cmd-skills">git clone https://github.com/scrollmark/social-skills.git
+cd social-skills &amp;&amp; ./install.sh</code></pre>
+            </div>
+            <a class="card-link" href="https://github.com/scrollmark/social-skills">
+              scrollmark/social-skills
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </article>
+
+          <!-- SocialGPT MCP -->
+          <article class="card card--sky" id="mcp" style="--tilt: 1deg">
+            <span class="sticker sticker--pink corner-sticker" style="--tilt: -4deg">hosted</span>
+            <p class="eyebrow">MCP server</p>
+            <h3 class="heading-3">SocialGPT MCP</h3>
+            <p>
+              One URL brings your SocialGPT analytics, video analysis, and content
+              intelligence into Claude, ChatGPT, Cursor — any agent that speaks MCP.
+              OAuth sign-in, nothing to install.
+            </p>
+            <div class="tabs" role="tablist" aria-label="MCP client">
+              <button type="button" role="tab" class="active" data-class:active="$client === 'code'" data-attr:aria-selected="$client === 'code' ? 'true' : 'false'" data-on:click="$client = 'code'">Claude Code</button>
+              <button type="button" role="tab" data-class:active="$client === 'desktop'" data-attr:aria-selected="$client === 'desktop' ? 'true' : 'false'" data-on:click="$client = 'desktop'">Claude Desktop</button>
+              <button type="button" role="tab" data-class:active="$client === 'cursor'" data-attr:aria-selected="$client === 'cursor' ? 'true' : 'false'" data-on:click="$client = 'cursor'">Cursor</button>
+            </div>
+            <div class="codebox" data-show="$client === 'code'">
+              <button
+                class="copy-btn"
+                type="button"
+                aria-label="Copy Claude Code command"
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-mcp-code').innerText); $copied = 'mcp-code'; setTimeout(() => { $copied = '' }, 1500)"
+              >
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-text="$copied === 'mcp-code' ? 'Copied' : 'Copy'">Copy</span>
+              </button>
+              <span class="code-label">terminal</span>
+              <pre><code id="cmd-mcp-code">claude mcp add --transport http socialgpt https://mcp.gpt.social/mcp</code></pre>
+            </div>
+            <div class="codebox" data-show="$client === 'desktop'" style="display: none">
+              <button
+                class="copy-btn"
+                type="button"
+                aria-label="Copy Claude Desktop config"
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-mcp-desktop').innerText); $copied = 'mcp-desktop'; setTimeout(() => { $copied = '' }, 1500)"
+              >
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-text="$copied === 'mcp-desktop' ? 'Copied' : 'Copy'">Copy</span>
+              </button>
+              <span class="code-label">claude_desktop_config.json</span>
+              <pre><code id="cmd-mcp-desktop">{
+  "mcpServers": {
+    "socialgpt": { "url": "https://mcp.gpt.social/mcp" }
+  }
+}</code></pre>
+            </div>
+            <div class="codebox" data-show="$client === 'cursor'" style="display: none">
+              <button
+                class="copy-btn"
+                type="button"
+                aria-label="Copy Cursor config"
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-mcp-cursor').innerText); $copied = 'mcp-cursor'; setTimeout(() => { $copied = '' }, 1500)"
+              >
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-text="$copied === 'mcp-cursor' ? 'Copied' : 'Copy'">Copy</span>
+              </button>
+              <span class="code-label">.cursor/mcp.json</span>
+              <pre><code id="cmd-mcp-cursor">{
+  "mcpServers": {
+    "socialgpt": { "url": "https://mcp.gpt.social/mcp" }
+  }
+}</code></pre>
+            </div>
+            <a class="card-link" href="https://github.com/scrollmark/socialgpt-mcp">
+              scrollmark/socialgpt-mcp
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </article>
+        </div>
+
+        <div class="more-grid">
+          <!-- Showrunner -->
+          <article class="card card--violet" style="--tilt: -1deg">
+            <p class="eyebrow">Video framework</p>
+            <h3 class="heading-3">Showrunner</h3>
+            <p>
+              Open-source AI video generation. Pluggable formats, swappable
+              providers, one CLI.
+            </p>
+            <a class="card-link" href="https://github.com/scrollmark/showrunner">
+              scrollmark/showrunner
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </article>
+
+          <!-- Empty slots -->
+          <div class="card placeholder" style="--tilt: 1deg">
+            <span class="annotation">something's rendering…</span>
+            <span class="micro">reserved · next drop</span>
+          </div>
+          <div class="card placeholder" style="--tilt: -1.5deg">
+            <span class="annotation">your idea here →</span>
+            <span class="micro">issues &amp; PRs welcome</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── About ── -->
+    <section class="section about" id="about">
+      <div class="wrap about-grid">
+        <div>
+          <p class="eyebrow">The day job</p>
+          <h2 class="heading-2">From the team behind SocialGPT.</h2>
+          <p class="sub" style="margin-top: 16px">
+            Scrollmark builds SocialGPT — an AI copilot that studies what works
+            on Instagram, TikTok, and YouTube, then helps creators make more of
+            it. Everything on this page fell out of that work, so it's tuned on
+            real posts, real metrics, and real feeds.
+          </p>
+        </div>
+        <div class="about-links">
+          <a class="about-card" href="https://gpt.social" style="--tilt: -1deg">
+            <svg class="icon" viewBox="0 0 48 48" aria-hidden="true">
+              <rect x="4" y="6" width="40" height="32" rx="12" fill="currentColor" />
+              <path d="M14 36l0 9 10-9z" fill="currentColor" />
+              <circle cx="19" cy="22" r="4" fill="#fffdf8" />
+              <circle cx="31" cy="22" r="4" fill="#fffdf8" />
+            </svg>
+            <span><strong>gpt.social</strong><span>what SocialGPT does, and why</span></span>
+          </a>
+          <a class="about-card" href="https://app.gpt.social" style="--tilt: 1deg">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg>
+            <span><strong>app.gpt.social</strong><span>open the app — free account</span></span>
+          </a>
+          <a class="about-card" href="https://github.com/scrollmark" style="--tilt: -0.5deg">
+            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+            <span><strong>github.com/scrollmark</strong><span>all the public repos</span></span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="#top">
+            <svg class="mark" viewBox="0 0 48 48" aria-hidden="true">
+              <rect x="4" y="6" width="40" height="32" rx="12" fill="#7b5bff" />
+              <path d="M14 36l0 9 10-9z" fill="#7b5bff" />
+              <circle cx="19" cy="22" r="4" fill="#fffdf8" />
+              <circle cx="31" cy="22" r="4" fill="#fffdf8" />
+              <path d="M40 0l1.8 4.2L46 6l-4.2 1.8L40 12l-1.8-4.2L34 6l4.2-1.8z" fill="#ffd43f" />
+            </svg>
+            Scrollmark
+          </a>
+          <p>Open-source tools from the team building SocialGPT.</p>
+        </div>
+        <div class="footer-col">
+          <h3>Projects</h3>
+          <ul>
+            <li><a href="https://github.com/scrollmark/social-skills">Social Skills</a></li>
+            <li><a href="https://github.com/scrollmark/socialgpt-mcp">SocialGPT MCP</a></li>
+            <li><a href="https://github.com/scrollmark/showrunner">Showrunner</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>Scrollmark</h3>
+          <ul>
+            <li><a href="https://gpt.social">gpt.social</a></li>
+            <li><a href="https://app.gpt.social">app.gpt.social</a></li>
+            <li><a href="https://github.com/scrollmark">GitHub</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-note">
+        <span>© 2026 Scrollmark. MIT-licensed where marked.</span>
+        <a class="annotation" href="https://data-star.dev/essays/why_another_framework">
+          interactivity is 10KB of Datastar — why another framework? →
+        </a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
