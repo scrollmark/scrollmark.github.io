@@ -417,7 +417,7 @@ h3 {
    slides behind the active segment (sky → butter → violet). */
 .theme-switch {
   --segw: 32px;
-  --step: 34px; /* segment width + gap */
+  --step: calc(var(--segw) + 2px); /* segment width + gap */
   position: relative;
   display: inline-flex;
   gap: 2px;
@@ -482,7 +482,6 @@ h3 {
 @media (max-width: 560px) {
   .theme-switch {
     --segw: 26px;
-    --step: 28px;
   }
 
   .theme-switch button .icon {
