@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SocialGPT MCP — Scrollmark Open Source</title>
+  <meta name="description" content="Connect SocialGPT to Claude, ChatGPT, Cursor, and any MCP-compatible agent. One URL, OAuth sign-in, 26 tools — setup instructions for every client." />
+  <meta property="og:title" content="SocialGPT MCP — Scrollmark Open Source" />
+  <meta property="og:description" content="Your social data, inside every AI tool. Setup for Claude, ChatGPT, Cursor, VS Code, Codex, and more." />
+  <meta property="og:url" content="https://scrollmark.github.io/mcp.html" />
+  <meta name="theme-color" content="#fffdf8" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#16101f" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="brand-logo.svg" type="image/svg+xml" sizes="any" />
+
+  <!-- Theme before first paint: stored choice, falling back to the OS -->
+  <script>
+    (() => {
+      const stored = localStorage.getItem("theme");
+      const mq = matchMedia("(prefers-color-scheme: dark)");
+      const dark = stored ? stored === "dark" : mq.matches;
+      document.documentElement.classList.toggle("dark", dark);
+      mq.addEventListener("change", (e) => {
+        if (!localStorage.getItem("theme")) {
+          document.documentElement.classList.toggle("dark", e.matches);
+        }
+      });
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Shantell+Sans:wght@500&family=Fragment+Mono&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Datastar — all interactivity on this page -->
+  <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0/bundles/datastar.js"></script>
+</head>
+
+<body
+  data-signals="{theme: localStorage.getItem('theme') || 'system', client: 'code', copied: ''}"
+  data-effect="document.documentElement.classList.toggle('dark', $theme === 'dark' || ($theme === 'system' && matchMedia('(prefers-color-scheme: dark)').matches)); $theme === 'system' ? localStorage.removeItem('theme') : localStorage.setItem('theme', $theme)"
+>
+  <div class="paper-grain" aria-hidden="true"></div>
+
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="index.html">
+      <img class="mark" src="brand-logo.svg" alt="" />
+      Scrollmark
+      <span class="chip oss-tag sticker--lime" style="--tilt: 3deg">oss</span>
+    </a>
+    <div class="nav-links">
+      <a href="skills.html">Skills</a>
+      <a href="mcp.html" aria-current="page">MCP</a>
+      <a class="nav-optional" href="index.html#about">About</a>
+      <a class="nav-optional" href="https://github.com/scrollmark">GitHub</a>
+    </div>
+    <div
+      class="theme-switch"
+      role="radiogroup"
+      aria-label="Theme"
+      aria-orientation="horizontal"
+      data-on:keydown="const order = ['system', 'light', 'dark']; const i = order.indexOf($theme); let next = -1; if (evt.key === 'ArrowRight' || evt.key === 'ArrowDown') next = (i + 1) % 3; if (evt.key === 'ArrowLeft' || evt.key === 'ArrowUp') next = (i + 2) % 3; if (evt.key === 'Home') next = 0; if (evt.key === 'End') next = 2; if (next >= 0) { evt.preventDefault(); document.documentElement.classList.add('theme-fade'); $theme = order[next]; el.querySelectorAll('button')[next].focus(); setTimeout(() => document.documentElement.classList.remove('theme-fade'), 350) }"
+      data-class:pos-light="$theme === 'light'"
+      data-class:pos-dark="$theme === 'dark'"
+    >
+      <button type="button" role="radio" aria-label="System theme"
+        data-attr:aria-checked="$theme === 'system' ? 'true' : 'false'"
+        data-attr:tabindex="$theme === 'system' ? '0' : '-1'"
+        data-on:click="document.documentElement.classList.add('theme-fade'); $theme = 'system'; setTimeout(() => document.documentElement.classList.remove('theme-fade'), 350)">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2.5"/><path d="M8.5 20h7M12 16.5V20"/></svg>
+      </button>
+      <button type="button" role="radio" aria-label="Light theme"
+        data-attr:aria-checked="$theme === 'light' ? 'true' : 'false'"
+        data-attr:tabindex="$theme === 'light' ? '0' : '-1'"
+        data-on:click="document.documentElement.classList.add('theme-fade'); $theme = 'light'; setTimeout(() => document.documentElement.classList.remove('theme-fade'), 350)">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.4" fill="currentColor" stroke="none"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5.3 5.3l1.7 1.7M17 17l1.7 1.7M18.7 5.3L17 7M7 17l-1.7 1.7"/></svg>
+      </button>
+      <button type="button" role="radio" aria-label="Dark theme"
+        data-attr:aria-checked="$theme === 'dark' ? 'true' : 'false'"
+        data-attr:tabindex="$theme === 'dark' ? '0' : '-1'"
+        data-on:click="document.documentElement.classList.add('theme-fade'); $theme = 'dark'; setTimeout(() => document.documentElement.classList.remove('theme-fade'), 350)">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.6 14.4A8.8 8.8 0 0 1 9.6 3.4a8.8 8.8 0 1 0 11 11z" fill="currentColor"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <main id="top">
+    <!-- ── Page hero ── -->
+    <header class="hero hero--page">
+      <div class="hero-washes" aria-hidden="true">
+        <span class="w1"></span><span class="w2"></span>
+      </div>
+      <div class="wrap" style="position: relative">
+        <p class="eyebrow rise rise-1" style="color: var(--se-sky-text)">Hosted MCP server · mcp.gpt.social</p>
+        <h1 class="display rise rise-2" style="font-size: clamp(2.4rem, 5.5vw, 4.2rem)">
+          Your social data, inside
+          <span class="marker">every AI tool<svg viewBox="0 0 200 12" aria-hidden="true"><path pathLength="100" d="M3 9 C 40 3, 120 2, 197 7" /></svg></span>.
+        </h1>
+        <p class="sub rise rise-3" style="margin: 24px 0 28px">
+          One URL connects your SocialGPT analytics, video analysis, and content
+          intelligence to any agent that speaks MCP. Nothing to install, no API
+          keys: OAuth 2.1 with PKCE, read-only by default, revoke any time.
+        </p>
+        <div class="install-box rise rise-4">
+          <div class="codebox">
+            <button class="copy-btn" type="button" aria-label="Copy server URL"
+              data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-url').innerText); $copied = 'url'; setTimeout(() => { $copied = '' }, 1500)">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span data-text="$copied === 'url' ? 'Copied' : 'Copy'">Copy</span>
+            </button>
+            <span class="code-label">server URL · streamable HTTP</span>
+            <pre><code id="cmd-url">https://mcp.gpt.social/mcp</code></pre>
+          </div>
+          <div class="fact-row" aria-label="Tool categories" style="margin: 22px 0 0">
+            <span class="fact-chip sticker--butter" style="--tilt: -2deg">your content</span>
+            <span class="fact-chip sticker--lime" style="--tilt: 2deg">competitor intel</span>
+            <span class="fact-chip sticker--violet" style="--tilt: -1deg">guided workflows</span>
+            <span class="fact-chip sticker--pink" style="--tilt: 2.5deg">content profile</span>
+            <span class="fact-chip sticker--sky" style="--tilt: -2.5deg">publish &amp; post</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── Setup ── -->
+    <section class="section" id="setup" style="padding-top: clamp(24px, 4vw, 48px)">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow" style="color: var(--se-violet-text)">Set up in 60 seconds</p>
+          <h2 class="heading-2">Pick your client.</h2>
+          <p class="sub">Paste the config, authenticate with your SocialGPT account once, done. Most clients open a browser for OAuth the first time an agent touches a SocialGPT tool.</p>
+        </div>
+        <div class="setup-box">
+          <div class="tabs" role="tablist" aria-label="MCP client">
+            <button type="button" role="tab" class="active" data-class:active="$client === 'code'" data-attr:aria-selected="$client === 'code' ? 'true' : 'false'" data-on:click="$client = 'code'">Claude Code</button>
+            <button type="button" role="tab" data-class:active="$client === 'desktop'" data-attr:aria-selected="$client === 'desktop' ? 'true' : 'false'" data-on:click="$client = 'desktop'">Claude Desktop</button>
+            <button type="button" role="tab" data-class:active="$client === 'claudeai'" data-attr:aria-selected="$client === 'claudeai' ? 'true' : 'false'" data-on:click="$client = 'claudeai'">Claude.ai</button>
+            <button type="button" role="tab" data-class:active="$client === 'chatgpt'" data-attr:aria-selected="$client === 'chatgpt' ? 'true' : 'false'" data-on:click="$client = 'chatgpt'">ChatGPT</button>
+            <button type="button" role="tab" data-class:active="$client === 'cursor'" data-attr:aria-selected="$client === 'cursor' ? 'true' : 'false'" data-on:click="$client = 'cursor'">Cursor</button>
+            <button type="button" role="tab" data-class:active="$client === 'vscode'" data-attr:aria-selected="$client === 'vscode' ? 'true' : 'false'" data-on:click="$client = 'vscode'">VS Code</button>
+            <button type="button" role="tab" data-class:active="$client === 'codex'" data-attr:aria-selected="$client === 'codex' ? 'true' : 'false'" data-on:click="$client = 'codex'">Codex</button>
+            <button type="button" role="tab" data-class:active="$client === 'cline'" data-attr:aria-selected="$client === 'cline' ? 'true' : 'false'" data-on:click="$client = 'cline'">Cline</button>
+            <button type="button" role="tab" data-class:active="$client === 'windsurf'" data-attr:aria-selected="$client === 'windsurf' ? 'true' : 'false'" data-on:click="$client = 'windsurf'">Windsurf</button>
+            <button type="button" role="tab" data-class:active="$client === 'antigravity'" data-attr:aria-selected="$client === 'antigravity' ? 'true' : 'false'" data-on:click="$client = 'antigravity'">AntiGravity</button>
+            <button type="button" role="tab" data-class:active="$client === 'other'" data-attr:aria-selected="$client === 'other' ? 'true' : 'false'" data-on:click="$client = 'other'">Other</button>
+          </div>
+          <div class="client-panel" data-show="$client === 'code'">
+            <p class="mini-note" style="margin: 0 0 10px">One command. Claude Code opens a browser for OAuth sign-in on your first request that uses SocialGPT tools, then caches the token locally.</p>
+            <div class="codebox">
+              <button class="copy-btn" type="button" aria-label="Copy Claude Code setup"
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-code').innerText); $copied = 'code'; setTimeout(() => { $copied = '' }, 1500)">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-text="$copied === 'code' ? 'Copied' : 'Copy'">Copy</span>
+              </button>
+              <span class="code-label">terminal</span>
+              <pre><code id="cmd-code">claude mcp add --transport http socialgpt https://mcp.gpt.social/mcp</code></pre>
+            </div>
+          </div>
+          <div class="client-panel" data-show="$client === 'desktop'" style="display: none">
+            <p class="mini-note" style="margin: 0 0 10px">Add to your Claude Desktop config, then restart Claude Desktop. On macOS the file lives at ~/Library/Application Support/Claude/claude_desktop_config.json.</p>
+            <div class="codebox">
+              <button class="copy-btn" type="button" aria-label="Copy Claude Desktop setup"
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-desktop').innerText); $copied = 'desktop'; setTimeout(() => { $copied = '' }, 1500)">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-text="$copied === 'desktop' ? 'Copied' : 'Copy'">Copy</span>
+              </button>
+              <span class="code-label">claude_desktop_config.json</span>
+              <pre><code id="cmd-desktop">{
+  "mcpServers": {
+    "socialgpt": { "url": "https://mcp.gpt.social/mcp" }
+  }
+}</code></pre>
+            </div>
+          </div>
+          <div class="client-panel" data-show="$client === 'claudeai'" style="display: none">
+            <p class="mini-note" style="margin: 0 0 10px">Settings → Integrations → Add more → paste the URL and follow the prompts. Claude.ai handles authentication during the integration setup flow.</p>
+            <div class="codebox">
+              <button class="copy-btn" type="button" aria-label="Copy Claude.ai setup"
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-claudeai').innerText); $copied = 'claudeai'; setTimeout(() => { $copied = '' }, 1500)">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-text="$copied === 'claudeai' ? 'Copied' : 'Copy'">Copy</span>
+              </button>
+              <span class="code-label">connector URL</span>
+              <pre><code id="cmd-claudeai">https://mcp.gpt.social/mcp</code></pre>
+            </div>
+          </div>
+          <div class="client-panel" data-show="$client === 'chatgpt'" style="display: none">
+            <p class="mini-note" style="margin: 0 0 10px">Settings → Tools &amp; integrations → Add MCP server, then paste the URL. Custom MCP connectors need a paid ChatGPT plan (Plus, Pro, Team, or Enterprise).</p>
+            <div class="codebox">
+              <button class="copy-btn" type="button" aria-label="Copy ChatGPT setup"
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-chatgpt').innerText); $copied = 'chatgpt'; setTimeout(() => { $copied = '' }, 1500)">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-text="$copied === 'chatgpt' ? 'Copied' : 'Copy'">Copy</span>
+              </button>
+              <span class="code-label">server URL</span>
+              <pre><code id="cmd-chatgpt">https://mcp.gpt.social/mcp</code></pre>
+            </div>
+          </div>
+          <div class="client-panel" data-show="$client === 'cursor'" style="display: none">
+            <p class="mini-note" style="margin: 0 0 10px">Add to your project's .cursor/mcp.json, or ~/.cursor/mcp.json for global access.</p>
+            <div class="codebox">
+              <button class="copy-btn" type="button" aria-label="Copy Cursor setup"
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-cursor').innerText); $copied = 'cursor'; setTimeout(() => { $copied = '' }, 1500)">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-text="$copied === 'cursor' ? 'Copied' : 'Copy'">Copy</span>
+              </button>
+              <span class="code-label">.cursor/mcp.json</span>
+              <pre><code id="cmd-cursor">{
+  "mcpServers": {
+    "socialgpt": { "url": "https://mcp.gpt.social/mcp" }
+  }
+}</code></pre>
+            </div>
+          </div>
+          <div class="client-panel" data-show="$client === 'vscode'" style="display: none">
+            <p class="mini-note" style="margin: 0 0 10px">Add to .vscode/mcp.json in your workspace, or run MCP: Add Server from the command palette.</p>
+            <div class="codebox">
+              <button class="copy-btn" type="button" aria-label="Copy VS Code setup"
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-vscode').innerText); $copied = 'vscode'; setTimeout(() => { $copied = '' }, 1500)">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-text="$copied === 'vscode' ? 'Copied' : 'Copy'">Copy</span>
+              </button>
+              <span class="code-label">.vscode/mcp.json</span>
+              <pre><code id="cmd-vscode">{
+  "servers": {
+    "socialgpt": { "type": "http", "url": "https://mcp.gpt.social/mcp" }
+  }
+}</code></pre>
+            </div>
+          </div>
+          <div class="client-panel" data-show="$client === 'codex'" style="display: none">
+            <p class="mini-note" style="margin: 0 0 10px">Add to ~/.codex/config.toml, or .codex/config.toml for a single project.</p>
+            <div class="codebox">
+              <button class="copy-btn" type="button" aria-label="Copy Codex setup"
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-codex').innerText); $copied = 'codex'; setTimeout(() => { $copied = '' }, 1500)">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-text="$copied === 'codex' ? 'Copied' : 'Copy'">Copy</span>
+              </button>
+              <span class="code-label">~/.codex/config.toml</span>
+              <pre><code id="cmd-codex">[mcp_servers.socialgpt]
+url = "https://mcp.gpt.social/mcp"</code></pre>
+            </div>
+          </div>
+          <div class="client-panel" data-show="$client === 'cline'" style="display: none">
+            <p class="mini-note" style="margin: 0 0 10px">MCP Servers icon → Remote Servers → add the server URL, or edit cline_mcp_settings.json.</p>
+            <div class="codebox">
+              <button class="copy-btn" type="button" aria-label="Copy Cline setup"
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-cline').innerText); $copied = 'cline'; setTimeout(() => { $copied = '' }, 1500)">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-text="$copied === 'cline' ? 'Copied' : 'Copy'">Copy</span>
+              </button>
+              <span class="code-label">cline_mcp_settings.json</span>
+              <pre><code id="cmd-cline">{
+  "mcpServers": {
+    "socialgpt": {
+      "type": "streamableHttp",
+      "url": "https://mcp.gpt.social/mcp"
+    }
+  }
+}</code></pre>
+            </div>
+          </div>
+          <div class="client-panel" data-show="$client === 'windsurf'" style="display: none">
+            <p class="mini-note" style="margin: 0 0 10px">Add to ~/.codeium/windsurf/mcp_config.json.</p>
+            <div class="codebox">
+              <button class="copy-btn" type="button" aria-label="Copy Windsurf setup"
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-windsurf').innerText); $copied = 'windsurf'; setTimeout(() => { $copied = '' }, 1500)">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-text="$copied === 'windsurf' ? 'Copied' : 'Copy'">Copy</span>
+              </button>
+              <span class="code-label">~/.codeium/windsurf/mcp_config.json</span>
+              <pre><code id="cmd-windsurf">{
+  "mcpServers": {
+    "socialgpt": { "serverUrl": "https://mcp.gpt.social/mcp" }
+  }
+}</code></pre>
+            </div>
+          </div>
+          <div class="client-panel" data-show="$client === 'antigravity'" style="display: none">
+            <p class="mini-note" style="margin: 0 0 10px">Add to ~/.gemini/config/mcp_config.json.</p>
+            <div class="codebox">
+              <button class="copy-btn" type="button" aria-label="Copy AntiGravity setup"
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-antigravity').innerText); $copied = 'antigravity'; setTimeout(() => { $copied = '' }, 1500)">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-text="$copied === 'antigravity' ? 'Copied' : 'Copy'">Copy</span>
+              </button>
+              <span class="code-label">~/.gemini/config/mcp_config.json</span>
+              <pre><code id="cmd-antigravity">{
+  "mcpServers": {
+    "socialgpt": { "serverUrl": "https://mcp.gpt.social/mcp" }
+  }
+}</code></pre>
+            </div>
+          </div>
+          <div class="client-panel" data-show="$client === 'other'" style="display: none">
+            <p class="mini-note" style="margin: 0 0 10px">Any client that speaks the Model Context Protocol can connect: register the server URL with the streamable HTTP transport, wherever your client keeps its MCP servers.</p>
+            <div class="codebox">
+              <button class="copy-btn" type="button" aria-label="Copy Other setup"
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-other').innerText); $copied = 'other'; setTimeout(() => { $copied = '' }, 1500)">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-text="$copied === 'other' ? 'Copied' : 'Copy'">Copy</span>
+              </button>
+              <span class="code-label">server URL</span>
+              <pre><code id="cmd-other">https://mcp.gpt.social/mcp</code></pre>
+            </div>
+          </div>
+          <p class="mini-note">
+            Free to start: <a href="https://app.gpt.social/signup">create a SocialGPT account</a>,
+            then <a href="https://app.gpt.social/account">connect a social account</a> to analyze
+            your own content — public/competitor analysis works without connecting anything.
+            Ready-to-copy config files live in the repo's
+            <a href="https://github.com/scrollmark/socialgpt-mcp/tree/main/examples">examples/</a>.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Just ask ── -->
+    <section class="section about" id="just-ask">
+      <div class="wrap">
+        <div class="section-head" style="margin-bottom: 24px">
+          <p class="eyebrow" style="color: var(--se-tangerine-text)">Then just ask</p>
+          <h2 class="heading-2">Talk to it like a teammate.</h2>
+        </div>
+        <div class="ask-grid">
+          <p class="annotation">"How did my content perform this month compared to last?"</p>
+          <p class="annotation">"Find creators in the fitness niche on TikTok and show me what's working for them."</p>
+          <p class="annotation">"Analyze my latest Instagram reel and suggest better hooks."</p>
+          <p class="annotation">"Compare my engagement rate to similar creators on YouTube."</p>
+          <p class="annotation">"Post this video to my TikTok as a draft."</p>
+        </div>
+        <div style="margin-top: 32px; display: flex; flex-wrap: wrap; gap: 16px">
+          <a class="btn btn--primary" href="https://github.com/scrollmark/socialgpt-mcp">Read the docs on GitHub</a>
+          <a class="btn btn--secondary" href="https://gpt.social/integrations/mcp">Full guide on gpt.social</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="index.html">
+            <img class="mark" src="brand-logo.svg" alt="" />
+            Scrollmark
+          </a>
+          <p>Open-source tools from the team building SocialGPT.</p>
+        </div>
+        <div class="footer-col">
+          <h3>Projects</h3>
+          <ul>
+            <li><a href="skills.html">Social Skills</a></li>
+            <li><a href="mcp.html" aria-current="page">SocialGPT MCP</a></li>
+            <li><a href="https://github.com/scrollmark/showrunner">Showrunner</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>Scrollmark</h3>
+          <ul>
+            <li><a href="https://gpt.social">gpt.social</a></li>
+            <li><a href="https://app.gpt.social">app.gpt.social</a></li>
+            <li><a href="https://github.com/scrollmark">GitHub</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-note">
+        <span>© 2026 Scrollmark. MIT-licensed where marked.</span>
+        <a class="annotation" href="https://data-star.dev/essays/why_another_framework">
+          interactivity is 10KB of Datastar — why another framework? →
+        </a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
