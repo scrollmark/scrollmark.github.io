@@ -38,8 +38,8 @@
 </head>
 
 <body
-  data-signals="{dark: document.documentElement.classList.contains('dark'), client: 'code', copied: ''}"
-  data-effect="document.documentElement.classList.toggle('dark', $dark)"
+  data-signals="{theme: localStorage.getItem('theme') || 'system', client: 'code', copied: ''}"
+  data-effect="document.documentElement.classList.toggle('dark', $theme === 'dark' || ($theme === 'system' && matchMedia('(prefers-color-scheme: dark)').matches))"
 >
   <div class="paper-grain" aria-hidden="true"></div>
 
@@ -55,24 +55,29 @@
       <a class="nav-optional" href="#about">About</a>
       <a class="nav-optional" href="https://github.com/scrollmark">GitHub</a>
     </div>
-    <button
+    <div
       class="theme-switch"
-      type="button"
-      role="switch"
-      aria-label="Dark mode"
-      data-attr:aria-checked="$dark ? 'true' : 'false'"
-      data-on:click="document.documentElement.classList.add('theme-fade'); $dark = !$dark; localStorage.setItem('theme', $dark ? 'dark' : 'light'); setTimeout(() => document.documentElement.classList.remove('theme-fade'), 350)"
+      role="radiogroup"
+      aria-label="Theme"
+      data-class:pos-light="$theme === 'light'"
+      data-class:pos-dark="$theme === 'dark'"
     >
-      <span class="knob">
-        <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="4.4" fill="currentColor" stroke="none" />
-          <path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5.3 5.3l1.7 1.7M17 17l1.7 1.7M18.7 5.3L17 7M7 17l-1.7 1.7" />
-        </svg>
-        <svg class="icon icon-moon" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M20.6 14.4A8.8 8.8 0 0 1 9.6 3.4a8.8 8.8 0 1 0 11 11z" fill="currentColor" />
-        </svg>
-      </span>
-    </button>
+      <button type="button" role="radio" aria-label="System theme" aria-checked="true"
+        data-attr:aria-checked="$theme === 'system' ? 'true' : 'false'"
+        data-on:click="document.documentElement.classList.add('theme-fade'); $theme = 'system'; localStorage.removeItem('theme'); setTimeout(() => document.documentElement.classList.remove('theme-fade'), 350)">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2.5"/><path d="M8.5 20h7M12 16.5V20"/></svg>
+      </button>
+      <button type="button" role="radio" aria-label="Light theme" aria-checked="false"
+        data-attr:aria-checked="$theme === 'light' ? 'true' : 'false'"
+        data-on:click="document.documentElement.classList.add('theme-fade'); $theme = 'light'; localStorage.setItem('theme', 'light'); setTimeout(() => document.documentElement.classList.remove('theme-fade'), 350)">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.4" fill="currentColor" stroke="none"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5.3 5.3l1.7 1.7M17 17l1.7 1.7M18.7 5.3L17 7M7 17l-1.7 1.7"/></svg>
+      </button>
+      <button type="button" role="radio" aria-label="Dark theme" aria-checked="false"
+        data-attr:aria-checked="$theme === 'dark' ? 'true' : 'false'"
+        data-on:click="document.documentElement.classList.add('theme-fade'); $theme = 'dark'; localStorage.setItem('theme', 'dark'); setTimeout(() => document.documentElement.classList.remove('theme-fade'), 350)">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.6 14.4A8.8 8.8 0 0 1 9.6 3.4a8.8 8.8 0 1 0 11 11z" fill="currentColor"/></svg>
+      </button>
+    </div>
   </nav>
 
   <main id="top">
