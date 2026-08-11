@@ -131,20 +131,21 @@
           <p class="sub">Paste the config, authenticate with your SocialGPT account once, done. Most clients open a browser for OAuth the first time an agent touches a SocialGPT tool.</p>
         </div>
         <div class="setup-box">
-          <div class="tabs" role="tablist" aria-label="MCP client">
-            <button type="button" role="tab" class="active" data-class:active="$client === 'code'" data-attr:aria-selected="$client === 'code' ? 'true' : 'false'" data-on:click="$client = 'code'">Claude Code</button>
-            <button type="button" role="tab" data-class:active="$client === 'desktop'" data-attr:aria-selected="$client === 'desktop' ? 'true' : 'false'" data-on:click="$client = 'desktop'">Claude Desktop</button>
-            <button type="button" role="tab" data-class:active="$client === 'claudeai'" data-attr:aria-selected="$client === 'claudeai' ? 'true' : 'false'" data-on:click="$client = 'claudeai'">Claude.ai</button>
-            <button type="button" role="tab" data-class:active="$client === 'chatgpt'" data-attr:aria-selected="$client === 'chatgpt' ? 'true' : 'false'" data-on:click="$client = 'chatgpt'">ChatGPT</button>
-            <button type="button" role="tab" data-class:active="$client === 'cursor'" data-attr:aria-selected="$client === 'cursor' ? 'true' : 'false'" data-on:click="$client = 'cursor'">Cursor</button>
-            <button type="button" role="tab" data-class:active="$client === 'vscode'" data-attr:aria-selected="$client === 'vscode' ? 'true' : 'false'" data-on:click="$client = 'vscode'">VS Code</button>
-            <button type="button" role="tab" data-class:active="$client === 'codex'" data-attr:aria-selected="$client === 'codex' ? 'true' : 'false'" data-on:click="$client = 'codex'">Codex</button>
-            <button type="button" role="tab" data-class:active="$client === 'cline'" data-attr:aria-selected="$client === 'cline' ? 'true' : 'false'" data-on:click="$client = 'cline'">Cline</button>
-            <button type="button" role="tab" data-class:active="$client === 'windsurf'" data-attr:aria-selected="$client === 'windsurf' ? 'true' : 'false'" data-on:click="$client = 'windsurf'">Windsurf</button>
-            <button type="button" role="tab" data-class:active="$client === 'antigravity'" data-attr:aria-selected="$client === 'antigravity' ? 'true' : 'false'" data-on:click="$client = 'antigravity'">AntiGravity</button>
-            <button type="button" role="tab" data-class:active="$client === 'other'" data-attr:aria-selected="$client === 'other' ? 'true' : 'false'" data-on:click="$client = 'other'">Other</button>
+          <div class="tabs" role="tablist" aria-label="MCP client"
+            data-on:keydown="const order = ['code', 'desktop', 'claudeai', 'chatgpt', 'cursor', 'vscode', 'codex', 'cline', 'windsurf', 'antigravity', 'other']; const i = order.indexOf($client); let n = -1; if (evt.key === 'ArrowRight' || evt.key === 'ArrowDown') n = (i + 1) % order.length; if (evt.key === 'ArrowLeft' || evt.key === 'ArrowUp') n = (i + order.length - 1) % order.length; if (evt.key === 'Home') n = 0; if (evt.key === 'End') n = order.length - 1; if (n >= 0) { evt.preventDefault(); $client = order[n]; el.querySelectorAll('button')[n].focus() }">
+            <button type="button" role="tab" id="tab-code" aria-controls="panel-code" class="active" data-class:active="$client === 'code'" data-attr:aria-selected="$client === 'code' ? 'true' : 'false'" data-attr:tabindex="$client === 'code' ? '0' : '-1'" data-on:click="$client = 'code'">Claude Code</button>
+            <button type="button" role="tab" id="tab-desktop" aria-controls="panel-desktop" data-class:active="$client === 'desktop'" data-attr:aria-selected="$client === 'desktop' ? 'true' : 'false'" data-attr:tabindex="$client === 'desktop' ? '0' : '-1'" data-on:click="$client = 'desktop'">Claude Desktop</button>
+            <button type="button" role="tab" id="tab-claudeai" aria-controls="panel-claudeai" data-class:active="$client === 'claudeai'" data-attr:aria-selected="$client === 'claudeai' ? 'true' : 'false'" data-attr:tabindex="$client === 'claudeai' ? '0' : '-1'" data-on:click="$client = 'claudeai'">Claude.ai</button>
+            <button type="button" role="tab" id="tab-chatgpt" aria-controls="panel-chatgpt" data-class:active="$client === 'chatgpt'" data-attr:aria-selected="$client === 'chatgpt' ? 'true' : 'false'" data-attr:tabindex="$client === 'chatgpt' ? '0' : '-1'" data-on:click="$client = 'chatgpt'">ChatGPT</button>
+            <button type="button" role="tab" id="tab-cursor" aria-controls="panel-cursor" data-class:active="$client === 'cursor'" data-attr:aria-selected="$client === 'cursor' ? 'true' : 'false'" data-attr:tabindex="$client === 'cursor' ? '0' : '-1'" data-on:click="$client = 'cursor'">Cursor</button>
+            <button type="button" role="tab" id="tab-vscode" aria-controls="panel-vscode" data-class:active="$client === 'vscode'" data-attr:aria-selected="$client === 'vscode' ? 'true' : 'false'" data-attr:tabindex="$client === 'vscode' ? '0' : '-1'" data-on:click="$client = 'vscode'">VS Code</button>
+            <button type="button" role="tab" id="tab-codex" aria-controls="panel-codex" data-class:active="$client === 'codex'" data-attr:aria-selected="$client === 'codex' ? 'true' : 'false'" data-attr:tabindex="$client === 'codex' ? '0' : '-1'" data-on:click="$client = 'codex'">Codex</button>
+            <button type="button" role="tab" id="tab-cline" aria-controls="panel-cline" data-class:active="$client === 'cline'" data-attr:aria-selected="$client === 'cline' ? 'true' : 'false'" data-attr:tabindex="$client === 'cline' ? '0' : '-1'" data-on:click="$client = 'cline'">Cline</button>
+            <button type="button" role="tab" id="tab-windsurf" aria-controls="panel-windsurf" data-class:active="$client === 'windsurf'" data-attr:aria-selected="$client === 'windsurf' ? 'true' : 'false'" data-attr:tabindex="$client === 'windsurf' ? '0' : '-1'" data-on:click="$client = 'windsurf'">Windsurf</button>
+            <button type="button" role="tab" id="tab-antigravity" aria-controls="panel-antigravity" data-class:active="$client === 'antigravity'" data-attr:aria-selected="$client === 'antigravity' ? 'true' : 'false'" data-attr:tabindex="$client === 'antigravity' ? '0' : '-1'" data-on:click="$client = 'antigravity'">AntiGravity</button>
+            <button type="button" role="tab" id="tab-other" aria-controls="panel-other" data-class:active="$client === 'other'" data-attr:aria-selected="$client === 'other' ? 'true' : 'false'" data-attr:tabindex="$client === 'other' ? '0' : '-1'" data-on:click="$client = 'other'">Other</button>
           </div>
-          <div class="client-panel" data-show="$client === 'code'">
+          <div class="client-panel" role="tabpanel" id="panel-code" aria-labelledby="tab-code" tabindex="0" data-show="$client === 'code'">
             <p class="mini-note" style="margin: 0 0 10px">One command. Claude Code opens a browser for OAuth sign-in on your first request that uses SocialGPT tools, then caches the token locally.</p>
             <div class="codebox">
               <button class="copy-btn" type="button" aria-label="Copy Claude Code setup"
@@ -156,7 +157,7 @@
               <pre><code id="cmd-code">claude mcp add --transport http socialgpt https://mcp.gpt.social/mcp</code></pre>
             </div>
           </div>
-          <div class="client-panel" data-show="$client === 'desktop'" style="display: none">
+          <div class="client-panel" role="tabpanel" id="panel-desktop" aria-labelledby="tab-desktop" tabindex="0" data-show="$client === 'desktop'" style="display: none">
             <p class="mini-note" style="margin: 0 0 10px">Add to your Claude Desktop config, then restart Claude Desktop. On macOS the file lives at ~/Library/Application Support/Claude/claude_desktop_config.json.</p>
             <div class="codebox">
               <button class="copy-btn" type="button" aria-label="Copy Claude Desktop setup"
@@ -172,7 +173,7 @@
 }</code></pre>
             </div>
           </div>
-          <div class="client-panel" data-show="$client === 'claudeai'" style="display: none">
+          <div class="client-panel" role="tabpanel" id="panel-claudeai" aria-labelledby="tab-claudeai" tabindex="0" data-show="$client === 'claudeai'" style="display: none">
             <p class="mini-note" style="margin: 0 0 10px">Settings → Integrations → Add more → paste the URL and follow the prompts. Claude.ai handles authentication during the integration setup flow.</p>
             <div class="codebox">
               <button class="copy-btn" type="button" aria-label="Copy Claude.ai setup"
@@ -184,7 +185,7 @@
               <pre><code id="cmd-claudeai">https://mcp.gpt.social/mcp</code></pre>
             </div>
           </div>
-          <div class="client-panel" data-show="$client === 'chatgpt'" style="display: none">
+          <div class="client-panel" role="tabpanel" id="panel-chatgpt" aria-labelledby="tab-chatgpt" tabindex="0" data-show="$client === 'chatgpt'" style="display: none">
             <p class="mini-note" style="margin: 0 0 10px">Settings → Tools &amp; integrations → Add MCP server, then paste the URL. Custom MCP connectors need a paid ChatGPT plan (Plus, Pro, Team, or Enterprise).</p>
             <div class="codebox">
               <button class="copy-btn" type="button" aria-label="Copy ChatGPT setup"
@@ -196,7 +197,7 @@
               <pre><code id="cmd-chatgpt">https://mcp.gpt.social/mcp</code></pre>
             </div>
           </div>
-          <div class="client-panel" data-show="$client === 'cursor'" style="display: none">
+          <div class="client-panel" role="tabpanel" id="panel-cursor" aria-labelledby="tab-cursor" tabindex="0" data-show="$client === 'cursor'" style="display: none">
             <p class="mini-note" style="margin: 0 0 10px">Add to your project's .cursor/mcp.json, or ~/.cursor/mcp.json for global access.</p>
             <div class="codebox">
               <button class="copy-btn" type="button" aria-label="Copy Cursor setup"
@@ -212,7 +213,7 @@
 }</code></pre>
             </div>
           </div>
-          <div class="client-panel" data-show="$client === 'vscode'" style="display: none">
+          <div class="client-panel" role="tabpanel" id="panel-vscode" aria-labelledby="tab-vscode" tabindex="0" data-show="$client === 'vscode'" style="display: none">
             <p class="mini-note" style="margin: 0 0 10px">Add to .vscode/mcp.json in your workspace, or run MCP: Add Server from the command palette.</p>
             <div class="codebox">
               <button class="copy-btn" type="button" aria-label="Copy VS Code setup"
@@ -228,7 +229,7 @@
 }</code></pre>
             </div>
           </div>
-          <div class="client-panel" data-show="$client === 'codex'" style="display: none">
+          <div class="client-panel" role="tabpanel" id="panel-codex" aria-labelledby="tab-codex" tabindex="0" data-show="$client === 'codex'" style="display: none">
             <p class="mini-note" style="margin: 0 0 10px">Add to ~/.codex/config.toml, or .codex/config.toml for a single project.</p>
             <div class="codebox">
               <button class="copy-btn" type="button" aria-label="Copy Codex setup"
@@ -241,7 +242,7 @@
 url = "https://mcp.gpt.social/mcp"</code></pre>
             </div>
           </div>
-          <div class="client-panel" data-show="$client === 'cline'" style="display: none">
+          <div class="client-panel" role="tabpanel" id="panel-cline" aria-labelledby="tab-cline" tabindex="0" data-show="$client === 'cline'" style="display: none">
             <p class="mini-note" style="margin: 0 0 10px">MCP Servers icon → Remote Servers → add the server URL, or edit cline_mcp_settings.json.</p>
             <div class="codebox">
               <button class="copy-btn" type="button" aria-label="Copy Cline setup"
@@ -260,7 +261,7 @@ url = "https://mcp.gpt.social/mcp"</code></pre>
 }</code></pre>
             </div>
           </div>
-          <div class="client-panel" data-show="$client === 'windsurf'" style="display: none">
+          <div class="client-panel" role="tabpanel" id="panel-windsurf" aria-labelledby="tab-windsurf" tabindex="0" data-show="$client === 'windsurf'" style="display: none">
             <p class="mini-note" style="margin: 0 0 10px">Add to ~/.codeium/windsurf/mcp_config.json.</p>
             <div class="codebox">
               <button class="copy-btn" type="button" aria-label="Copy Windsurf setup"
@@ -276,7 +277,7 @@ url = "https://mcp.gpt.social/mcp"</code></pre>
 }</code></pre>
             </div>
           </div>
-          <div class="client-panel" data-show="$client === 'antigravity'" style="display: none">
+          <div class="client-panel" role="tabpanel" id="panel-antigravity" aria-labelledby="tab-antigravity" tabindex="0" data-show="$client === 'antigravity'" style="display: none">
             <p class="mini-note" style="margin: 0 0 10px">Add to ~/.gemini/config/mcp_config.json.</p>
             <div class="codebox">
               <button class="copy-btn" type="button" aria-label="Copy AntiGravity setup"
@@ -292,7 +293,7 @@ url = "https://mcp.gpt.social/mcp"</code></pre>
 }</code></pre>
             </div>
           </div>
-          <div class="client-panel" data-show="$client === 'other'" style="display: none">
+          <div class="client-panel" role="tabpanel" id="panel-other" aria-labelledby="tab-other" tabindex="0" data-show="$client === 'other'" style="display: none">
             <p class="mini-note" style="margin: 0 0 10px">Any client that speaks the Model Context Protocol can connect: register the server URL with the streamable HTTP transport, wherever your client keeps its MCP servers.</p>
             <div class="codebox">
               <button class="copy-btn" type="button" aria-label="Copy Other setup"

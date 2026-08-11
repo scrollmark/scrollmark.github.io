@@ -104,11 +104,12 @@
         </p>
 
         <div class="install-box rise rise-4">
-          <div class="tabs" role="tablist" aria-label="Install method">
-            <button type="button" role="tab" class="active" data-class:active="$install === 'npx'" data-attr:aria-selected="$install === 'npx' ? 'true' : 'false'" data-on:click="$install = 'npx'">npx skills</button>
-            <button type="button" role="tab" data-class:active="$install === 'git'" data-attr:aria-selected="$install === 'git' ? 'true' : 'false'" data-on:click="$install = 'git'">git clone</button>
+          <div class="tabs" role="tablist" aria-label="Install method"
+            data-on:keydown="const order = ['npx', 'git']; const i = order.indexOf($install); let n = -1; if (evt.key === 'ArrowRight' || evt.key === 'ArrowDown') n = (i + 1) % order.length; if (evt.key === 'ArrowLeft' || evt.key === 'ArrowUp') n = (i + order.length - 1) % order.length; if (evt.key === 'Home') n = 0; if (evt.key === 'End') n = order.length - 1; if (n >= 0) { evt.preventDefault(); $install = order[n]; el.querySelectorAll('button')[n].focus() }">
+            <button type="button" role="tab" id="tab-npx" aria-controls="panel-npx" class="active" data-class:active="$install === 'npx'" data-attr:aria-selected="$install === 'npx' ? 'true' : 'false'" data-attr:tabindex="$install === 'npx' ? '0' : '-1'" data-on:click="$install = 'npx'">npx skills</button>
+            <button type="button" role="tab" id="tab-git" aria-controls="panel-git" data-class:active="$install === 'git'" data-attr:aria-selected="$install === 'git' ? 'true' : 'false'" data-attr:tabindex="$install === 'git' ? '0' : '-1'" data-on:click="$install = 'git'">git clone</button>
           </div>
-          <div class="codebox" data-show="$install === 'npx'">
+          <div class="codebox" role="tabpanel" id="panel-npx" aria-labelledby="tab-npx" tabindex="0" data-show="$install === 'npx'">
             <button
               class="copy-btn"
               type="button"
@@ -122,7 +123,7 @@
             <pre><code><span id="cmd-npx">npx skills add scrollmark/social-skills</span>                  # all seven
 npx skills add scrollmark/social-skills -s hook-anatomy  # just one</code></pre>
           </div>
-          <div class="codebox" data-show="$install === 'git'" style="display: none">
+          <div class="codebox" role="tabpanel" id="panel-git" aria-labelledby="tab-git" tabindex="0" data-show="$install === 'git'" style="display: none">
             <button
               class="copy-btn"
               type="button"

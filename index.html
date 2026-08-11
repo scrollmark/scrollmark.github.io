@@ -209,12 +209,13 @@
               <span class="fact-chip sticker--pink" style="--tilt: 2.5deg">content profile</span>
               <span class="fact-chip sticker--sky" style="--tilt: -2.5deg">publish &amp; post</span>
             </div>
-            <div class="tabs" role="tablist" aria-label="MCP client">
-              <button type="button" role="tab" class="active" data-class:active="$client === 'code'" data-attr:aria-selected="$client === 'code' ? 'true' : 'false'" data-on:click="$client = 'code'">Claude Code</button>
-              <button type="button" role="tab" data-class:active="$client === 'desktop'" data-attr:aria-selected="$client === 'desktop' ? 'true' : 'false'" data-on:click="$client = 'desktop'">Claude Desktop</button>
-              <button type="button" role="tab" data-class:active="$client === 'cursor'" data-attr:aria-selected="$client === 'cursor' ? 'true' : 'false'" data-on:click="$client = 'cursor'">Cursor</button>
+            <div class="tabs" role="tablist" aria-label="MCP client"
+            data-on:keydown="const order = ['code', 'desktop', 'cursor']; const i = order.indexOf($client); let n = -1; if (evt.key === 'ArrowRight' || evt.key === 'ArrowDown') n = (i + 1) % order.length; if (evt.key === 'ArrowLeft' || evt.key === 'ArrowUp') n = (i + order.length - 1) % order.length; if (evt.key === 'Home') n = 0; if (evt.key === 'End') n = order.length - 1; if (n >= 0) { evt.preventDefault(); $client = order[n]; el.querySelectorAll('button')[n].focus() }">
+              <button type="button" role="tab" id="tab-code" aria-controls="panel-code" class="active" data-class:active="$client === 'code'" data-attr:aria-selected="$client === 'code' ? 'true' : 'false'" data-attr:tabindex="$client === 'code' ? '0' : '-1'" data-on:click="$client = 'code'">Claude Code</button>
+              <button type="button" role="tab" id="tab-desktop" aria-controls="panel-desktop" data-class:active="$client === 'desktop'" data-attr:aria-selected="$client === 'desktop' ? 'true' : 'false'" data-attr:tabindex="$client === 'desktop' ? '0' : '-1'" data-on:click="$client = 'desktop'">Claude Desktop</button>
+              <button type="button" role="tab" id="tab-cursor" aria-controls="panel-cursor" data-class:active="$client === 'cursor'" data-attr:aria-selected="$client === 'cursor' ? 'true' : 'false'" data-attr:tabindex="$client === 'cursor' ? '0' : '-1'" data-on:click="$client = 'cursor'">Cursor</button>
             </div>
-            <div class="codebox" data-show="$client === 'code'">
+            <div class="codebox" role="tabpanel" id="panel-code" aria-labelledby="tab-code" tabindex="0" data-show="$client === 'code'">
               <button
                 class="copy-btn"
                 type="button"
@@ -227,7 +228,7 @@
               <span class="code-label">terminal</span>
               <pre><code id="cmd-mcp-code">claude mcp add --transport http socialgpt https://mcp.gpt.social/mcp</code></pre>
             </div>
-            <div class="codebox" data-show="$client === 'desktop'" style="display: none">
+            <div class="codebox" role="tabpanel" id="panel-desktop" aria-labelledby="tab-desktop" tabindex="0" data-show="$client === 'desktop'" style="display: none">
               <button
                 class="copy-btn"
                 type="button"
@@ -244,7 +245,7 @@
   }
 }</code></pre>
             </div>
-            <div class="codebox" data-show="$client === 'cursor'" style="display: none">
+            <div class="codebox" role="tabpanel" id="panel-cursor" aria-labelledby="tab-cursor" tabindex="0" data-show="$client === 'cursor'" style="display: none">
               <button
                 class="copy-btn"
                 type="button"
