@@ -413,49 +413,95 @@ h3 {
   }
 }
 
-/* Theme switch — a sticker too */
+/* Theme switch — a three-way sticker: system / light / dark. The knob
+   slides behind the active segment (sky → butter → violet). */
 .theme-switch {
+  --segw: 32px;
+  --step: 34px; /* segment width + gap */
   position: relative;
-  width: 68px;
-  height: 40px;
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
   flex-shrink: 0;
   border-radius: 999px;
   border: 2px solid var(--foreground);
   background: var(--card);
   box-shadow: var(--shadow-sticker);
-  cursor: pointer;
   transform: rotate(-2deg);
-  padding: 0;
 }
 
-.theme-switch .knob {
+.theme-switch::before {
+  content: "";
   position: absolute;
   top: 3px;
   left: 3px;
-  width: 30px;
-  height: 30px;
+  width: var(--segw);
+  height: var(--segw);
   border-radius: 999px;
-  background: var(--se-butter);
-  display: grid;
-  place-items: center;
-  color: var(--plum);
+  background: var(--se-sky); /* system */
   transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.5, 1), background-color 0.28s;
 }
 
-.dark .theme-switch .knob {
-  transform: translateX(28px); /* inner 64 − 3 − 30 − 3 */
+.theme-switch.pos-light::before {
+  transform: translateX(var(--step));
+  background: var(--se-butter);
+}
+
+.theme-switch.pos-dark::before {
+  transform: translateX(calc(var(--step) * 2));
   background: var(--se-violet);
+}
+
+.theme-switch button {
+  position: relative;
+  width: var(--segw);
+  height: var(--segw);
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  color: var(--text-tertiary);
+  cursor: pointer;
+}
+
+.theme-switch button[aria-checked="true"] {
+  color: var(--plum);
+}
+
+.theme-switch.pos-dark button[aria-checked="true"] {
   color: #fff;
 }
 
-.theme-switch .knob .icon {
+.theme-switch button .icon {
   width: 16px;
   height: 16px;
 }
 
-.theme-switch .icon-moon { display: none; }
-.dark .theme-switch .icon-moon { display: block; }
-.dark .theme-switch .icon-sun { display: none; }
+@media (max-width: 560px) {
+  .theme-switch {
+    --segw: 26px;
+    --step: 28px;
+  }
+
+  .theme-switch button .icon {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+@media (max-width: 420px) {
+  .nav {
+    margin-left: 12px;
+    margin-right: 12px;
+  }
+
+  .nav-links a {
+    padding: 10px 8px;
+    font-size: 0.85rem;
+  }
+}
 
 /* ── Hero ── */
 .hero {
@@ -1206,7 +1252,7 @@ footer {
   .about-card,
   .btn,
   .brand .mark,
-  .theme-switch .knob,
+  .theme-switch::before,
   .copy-btn {
     transition: none;
   }
