@@ -134,7 +134,7 @@
           </span>
           <span class="sticker sticker--pink s3 pop pop-3">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l2.2 6.6L21 10l-6.8 1.4L12 18l-2.2-6.6L3 10l6.8-1.4z"/></svg>
-            7 skills shipped
+            16 skills shipped
           </span>
         </div>
       </div>
@@ -152,20 +152,23 @@
         <div class="projects-grid">
           <!-- Social Skills -->
           <article class="card card--lime" id="skills" style="--tilt: -1deg">
-            <span class="sticker sticker--butter corner-sticker" style="--tilt: 4deg">7 skills</span>
+            <span class="sticker sticker--butter corner-sticker" style="--tilt: 4deg">16 skills</span>
             <p class="eyebrow">Claude Code skills</p>
             <h3 class="heading-3">Social Skills</h3>
             <p>
               Installable skills that teach Claude to read the room — tone, hooks,
               trend timing, and platform fluency across Instagram, TikTok, and
-              YouTube. Because even AI needs social skills.
+              YouTube — and to plan a short-form video: scene grammars, brand
+              consistency, and the interview that pins a plan down before anything
+              gets built. Because even AI needs social skills.
             </p>
             <div class="chip-row" aria-label="Included skills">
               <span class="chip sticker--sky" style="--tilt: -2deg">read-the-room</span>
               <span class="chip sticker--pink" style="--tilt: 2deg">hook-anatomy</span>
               <span class="chip sticker--butter" style="--tilt: -1deg">trend-radar</span>
               <span class="chip sticker--violet" style="--tilt: 2.5deg">voice-matching</span>
-              <span class="chip sticker--lime" style="--tilt: -2.5deg">+3 more</span>
+              <span class="chip sticker--sky" style="--tilt: 1.5deg">video-formats</span>
+              <span class="chip sticker--lime" style="--tilt: -2.5deg">+11 more</span>
             </div>
             <div class="codebox">
               <button
@@ -180,9 +183,13 @@
               <span class="code-label">terminal · via skills.sh</span>
               <pre><code id="cmd-skills">npx skills add scrollmark/social-skills</code></pre>
             </div>
+            <p class="mini-note">
+              Eight of the sixteen run standalone; the video half leans on a private
+              rendering engine — <a href="skills.html#boundary">what works without it</a>.
+            </p>
             <div class="card-links">
               <a class="card-link" href="skills.html">
-                Meet all seven skills
+                Meet all 16 skills
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
               </a>
               <a class="card-link" href="https://github.com/scrollmark/social-skills">
@@ -280,30 +287,57 @@
           </article>
         </div>
 
-        <div class="more-grid">
+        <div class="projects-grid" style="margin-top: 28px">
           <!-- Showrunner -->
           <article class="card card--violet" style="--tilt: -1deg">
+            <span class="sticker sticker--butter corner-sticker" style="--tilt: 4deg">pre-release</span>
             <p class="eyebrow">Video framework</p>
             <h3 class="heading-3">Showrunner</h3>
             <p>
-              Open-source AI video generation. Pluggable formats, swappable
-              providers, one CLI.
+              Open-source AI video generation: a topic goes in, a storyboard and a
+              rendered MP4 come out. Pluggable formats, swappable providers, one CLI —
+              with commands to regenerate a single scene, resume an interrupted run, or
+              export an editable timeline to a human editor.
             </p>
-            <a class="card-link" href="https://github.com/scrollmark/showrunner">
-              scrollmark/showrunner
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
+            <p class="mini-note">
+              Rendering runs on Remotion, which requires a paid licence for companies of
+              four or more people and for hosted or automated rendering — read
+              <a href="https://github.com/scrollmark/showrunner/blob/main/docs/licensing.md">the licensing notes</a>
+              before you build on it.
+            </p>
+            <p class="mini-note">
+              Installation instructions arrive with the first release. Until then, read
+              the source — there is nothing to install yet.
+            </p>
+            <div class="card-links">
+              <a class="card-link" href="https://github.com/scrollmark/showrunner">
+                scrollmark/showrunner
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
           </article>
 
-          <!-- Empty slots -->
-          <div class="card placeholder" style="--tilt: 1deg">
-            <span class="annotation">something's rendering…</span>
-            <span class="micro">reserved · next drop</span>
-          </div>
-          <div class="card placeholder" style="--tilt: -1.5deg">
-            <span class="annotation">your idea here →</span>
-            <span class="micro">issues &amp; PRs welcome</span>
-          </div>
+          <!-- Contribute -->
+          <article class="card card--butter" style="--tilt: 1deg">
+            <p class="eyebrow">Open invitation</p>
+            <h3 class="heading-3">Add a skill</h3>
+            <p>
+              A skill is prose: a <code style="font-family: var(--font-mono)">SKILL.md</code>,
+              the reference files it needs, and a description saying when to reach for it.
+              If you know something about the feed that Claude keeps getting wrong, that is
+              a pull request — no build step, no framework to learn.
+            </p>
+            <div class="card-links">
+              <a class="card-link" href="https://github.com/scrollmark/social-skills/blob/master/CONTRIBUTING.md">
+                Read CONTRIBUTING.md
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+              <a class="card-link" href="https://github.com/scrollmark/social-skills/issues">
+                Open an issue
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
+          </article>
         </div>
       </div>
     </section>
