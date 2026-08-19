@@ -100,8 +100,10 @@
           Sixteen installable skills: the cultural literacy of the feed — reading
           tone, dissecting hooks, timing trends, speaking each platform's dialect —
           plus the craft of planning a short-form video. Deep coverage of Instagram,
-          TikTok, and YouTube; X and LinkedIn too. Eight of the sixteen run on their
-          own; <a href="#boundary">the video half leans on a private engine</a>.
+          TikTok, and YouTube; X and LinkedIn too. Eight of the sixteen need nothing
+          installed; the video engine now lives in the same repo, one
+          <code style="font-family: var(--font-mono)">pip install</code> away —
+          <a href="#boundary">what each layer gives you</a>.
         </p>
 
         <div class="install-box rise rise-4">
@@ -142,39 +144,46 @@ cd social-skills && ./install.sh</code></pre>
             The <code style="font-family: var(--font-mono)">npx</code> route uses the
             <a href="https://skills.sh">skills.sh CLI</a> — the open agent-skills
             ecosystem — and works with Claude Code and other supported agents.
-            Want just one skill? Every card below has its own one-liner.
+            Want just one skill? Every card below has its own one-liner. The video
+            skills add an optional second step —
+            <code style="font-family: var(--font-mono)">pip install video-studio-engine</code>
+            — which <a href="#boundary">the next section</a> lays out.
           </p>
         </div>
       </div>
     </header>
 
-    <!-- ── The video-studio boundary ── -->
+    <!-- ── What ships where ── -->
     <section class="section" id="boundary" style="padding-top: clamp(24px, 4vw, 48px)">
       <div class="wrap">
         <div class="section-head">
           <p class="eyebrow" style="color: var(--se-pink-text)">Read this before you install</p>
-          <h2 class="heading-2">What works on its own — and what doesn't.</h2>
+          <h2 class="heading-2">One repo. Four layers.</h2>
           <p class="sub">
-            This repo is one half of a deliberate split. The prose lives here: formats, grammars,
-            interview protocols, brand vocabulary, the judgement calls. The Python and Remotion
-            toolchain that actually composites, generates, tracks and renders —
-            <code style="font-family: var(--font-mono)">video-studio</code> — is private, and it is
-            invoked, never vendored. No script from it is copied into this repo. If you do not have
-            access to it, here is exactly what that costs you.
+            There used to be a wall here: the prose lived in this repo, and the Python and Remotion
+            toolchain that composites, generates, tracks and renders lived somewhere you could not
+            reach. That wall is gone. The engine moved in — it is
+            <code style="font-family: var(--font-mono)">src/video_studio/</code> in the same public
+            repo, published as <code style="font-family: var(--font-mono)">video-studio-engine</code>
+            on PyPI. What is left is not a boundary but a ladder: prose you can read anywhere, skills
+            that carry their own programs, skills that want one
+            <code style="font-family: var(--font-mono)">pip install</code>, and exactly one thing
+            still genuinely outside.
           </p>
         </div>
 
-        <div class="more-grid">
+        <div class="projects-grid" style="margin-top: 28px">
           <article class="card card--lime" style="--tilt: -1deg">
             <span class="sticker sticker--lime corner-sticker" style="--tilt: 4deg">8 skills</span>
-            <p class="eyebrow">Fully standalone</p>
-            <h3 class="heading-3">Works with nothing else installed.</h3>
+            <p class="eyebrow">Layer one · prose</p>
+            <h3 class="heading-3">Nothing to install.</h3>
             <p>
-              The seven social-media skills are entirely unaffected by the split — no external
-              tools, no accounts, no keys. So is <strong>agent-interview</strong>, which has
-              nothing video-specific in it.
+              The seven social-media skills are pure judgement — tone, hooks, trend timing, platform
+              dialect, post-mortems, voice. No external tools, no accounts, no keys. So is
+              <strong>agent-interview</strong>, which has nothing video-specific in it. These are the
+              same whichever way you install them.
             </p>
-            <div class="chip-row" aria-label="Fully standalone skills">
+            <div class="chip-row" aria-label="Prose-only skills">
               <span class="chip sticker--sky" style="--tilt: -2deg">read-the-room</span>
               <span class="chip sticker--pink" style="--tilt: 2deg">hook-anatomy</span>
               <span class="chip sticker--butter" style="--tilt: -1deg">trend-radar</span>
@@ -188,57 +197,181 @@ cd social-skills && ./install.sh</code></pre>
 
           <article class="card card--butter" style="--tilt: 1deg">
             <span class="sticker sticker--butter corner-sticker" style="--tilt: -4deg">4 skills</span>
-            <p class="eyebrow">Partly standalone</p>
+            <p class="eyebrow">Layer two · prose + a bundled script</p>
+            <h3 class="heading-3">Executable the moment you install the skill.</h3>
+            <p>
+              Five programs are pure standard library and take their input on the command line, so
+              they ship <em>inside</em> the skill folder that uses them and travel with
+              <code style="font-family: var(--font-mono)">npx skills add</code> like any other file:
+              <strong>doctor.py</strong> (what is reachable right now),
+              <strong>measure.py</strong> (durations and a track's energy structure),
+              <strong>normalize_audio.py</strong> (loudness after a render),
+              <strong>poster.py</strong> (thumbnail shortlist and contact sheet) and
+              <strong>prekey.py</strong> (key a generated clip to alpha). Two of them are carried by
+              two skills each — seven copies across four skills — because a skill may never reach
+              outside its own folder.
+            </p>
+            <p>
+              They want <code style="font-family: var(--font-mono)">ffmpeg</code> and
+              <code style="font-family: var(--font-mono)">ffprobe</code> on your PATH. That is the one
+              thing the repo cannot ship for you.
+            </p>
+            <div class="chip-row" aria-label="Skills that ship a script">
+              <span class="chip sticker--violet" style="--tilt: -2deg">studio-setup</span>
+              <span class="chip sticker--sky" style="--tilt: 2deg">audio-acquisition</span>
+              <span class="chip sticker--tangerine" style="--tilt: -1deg">media-acquisition</span>
+              <span class="chip sticker--lime" style="--tilt: 2deg">video-production</span>
+            </div>
+          </article>
+
+          <article class="card card--tangerine" style="--tilt: -1deg">
+            <span class="sticker sticker--tangerine corner-sticker" style="--tilt: 4deg">26 programs</span>
+            <p class="eyebrow">Layer three · one pip install</p>
+            <h3 class="heading-3">The engine, from PyPI.</h3>
+            <p>
+              The other twenty-six programs either carry third-party dependencies or read a project's
+              state — a props document, a composer directory, a styles tree — which makes them unfit
+              to sit in a skill folder as a lone file. They are built from
+              <code style="font-family: var(--font-mono)">src/video_studio/</code> and run as
+              <code style="font-family: var(--font-mono)">video-studio &lt;command&gt;</code>. The base
+              install is deliberately thin; the heavy dependencies are opt-in extras, so you install
+              the half you actually use.
+            </p>
+            <div class="codebox">
+              <button
+                class="copy-btn"
+                type="button"
+                aria-label="Copy pip install command"
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-pip').innerText); $copied = 'pip'; setTimeout(() => { $copied = '' }, 1500)"
+              >
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-text="$copied === 'pip' ? 'Copied' : 'Copy'">Copy</span>
+              </button>
+              <span class="code-label">terminal · optional, video skills only</span>
+              <pre><code><span id="cmd-pip">pip install 'video-studio-engine[all]'</span>        # everything
+
+pip install video-studio-engine              # stock, generation, exporters
+pip install 'video-studio-engine[sourcing]'  # + source_clips (yt-dlp)
+pip install 'video-studio-engine[audio]'     # + tts_kokoro, gen_music
+pip install 'video-studio-engine[generate]'  # + gen_veo, gen_boil
+pip install 'video-studio-engine[vision]'    # + composite_subject, track_pointing
+pip install 'video-studio-engine[export]'    # + export_edit (OpenTimelineIO)</code></pre>
+            </div>
+            <p>
+              It is independent of the skills and installed separately —
+              <code style="font-family: var(--font-mono)">npx skills add</code> never touches it. It is
+              also genuinely optional, and being honest about that matters more than making the repo
+              look complete: a skill whose work needs the package is not self-contained for a user who
+              skips it. The cards below say exactly what skipping it costs.
+            </p>
+          </article>
+
+          <article class="card card--pink" style="--tilt: 1deg">
+            <span class="sticker sticker--pink corner-sticker" style="--tilt: -4deg">still outside</span>
+            <p class="eyebrow">Layer four · not ours to ship</p>
+            <h3 class="heading-3">Remotion, and a paid voice.</h3>
+            <p>
+              <strong>The Remotion composer is Node, not Python</strong>, and it is deliberately not
+              vendored: Remotion requires a paid Company Licence above three people, so it stays yours
+              to install and licence. <code style="font-family: var(--font-mono)">npx remotion
+              render</code> is what actually turns a storyboard into a file — neither install route
+              above gets you one, and the skills say so rather than failing halfway through a run.
+            </p>
+            <p>
+              <strong>ElevenLabs voice</strong> is a paid API call you make yourself; there is no
+              script for it on either side of the line. And the automated quality gate at the last
+              step of a production run is a separate internal CLI that has been absent on every machine
+              seen so far — treat that check as a human one.
+            </p>
+            <div class="chip-row" aria-label="External dependencies">
+              <span class="chip sticker--violet" style="--tilt: -2deg">Remotion · Node</span>
+              <span class="chip sticker--sky" style="--tilt: 2deg">ElevenLabs · paid API</span>
+              <span class="chip sticker--butter" style="--tilt: -1deg">ffmpeg on PATH</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="section-head" style="margin-top: clamp(40px, 6vw, 64px)">
+          <p class="eyebrow" style="color: var(--se-butter-text)">If you skip the pip install</p>
+          <h3 class="heading-2">What you still get.</h3>
+          <p class="sub">Layer three is optional. Here is the honest accounting of what each video skill is worth without it.</p>
+        </div>
+
+        <div class="more-grid">
+          <article class="card card--lime" style="--tilt: -1deg">
+            <span class="sticker sticker--lime corner-sticker" style="--tilt: 4deg">loses nothing</span>
+            <p class="eyebrow">Unaffected</p>
+            <h3 class="heading-3">The whole social half.</h3>
+            <p>
+              All seven social-media skills and <strong>agent-interview</strong> are untouched by any
+              of this.
+            </p>
+            <p>
+              <strong>studio-setup</strong> loses the least of the video skills:
+              <code style="font-family: var(--font-mono)">doctor.py</code> ships with it, so the status
+              report and the triage work immediately. Only the install plan —
+              <code style="font-family: var(--font-mono)">video-studio setup</code> and its
+              auto/system/manual classification — needs the package.
+            </p>
+            <p>
+              <strong>audio-acquisition</strong> is the best-off of the production skills. It carries
+              <code style="font-family: var(--font-mono)">measure</code> and
+              <code style="font-family: var(--font-mono)">normalize_audio</code>, so the
+              measure-don't-trust discipline and the music-costs-6-dB fix are both executable out of
+              the box. Voice, generated music and licence-filtered effects are
+              <code style="font-family: var(--font-mono)">[audio]</code>.
+            </p>
+          </article>
+
+          <article class="card card--butter" style="--tilt: 1deg">
+            <span class="sticker sticker--butter corner-sticker" style="--tilt: -4deg">holes in it</span>
+            <p class="eyebrow">Partly executable</p>
             <h3 class="heading-3">Useful, with holes in it.</h3>
             <p>
               <strong>video-formats</strong> still works for eight of its ten formats — those are
-              structure you can follow in any editor. <strong>Boil is roughly 40% inoperative</strong>:
-              its mark vocabulary, shape files and palette workflow are engine-side, so the interview
-              questions have no answers to pick from. <strong>PointerPopups does not work at all as
-              written</strong> — its entire grammar is the output of a hand-tracking pass, and without
-              the tracker there is nothing to follow.
+              structure you can follow in any editor. <strong>Boil is roughly 40% inoperative</strong>
+              without <code style="font-family: var(--font-mono)">[generate]</code>: its mark
+              vocabulary, shape files and palette workflow are
+              <code style="font-family: var(--font-mono)">gen_boil</code>, so the interview questions
+              have no answers to pick from. <strong>PointerPopups does not work at all as written</strong>
+              without <code style="font-family: var(--font-mono)">[vision]</code> — its entire grammar
+              is the output of a hand-tracking pass.
             </p>
             <p>
               <strong>brand-kit</strong> lets you agree a brand with someone and hand-write the files.
-              The preset mechanism that lists, shows, saves and applies one is engine-side, so applying
-              a brand becomes manual editing.
+              The preset mechanism that lists, shows, saves and applies one is
+              <code style="font-family: var(--font-mono)">video-studio styles</code>, so applying a
+              brand becomes manual editing.
             </p>
             <p>
-              <strong>audio-acquisition</strong> keeps the part that matters commercially — which music
-              source is safe to publish with, and why the free one is not — plus the
-              measure-don't-trust discipline. Synthesis, loudness measurement and per-sound licence
-              filtering are engine scripts.
-            </p>
-            <p>
-              <strong>studio-setup</strong> keeps its tooling inventory, which anyone can read and check
-              by hand. The single status report, the install plan and the auto/system/manual
-              classification come from the engine.
+              <strong>media-acquisition</strong> keeps <code style="font-family: var(--font-mono)">prekey</code>.
+              The provider ladder and the landmine list will still tell a human which library to open,
+              but the searching, generating, licence filtering and the five-way check on what came back
+              are <code style="font-family: var(--font-mono)">[sourcing,generate]</code>.
             </p>
           </article>
 
           <article class="card card--pink" style="--tilt: -1deg">
-            <span class="sticker sticker--pink corner-sticker" style="--tilt: 4deg">4 skills</span>
-            <p class="eyebrow">Not standalone</p>
+            <span class="sticker sticker--pink corner-sticker" style="--tilt: 4deg">briefings</span>
+            <p class="eyebrow">Package-side</p>
             <h3 class="heading-3">Briefings, not workflows.</h3>
             <p>
-              <strong>media-acquisition</strong> is a selection rule wrapped around ten sourcing
-              scripts. The provider ladder and the landmine list will tell a human which library to
-              open, but nothing searches, generates, licence-filters or checks what came back.
+              <strong>subject-compositing</strong> is entirely package-side: segmentation, the feathered
+              occlusion seam, the arm punch-through and the gesture timing all need
+              <code style="font-family: var(--font-mono)">[vision]</code>, because MediaPipe and OpenCV
+              cannot be bundled into a skill folder. What survives is the footage brief — what a
+              segmenter needs from a take — and it is worth having before anyone films.
             </p>
             <p>
-              <strong>subject-compositing</strong> is entirely engine-side: segmentation, the feathered
-              occlusion seam, the arm punch-through and the gesture timing. What survives is the
-              footage brief — what a segmenter needs from a take — and it is worth having before
-              anyone films.
+              <strong>edit-handoff</strong> cannot produce a file without
+              <code style="font-family: var(--font-mono)">[export]</code>; the exporters read the
+              engine's per-project timeline document. What generalises is the judgement: which format
+              each application actually imports, and that no interchange format carries effects.
             </p>
             <p>
-              <strong>edit-handoff</strong> cannot produce a file without the engine; the exporters read
-              its per-project timeline document. What generalises is the judgement: which format each
-              application actually imports, and that no interchange format carries effects.
-            </p>
-            <p>
-              <strong>video-production</strong> is purely the engine's driver — with none of those
-              scripts present there is nothing to sequence. What survives is the shape of a production
+              <strong>video-production</strong> ships doctor, normalize and poster, but it sequences the
+              whole engine — props, preview, preflight — and the Remotion renderer on top. With none of
+              those present there is nothing to sequence. What survives is the shape of a production
               run: which decision precedes which, and where money enters.
             </p>
           </article>
@@ -249,7 +382,7 @@ cd social-skills && ./install.sh</code></pre>
           <code style="font-family: var(--font-mono)">## Requires</code> section near the top of its
           <code style="font-family: var(--font-mono)">SKILL.md</code> — that is where the authoritative
           answer lives. The longer version of this page is
-          <a href="https://github.com/scrollmark/social-skills#the-video-studio-boundary">in the README</a>.
+          <a href="https://github.com/scrollmark/social-skills#what-ships-where">in the README</a>.
         </p>
       </div>
     </section>
@@ -428,7 +561,7 @@ cd social-skills && ./install.sh</code></pre>
         <div class="section-head" style="margin-top: clamp(40px, 6vw, 64px)">
           <p class="eyebrow" style="color: var(--se-tangerine-text)">Group two · 7 skills</p>
           <h3 class="heading-2">Producing video.</h3>
-          <p class="sub">Craft skills for planning a short-form video. The planning is prose you can follow anywhere; some of what these describe is executed by a private engine — see <a href="#boundary">what works on its own</a>.</p>
+          <p class="sub">Craft skills for planning a short-form video. The planning is prose you can follow anywhere; the execution is either a script bundled in the skill or one <code style="font-family: var(--font-mono)">pip install</code> away in the same repo — see <a href="#boundary">what each layer gives you</a>.</p>
         </div>
 
         <div class="projects-grid">
@@ -442,8 +575,9 @@ cd social-skills && ./install.sh</code></pre>
               Ten scene grammars, from talking-head to hand-drawn motion graphics — how to pick one for a video, lay out its scenes, and critique the result. Or define a new grammar when none of the ten fits.
             </p>
             <span class="skill-when"><strong>Reach for it</strong> planning, structuring, or critiquing a short-form video</span>
-            <div class="chip-row" aria-label="Standalone status">
-              <span class="chip sticker--butter" style="--tilt: -1.5deg">8 of 10 formats standalone</span>
+            <div class="chip-row" aria-label="What it needs">
+              <span class="chip sticker--butter" style="--tilt: -1.5deg">8 of 10 formats need nothing</span>
+              <span class="chip sticker--pink" style="--tilt: 1.5deg">Boil + PointerPopups: pip install</span>
             </div>
             <div class="codebox codebox--row">
               <button class="copy-btn" type="button" aria-label="Copy video-formats install command"
@@ -465,8 +599,8 @@ cd social-skills && ./install.sh</code></pre>
               Caption styling, card colours and geometry, title treatment, logos, fonts, voice and CTA copy — decided once and written down, instead of re-argued on every video.
             </p>
             <span class="skill-when"><strong>Reach for it</strong> keeping a run of videos visually consistent</span>
-            <div class="chip-row" aria-label="Standalone status">
-              <span class="chip sticker--butter" style="--tilt: -1.5deg">partly standalone</span>
+            <div class="chip-row" aria-label="What it needs">
+              <span class="chip sticker--butter" style="--tilt: -1.5deg">presets need pip install</span>
             </div>
             <div class="codebox codebox--row">
               <button class="copy-btn" type="button" aria-label="Copy brand-kit install command"
@@ -488,8 +622,9 @@ cd social-skills && ./install.sh</code></pre>
               Where a shot's footage or stills should come from — public-domain archive, free stock, a paid generator, or a URL the user supplied — and how to check that what came back is actually usable before anything is built on it.
             </p>
             <span class="skill-when"><strong>Reach for it</strong> deciding where a shot's pictures come from</span>
-            <div class="chip-row" aria-label="Standalone status">
-              <span class="chip sticker--pink" style="--tilt: -1.5deg">needs video-studio</span>
+            <div class="chip-row" aria-label="What it needs">
+              <span class="chip sticker--lime" style="--tilt: -1.5deg">ships prekey.py</span>
+              <span class="chip sticker--pink" style="--tilt: 1.5deg">pip install [sourcing,generate]</span>
             </div>
             <div class="codebox codebox--row">
               <button class="copy-btn" type="button" aria-label="Copy media-acquisition install command"
@@ -511,8 +646,9 @@ cd social-skills && ./install.sh</code></pre>
               Narration, music beds and sound effects: choosing a voice, deciding which music source is safe to publish with, timing a cut to a track, and diagnosing a render that came out quiet.
             </p>
             <span class="skill-when"><strong>Reach for it</strong> a video needs a voice, a bed, or a fix for bad levels</span>
-            <div class="chip-row" aria-label="Standalone status">
-              <span class="chip sticker--butter" style="--tilt: -1.5deg">partly standalone</span>
+            <div class="chip-row" aria-label="What it needs">
+              <span class="chip sticker--lime" style="--tilt: -1.5deg">ships measure + normalize</span>
+              <span class="chip sticker--pink" style="--tilt: 1.5deg">voice + music: pip install [audio]</span>
             </div>
             <div class="codebox codebox--row">
               <button class="copy-btn" type="button" aria-label="Copy audio-acquisition install command"
@@ -534,8 +670,8 @@ cd social-skills && ./install.sh</code></pre>
               A filmed person appearing somewhere they never were — a subject dropped over replacement footage, a drawn prop in front of them, the pair driven across frame, popups pinned to where they point on camera.
             </p>
             <span class="skill-when"><strong>Reach for it</strong> planning a shot that composites a person into a scene</span>
-            <div class="chip-row" aria-label="Standalone status">
-              <span class="chip sticker--pink" style="--tilt: -1.5deg">needs video-studio</span>
+            <div class="chip-row" aria-label="What it needs">
+              <span class="chip sticker--pink" style="--tilt: -1.5deg">pip install [vision]</span>
             </div>
             <div class="codebox codebox--row">
               <button class="copy-btn" type="button" aria-label="Copy subject-compositing install command"
@@ -557,8 +693,8 @@ cd social-skills && ./install.sh</code></pre>
               What happens when a finished cut leaves the pipeline and continues in a human editor: exporting a timeline to Premiere Pro, DaVinci Resolve, Final Cut Pro or CapCut, and knowing what survives the trip and what has to be rebuilt.
             </p>
             <span class="skill-when"><strong>Reach for it</strong> an editor is picking the cut up from here</span>
-            <div class="chip-row" aria-label="Standalone status">
-              <span class="chip sticker--pink" style="--tilt: -1.5deg">needs video-studio</span>
+            <div class="chip-row" aria-label="What it needs">
+              <span class="chip sticker--pink" style="--tilt: -1.5deg">pip install [export]</span>
             </div>
             <div class="codebox codebox--row">
               <button class="copy-btn" type="button" aria-label="Copy edit-handoff install command"
@@ -580,8 +716,9 @@ cd social-skills && ./install.sh</code></pre>
               The end-to-end run in order — interview, storyboard, source, preview, render, quality-check — plus the rules that only make sense across a whole production: quote the cost before the first paid call, preview with placeholders before spending, and which step owns a stall.
             </p>
             <span class="skill-when"><strong>Reach for it</strong> producing a video end to end, or a run has stalled</span>
-            <div class="chip-row" aria-label="Standalone status">
-              <span class="chip sticker--pink" style="--tilt: -1.5deg">needs video-studio</span>
+            <div class="chip-row" aria-label="What it needs">
+              <span class="chip sticker--lime" style="--tilt: -1.5deg">ships 3 scripts</span>
+              <span class="chip sticker--pink" style="--tilt: 1.5deg">pip install + Remotion</span>
             </div>
             <div class="codebox codebox--row">
               <button class="copy-btn" type="button" aria-label="Copy video-production install command"
@@ -611,7 +748,7 @@ cd social-skills && ./install.sh</code></pre>
               How to ask a user a series of decisions — a guided setup, an intake, a wizard, an onboarding walkthrough — so that every question is answerable rather than open-ended. Nothing video-specific in it.
             </p>
             <span class="skill-when"><strong>Reach for it</strong> an agent has to interview someone before it can act</span>
-            <div class="chip-row" aria-label="Standalone status">
+            <div class="chip-row" aria-label="What it needs">
               <span class="chip sticker--lime" style="--tilt: -1.5deg">standalone</span>
             </div>
             <div class="codebox codebox--row">
@@ -634,8 +771,9 @@ cd social-skills && ./install.sh</code></pre>
               Whether a machine can actually produce video: what the pipeline depends on, how to triage it when it stops working, and which third-party tool or API key is worth adding next.
             </p>
             <span class="skill-when"><strong>Reach for it</strong> checking or repairing a video toolchain</span>
-            <div class="chip-row" aria-label="Standalone status">
-              <span class="chip sticker--butter" style="--tilt: -1.5deg">partly standalone</span>
+            <div class="chip-row" aria-label="What it needs">
+              <span class="chip sticker--lime" style="--tilt: -1.5deg">ships doctor.py</span>
+              <span class="chip sticker--butter" style="--tilt: 1.5deg">install plan: pip install</span>
             </div>
             <div class="codebox codebox--row">
               <button class="copy-btn" type="button" aria-label="Copy studio-setup install command"
