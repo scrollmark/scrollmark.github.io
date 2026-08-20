@@ -146,7 +146,7 @@ cd social-skills && ./install.sh</code></pre>
             ecosystem — and works with Claude Code and other supported agents.
             Want just one skill? Every card below has its own one-liner. The video
             skills add an optional second step —
-            <code style="font-family: var(--font-mono)">pip install video-studio-engine</code>
+            <code style="font-family: var(--font-mono)">pip install</code> from the repo
             — which <a href="#boundary">the next section</a> lays out.
           </p>
         </div>
@@ -164,8 +164,8 @@ cd social-skills && ./install.sh</code></pre>
             toolchain that composites, generates, tracks and renders lived somewhere you could not
             reach. That wall is gone. The engine moved in — it is
             <code style="font-family: var(--font-mono)">src/video_studio/</code> in the same public
-            repo, published as <code style="font-family: var(--font-mono)">video-studio-engine</code>
-            on PyPI. What is left is not a boundary but a ladder: prose you can read anywhere, skills
+            repo, and installs from it directly as
+            <code style="font-family: var(--font-mono)">video-studio-engine</code>. What is left is not a boundary but a ladder: prose you can read anywhere, skills
             that carry their own programs, skills that want one
             <code style="font-family: var(--font-mono)">pip install</code>, and exactly one thing
             still genuinely outside.
@@ -225,11 +225,11 @@ cd social-skills && ./install.sh</code></pre>
           </article>
 
           <article class="card card--tangerine" style="--tilt: -1deg">
-            <span class="sticker sticker--tangerine corner-sticker" style="--tilt: 4deg">26 programs</span>
+            <span class="sticker sticker--tangerine corner-sticker" style="--tilt: 4deg">30 programs</span>
             <p class="eyebrow">Layer three · one pip install</p>
-            <h3 class="heading-3">The engine, from PyPI.</h3>
+            <h3 class="heading-3">The engine, from the repo.</h3>
             <p>
-              The other twenty-six programs either carry third-party dependencies or read a project's
+              The other thirty programs either carry third-party dependencies or read a project's
               state — a props document, a composer directory, a styles tree — which makes them unfit
               to sit in a skill folder as a lone file. They are built from
               <code style="font-family: var(--font-mono)">src/video_studio/</code> and run as
@@ -248,15 +248,23 @@ cd social-skills && ./install.sh</code></pre>
                 <span data-text="$copied === 'pip' ? 'Copied' : 'Copy'">Copy</span>
               </button>
               <span class="code-label">terminal · optional, video skills only</span>
-              <pre><code><span id="cmd-pip">pip install 'video-studio-engine[all]'</span>        # everything
+              <pre><code><span id="cmd-pip">pip install 'video-studio-engine[all] @ git+https://github.com/scrollmark/social-skills.git'</span>   # everything
 
-pip install video-studio-engine              # stock, generation, exporters
-pip install 'video-studio-engine[sourcing]'  # + source_clips (yt-dlp)
-pip install 'video-studio-engine[audio]'     # + tts_kokoro, gen_music
-pip install 'video-studio-engine[generate]'  # + gen_veo, gen_boil
-pip install 'video-studio-engine[vision]'    # + composite_subject, track_pointing
-pip install 'video-studio-engine[export]'    # + export_edit (OpenTimelineIO)</code></pre>
+# Or one extra at a time — same URL, different bracket:
+#   [sourcing]  + source_clips (yt-dlp)
+#   [audio]     + tts_kokoro, gen_music, duck_music
+#   [captions]  + gen_captions (local whisper word timings)
+#   [generate]  + gen_veo, gen_boil
+#   [vision]    + composite_subject, track_pointing
+#   [export]    + export_edit (OpenTimelineIO)</code></pre>
             </div>
+            <p class="mini-note">
+              It installs <strong>from the repo, not from PyPI</strong> — the name
+              <code style="font-family: var(--font-mono)">video-studio-engine</code> is
+              not published there, so a bare
+              <code style="font-family: var(--font-mono)">pip install video-studio-engine</code>
+              does not get you this. The URL is the install.
+            </p>
             <p>
               It is independent of the skills and installed separately —
               <code style="font-family: var(--font-mono)">npx skills add</code> never touches it. It is
@@ -825,7 +833,6 @@ pip install 'video-studio-engine[export]'    # + export_edit (OpenTimelineIO)</c
           <ul>
             <li><a href="skills.html">Social Skills</a></li>
             <li><a href="mcp.html">SocialGPT MCP</a></li>
-            <li><a href="https://github.com/scrollmark/showrunner">Showrunner</a></li>
           </ul>
         </div>
         <div class="footer-col">
