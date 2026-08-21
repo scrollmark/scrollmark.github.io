@@ -200,15 +200,16 @@ cd social-skills && ./install.sh</code></pre>
             <p class="eyebrow">Layer two · prose + a bundled script</p>
             <h3 class="heading-3">Executable the moment you install the skill.</h3>
             <p>
-              Five programs are pure standard library and take their input on the command line, so
+              Six programs are pure standard library and take their input on the command line, so
               they ship <em>inside</em> the skill folder that uses them and travel with
               <code style="font-family: var(--font-mono)">npx skills add</code> like any other file:
               <strong>doctor.py</strong> (what is reachable right now),
               <strong>measure.py</strong> (durations and a track's energy structure),
               <strong>normalize_audio.py</strong> (loudness after a render),
-              <strong>poster.py</strong> (thumbnail shortlist and contact sheet) and
+              <strong>poster.py</strong> (thumbnail shortlist and contact sheet),
+              <strong>qc_render.py</strong> (the render checked against the plan it was built from) and
               <strong>prekey.py</strong> (key a generated clip to alpha). Two of them are carried by
-              two skills each — seven copies across four skills — because a skill may never reach
+              two skills each — eight copies across four skills — because a skill may never reach
               outside its own folder.
             </p>
             <p>
@@ -292,9 +293,11 @@ cd social-skills && ./install.sh</code></pre>
             </p>
             <p>
               <strong>ElevenLabs voice</strong> is a paid API call you make yourself; there is no
-              script for it on either side of the line. And the automated quality gate at the last
-              step of a production run is a separate internal CLI that has been absent on every machine
-              seen so far — treat that check as a human one.
+              script for it on either side of the line. The automated quality gate at the last step of a
+              production run used to be an unpublished internal CLI; it is now
+              <strong>qc_render.py</strong>, bundled, needing no install. It proves a render matches
+              its plan — it cannot tell you the plan was worth rendering, so the looking is still
+              yours.
             </p>
             <div class="chip-row" aria-label="External dependencies">
               <span class="chip sticker--violet" style="--tilt: -2deg">Remotion · Node</span>
@@ -382,7 +385,7 @@ cd social-skills && ./install.sh</code></pre>
               each application actually imports, and that no interchange format carries effects.
             </p>
             <p>
-              <strong>video-production</strong> ships doctor, normalize and poster, but it sequences the
+              <strong>video-production</strong> ships doctor, normalize, poster and qc_render, but it sequences the
               whole engine — props, preview, preflight — and the Remotion renderer on top. With none of
               those present there is nothing to sequence. What survives is the shape of a production
               run: which decision precedes which, and where money enters.
@@ -730,7 +733,7 @@ cd social-skills && ./install.sh</code></pre>
             </p>
             <span class="skill-when"><strong>Reach for it</strong> producing a video end to end, or a run has stalled</span>
             <div class="chip-row" aria-label="What it needs">
-              <span class="chip sticker--lime" style="--tilt: -1.5deg">ships 3 scripts</span>
+              <span class="chip sticker--lime" style="--tilt: -1.5deg">ships 4 scripts</span>
               <span class="chip sticker--pink" style="--tilt: 1.5deg">pip install + Remotion</span>
             </div>
             <div class="codebox codebox--row">
