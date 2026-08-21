@@ -248,18 +248,18 @@ cd social-skills && ./install.sh</code></pre>
                 <span data-text="$copied === 'pip' ? 'Copied' : 'Copy'">Copy</span>
               </button>
               <span class="code-label">terminal · optional, video skills only</span>
-              <pre><code><span id="cmd-pip">pip install 'video-studio-engine[all] @ git+https://github.com/scrollmark/social-skills.git'</span>   # everything
+              <pre><code><span id="cmd-pip">pip install 'video-studio-engine[standard] @ git+https://github.com/scrollmark/social-skills.git'</span>   # the usual install
 
 # Or one extra at a time — same URL, different bracket:
 #   [sourcing]  + source_clips (yt-dlp)
 #   [audio]     + tts_kokoro, gen_music, duck_music
 #   [captions]  + gen_captions (local whisper word timings)
 #   [generate]  + gen_veo, gen_boil
-#   [vision]    + composite_subject, track_pointing
+#   [vision]    + composite_subject, track_pointing  (needs mediapipe)
 #   [export]    + export_edit (OpenTimelineIO)
 #   [qc]        + qc_analyze — the render checked against its plan, decoded
 #
-# And one extra per model, so none of them arrive uninvited:
+# The four model-backed QC checks stay opt-in, one extra each:
 #   [qc-ocr]  captions and text layout    [qc-yolo]  planned subjects on screen
 #   [qc-face] lip sync                    [qc-clip]  scene footage vs its prompt</code></pre>
             </div>
