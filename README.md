@@ -5,7 +5,7 @@ Landing site for Scrollmark's open-source work, intended for GitHub Pages at
 
 Three static pages — `index.html`, `skills.html`, `mcp.html` — plus `styles.css`.
 No build step, no framework runtime. Styling follows the **Sticker Energy** design
-system (tokens mirrored from `platform/socialgpt/frontend/app/globals.css`; light
+system (tokens mirrored from the SocialGPT design system; light
 paper default with the ink-canvas dark theme). Interactivity (theme toggle,
 install-snippet tabs, copy buttons) is [Datastar](https://data-star.dev) via CDN.
 
