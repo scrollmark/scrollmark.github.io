@@ -225,11 +225,11 @@ cd social-skills && ./install.sh</code></pre>
           </article>
 
           <article class="card card--tangerine" style="--tilt: -1deg">
-            <span class="sticker sticker--tangerine corner-sticker" style="--tilt: 4deg">30 programs</span>
+            <span class="sticker sticker--tangerine corner-sticker" style="--tilt: 4deg">31 programs</span>
             <p class="eyebrow">Layer three · one pip install</p>
             <h3 class="heading-3">The engine, from the repo.</h3>
             <p>
-              The other thirty programs either carry third-party dependencies or read a project's
+              The other thirty-one programs either carry third-party dependencies or read a project's
               state — a props document, a composer directory, a styles tree — which makes them unfit
               to sit in a skill folder as a lone file. They are built from
               <code style="font-family: var(--font-mono)">src/video_studio/</code> and run as
@@ -256,7 +256,12 @@ cd social-skills && ./install.sh</code></pre>
 #   [captions]  + gen_captions (local whisper word timings)
 #   [generate]  + gen_veo, gen_boil
 #   [vision]    + composite_subject, track_pointing
-#   [export]    + export_edit (OpenTimelineIO)</code></pre>
+#   [export]    + export_edit (OpenTimelineIO)
+#   [qc]        + qc_analyze — the render checked against its plan, decoded
+#
+# And one extra per model, so none of them arrive uninvited:
+#   [qc-ocr]  captions and text layout    [qc-yolo]  planned subjects on screen
+#   [qc-face] lip sync                    [qc-clip]  scene footage vs its prompt</code></pre>
             </div>
             <p class="mini-note">
               It installs <strong>from the repo, not from PyPI</strong> — the name
