@@ -226,11 +226,11 @@ cd social-skills && ./install.sh</code></pre>
           </article>
 
           <article class="card card--tangerine" style="--tilt: -1deg">
-            <span class="sticker sticker--tangerine corner-sticker" style="--tilt: 4deg">31 programs</span>
+            <span class="sticker sticker--tangerine corner-sticker" style="--tilt: 4deg">34 programs</span>
             <p class="eyebrow">Layer three · one pip install</p>
             <h3 class="heading-3">The engine, from the repo.</h3>
             <p>
-              The other thirty-one programs either carry third-party dependencies or read a project's
+              The other thirty-four programs either carry third-party dependencies or read a project's
               state — a props document, a composer directory, a styles tree — which makes them unfit
               to sit in a skill folder as a lone file. They are built from
               <code style="font-family: var(--font-mono)">src/video_studio/</code> and run as
@@ -281,19 +281,27 @@ cd social-skills && ./install.sh</code></pre>
           </article>
 
           <article class="card card--pink" style="--tilt: 1deg">
-            <span class="sticker sticker--pink corner-sticker" style="--tilt: -4deg">still outside</span>
-            <p class="eyebrow">Layer four · not ours to ship</p>
-            <h3 class="heading-3">Remotion, and a paid voice.</h3>
+            <span class="sticker sticker--pink corner-sticker" style="--tilt: -4deg">licences, not code</span>
+            <p class="eyebrow">Layer four · yours to licence</p>
+            <h3 class="heading-3">A Remotion licence, and the keys.</h3>
             <p>
-              <strong>The Remotion composer is Node, not Python</strong>, and it is deliberately not
-              vendored: Remotion requires a paid Company Licence above three people, so it stays yours
-              to install and licence. <code style="font-family: var(--font-mono)">npx remotion
-              render</code> is what actually turns a storyboard into a file — neither install route
-              above gets you one, and the skills say so rather than failing halfway through a run.
+              <strong>The Remotion composer ships in this repo now</strong> —
+              <code style="font-family: var(--font-mono)">composer/</code>, React driven entirely by the
+              props document the engine writes. What is still not ours to ship is <em>Remotion
+              itself</em>: the project declares it as a dependency and vendors none of it, because
+              Remotion requires a paid Company Licence above three people and for hosted or automated
+              rendering. The code is here; that licence stays between you and them. It is Node, not
+              Python, so <code style="font-family: var(--font-mono)">npm install</code> in
+              <code style="font-family: var(--font-mono)">composer/</code> once, and then
+              <code style="font-family: var(--font-mono)">npx remotion render</code> turns a storyboard
+              into a file.
             </p>
             <p>
-              <strong>ElevenLabs voice</strong> is a paid API call you make yourself; there is no
-              script for it on either side of the line. The automated quality gate at the last step of a
+              <strong>ElevenLabs voice</strong> has a script now —
+              <code style="font-family: var(--font-mono)">video-studio tts_eleven</code> — but it bills
+              per character and returns no word timings, so captions for an ElevenLabs read come from
+              <code style="font-family: var(--font-mono)">gen_captions</code>. The local voice is free
+              and runs offline; reach past it deliberately. The automated quality gate at the last step of a
               production run used to be an unpublished internal CLI; it is now
               <strong>qc_render.py</strong>, bundled, needing no install. It proves a render matches
               its plan — it cannot tell you the plan was worth rendering, so the looking is still
