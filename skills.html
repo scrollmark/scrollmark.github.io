@@ -124,7 +124,16 @@
             </button>
             <span class="code-label">terminal · via skills.sh</span>
             <pre><code><span id="cmd-npx">npx skills add scrollmark/social-skills</span>                  # all 16
-npx skills add scrollmark/social-skills -s hook-anatomy  # just one</code></pre>
+npx skills add scrollmark/social-skills -s hook-anatomy  # just one
+
+# Needs Node 22.20+. No Node? Same result without it:
+#   mkdir -p ~/social-skills
+#   curl -Ls https://github.com/scrollmark/social-skills/archive/refs/heads/master.tar.gz \
+#     | tar xz --strip-components=1 -C ~/social-skills
+#   ~/social-skills/install.sh
+#
+# Keep that directory: install.sh symlinks into it, so extracting to /tmp
+# loses all 16 skills at the next purge — at once, and with no error.</code></pre>
           </div>
           <div class="codebox" role="tabpanel" id="panel-git" aria-labelledby="tab-git" tabindex="0" data-show="$install === 'git'" style="display: none">
             <button
@@ -249,7 +258,14 @@ cd social-skills && ./install.sh</code></pre>
                 <span data-text="$copied === 'pip' ? 'Copied' : 'Copy'">Copy</span>
               </button>
               <span class="code-label">terminal · optional, video skills only</span>
-              <pre><code><span id="cmd-pip">pip install 'video-studio-engine[standard] @ git+https://github.com/scrollmark/social-skills.git'</span>   # the usual install
+              <pre><code><span id="cmd-pip">uv tool install --python 3.12 --refresh 'video-studio-engine[standard] @ https://github.com/scrollmark/social-skills/archive/refs/heads/master.tar.gz'</span>
+
+# Needs no git, no Xcode tools and no system Python — uv brings its own.
+# Get uv first:  curl -LsSf https://astral.sh/uv/install.sh | sh
+#                source "$HOME/.local/bin/env"    # or open a new terminal
+#
+# --python 3.12 is pinned: on 3.13 the [audio] extra installs cleanly and
+# silently has no voice. --refresh because GitHub's tarball is cached forever.
 
 # Or one extra at a time — same URL, different bracket:
 #   [sourcing]  + source_clips (yt-dlp)
