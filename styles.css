@@ -352,10 +352,14 @@ h3 {
 }
 
 .brand .mark {
-  /* brand-logo.svg viewBox is 355×261 — size by width, keep aspect */
-  width: 38px;
-  height: auto;
-  aspect-ratio: 355 / 261;
+  /* A reserved square box with object-fit, NOT this asset's own ratio. The
+     previous rule hardcoded 355/261 from the old mark's viewBox, so the
+     moment the mark was replaced with a square one it rendered as an oval —
+     a rule that was right for one file and silently wrong for the next.
+     A square box holds the space either way and letterboxes anything wide. */
+  width: 34px;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
   display: block;
   transition: transform 0.28s var(--ease-pop);
 }
@@ -1174,9 +1178,15 @@ h3 {
 }
 
 .about-card .icon-brand {
+  /* Two different marks sit in this slot — Scrollmark's square PNG and
+     SocialGPT's wider SVG — so the box cannot borrow either one's ratio. */
   width: 42px;
+  /* `.about-card .icon` above sets an explicit height, and an explicit height
+     makes aspect-ratio inert — so it has to be cleared here for the square
+     box to apply. */
   height: auto;
-  aspect-ratio: 355 / 261;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
   display: block;
 }
 
