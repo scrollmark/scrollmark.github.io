@@ -1,0 +1,63 @@
+name: accuracy
+
+# This site has shipped four factual errors, every one of them the same shape:
+# something changed in scrollmark/social-skills and nobody updated the page.
+# A retired product still advertised in the hero. An install command naming an
+# extra that had been deleted. Bundled-script counts a release behind. A card
+# calling the pipeline "planning" long after it could render.
+#
+# Each was caught by a person happening to look. The two repos are separate and
+# this site has no build step, so nothing connected them. This does.
+
+on:
+  push:
+  pull_request:
+  # The skills repo can move without anything happening here, so also check on
+  # a schedule — drift arrives from the other side.
+  schedule:
+    - cron: "0 9 * * 1"
+  workflow_dispatch:
+
+jobs:
+  accuracy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Claims match scrollmark/social-skills
+        run: python3 scripts/check-accuracy.py
+
+  html:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tags balance
+        run: |
+          python3 - <<'PY'
+          from html.parser import HTMLParser
+          import pathlib, sys
+          VOID = {'area','base','br','col','embed','hr','img','input','link',
+                  'meta','param','source','track','wbr'}
+          bad = False
+          class P(HTMLParser):
+              def __init__(s):
+                  super().__init__(convert_charrefs=True); s.stack=[]; s.err=[]
+              def handle_starttag(s, t, a):
+                  if t not in VOID: s.stack.append((t, s.getpos()[0]))
+              def handle_endtag(s, t):
+                  if t in VOID: return
+                  if s.stack and s.stack[-1][0] == t: s.stack.pop()
+                  elif s.stack:
+                      s.err.append(f"</{t}> at line {s.getpos()[0]} closes <{s.stack[-1][0]}>")
+                      s.stack.pop()
+          for f in sorted(pathlib.Path('.').glob('*.html')):
+              p = P(); p.feed(f.read_text())
+              if p.err or p.stack:
+                  bad = True
+                  print(f"{f}: {p.err[:3] or [f'unclosed {t} @ {l}' for t, l in p.stack[:3]]}")
+              else:
+                  print(f"{f}: ok")
+          sys.exit(1 if bad else 0)
+          PY
