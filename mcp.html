@@ -7,7 +7,14 @@
   <meta name="description" content="Connect SocialGPT to Claude, ChatGPT, Cursor, and any MCP-compatible agent. One URL, OAuth sign-in, 26 tools — setup instructions for every client." />
   <meta property="og:title" content="SocialGPT MCP — Scrollmark Open Source" />
   <meta property="og:description" content="Your social data, inside every AI tool. Setup for Claude, ChatGPT, Cursor, VS Code, Codex, and more." />
+  <link rel="canonical" href="https://scrollmark.github.io/mcp.html" />
   <meta property="og:url" content="https://scrollmark.github.io/mcp.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://scrollmark.github.io/og-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://scrollmark.github.io/og-card.png" />
   <meta name="theme-color" content="#fffdf8" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#16101f" media="(prefers-color-scheme: dark)" />
   <link rel="icon" href="brand-logo.svg" type="image/svg+xml" sizes="any" />
@@ -33,7 +40,19 @@
   <link rel="stylesheet" href="styles.css" />
 
   <!-- Datastar — all interactivity on this page -->
-  <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0/bundles/datastar.js"></script>
+  <!-- Every tab, OS variant and client panel on this site is a `data-show`
+       element that starts at `display: none` and is revealed by Datastar. If
+       Datastar never runs, thirteen of those sixteen blocks are unreachable —
+       including the install commands. So say so in three ways that between
+       them cover every way it can fail to run: the CDN being blocked or down
+       (onerror), a browser that ignores ES modules (nomodule), and JS being
+       off entirely (noscript). Any of them reveals all the panels at once,
+       which is the correct degraded state: each is labelled by its own tab, so
+       the page reads as a plain document listing every option. -->
+  <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0/bundles/datastar.js"
+          onerror="document.documentElement.classList.add('no-ds')"></script>
+  <script nomodule>document.documentElement.classList.add('no-ds')</script>
+  <noscript><style>[data-show] { display: block !important }</style></noscript>
 </head>
 
 <body
@@ -123,6 +142,21 @@
     </header>
 
     <!-- ── Setup ── -->
+    <section class="section about" id="just-ask" style="padding-bottom: 0">
+      <div class="wrap">
+        <div class="section-head" style="margin-bottom: 24px">
+          <p class="eyebrow" style="color: var(--se-tangerine-text)">What you can ask</p>
+          <h2 class="heading-2">Talk to it like a teammate.</h2>
+        </div>
+        <div class="ask-grid">
+          <p class="annotation">"How did my content perform this month compared to last?"</p>
+          <p class="annotation">"Find creators in the fitness niche on TikTok and show me what's working for them."</p>
+          <p class="annotation">"Analyze my latest Instagram reel and suggest better hooks."</p>
+          <p class="annotation">"Compare my engagement rate to similar creators on YouTube."</p>
+          <p class="annotation">"Post this video to my TikTok as a draft."</p>
+        </div>
+      </div>
+    </section>
     <section class="section" id="setup" style="padding-top: clamp(24px, 4vw, 48px)">
       <div class="wrap">
         <div class="section-head">
@@ -186,7 +220,7 @@
             </div>
           </div>
           <div class="client-panel" role="tabpanel" id="panel-chatgpt" aria-labelledby="tab-chatgpt" tabindex="0" data-show="$client === 'chatgpt'" style="display: none">
-            <p class="mini-note" style="margin: 0 0 10px">Settings → Tools &amp; integrations → Add MCP server, then paste the URL. Custom MCP connectors need a paid ChatGPT plan (Plus, Pro, Team, or Enterprise).</p>
+            <p class="mini-note" style="margin: 0 0 10px">Settings → Tools &amp; integrations → Add MCP server, then paste the URL. Custom MCP connectors need a paid ChatGPT plan (Plus, Pro, Team, or Enterprise) &mdash; true as of August 2026; OpenAI moves this one.</p>
             <div class="codebox">
               <button class="copy-btn" type="button" aria-label="Copy ChatGPT setup"
                 data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-chatgpt').innerText); $copied = 'chatgpt'; setTimeout(() => { $copied = '' }, 1500)">
@@ -306,6 +340,13 @@ url = "https://mcp.gpt.social/mcp"</code></pre>
             </div>
           </div>
           <p class="mini-note">
+            Setup steps for all eleven clients were last walked through in
+            August 2026. Vendors rename these menus without warning &mdash; if
+            a path here does not match what you see, trust your client's own
+            docs and
+            <a href="https://github.com/scrollmark/socialgpt-mcp/issues">tell us</a>.
+          </p>
+          <p class="mini-note">
             Free to start: <a href="https://app.gpt.social/signup">create a SocialGPT account</a>,
             then <a href="https://app.gpt.social/account">connect a social account</a> to analyze
             your own content — public/competitor analysis works without connecting anything.
@@ -317,19 +358,127 @@ url = "https://mcp.gpt.social/mcp"</code></pre>
     </section>
 
     <!-- ── Just ask ── -->
-    <section class="section about" id="just-ask">
+
+    <section class="section" id="access">
       <div class="wrap">
         <div class="section-head" style="margin-bottom: 24px">
-          <p class="eyebrow" style="color: var(--se-tangerine-text)">Then just ask</p>
-          <h2 class="heading-2">Talk to it like a teammate.</h2>
+          <p class="eyebrow">What you're granting</p>
+          <h2 class="heading-2">Read by default. One tool posts.</h2>
         </div>
-        <div class="ask-grid">
-          <p class="annotation">"How did my content perform this month compared to last?"</p>
-          <p class="annotation">"Find creators in the fitness niche on TikTok and show me what's working for them."</p>
-          <p class="annotation">"Analyze my latest Instagram reel and suggest better hooks."</p>
-          <p class="annotation">"Compare my engagement rate to similar creators on YouTube."</p>
-          <p class="annotation">"Post this video to my TikTok as a draft."</p>
+        <p class="sub" style="max-width: 62ch">
+          Connecting runs OAuth 2.1 with PKCE — the server never sees a password
+          and never asks you for an API key. It identifies itself as
+          <code>public-read-v1</code> and declares six scopes:
+        </p>
+        <div class="chip-row" style="margin: 16px 0 28px">
+          <span class="chip sticker--sky">analysis:read</span>
+          <span class="chip sticker--sky">analysis:read:public</span>
+          <span class="chip sticker--butter">analysis:upload</span>
+          <span class="chip sticker--butter">content:ingest</span>
+          <span class="chip sticker--pink">content:publish</span>
+          <span class="chip sticker--pink">content:write</span>
         </div>
+        <div class="about-grid">
+          <div class="about-card">
+            <h3 class="heading-3">Posting is not something it does quietly</h3>
+            <p>
+              Of the twenty-six tools, exactly one publishes to a platform, and
+              it will not run without an explicit attestation that a human
+              approved that content for that destination. Posting straight to
+              TikTok needs more still: a token minted by a separate call, a
+              privacy level a person picked by hand, and a second attestation
+              that they previewed it. The soft path — a draft that lands in
+              your TikTok inbox for you to finish there — is the default.
+            </p>
+          </div>
+          <div class="about-card">
+            <h3 class="heading-3">Limits, and how to take it back</h3>
+            <p>
+              Publishing is capped at ten calls an hour and analysing a post at
+              thirty, so nothing runs away with your account. Public and
+              competitor analysis needs no connected account at all. Manage or
+              disconnect the accounts you have connected from your
+              <a href="https://app.gpt.social/account">SocialGPT account page</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="tools">
+      <div class="wrap">
+        <div class="section-head" style="margin-bottom: 24px">
+          <p class="eyebrow">All 26 tools</p>
+          <h2 class="heading-2">What it can actually reach.</h2>
+        </div>
+        <div class="more-grid">
+            <div class="card card--lime">
+              <p class="eyebrow">read</p>
+              <h3 class="heading-3">Your accounts and content</h3>
+              <ul class="tool-list">
+                <li>whoami</li>
+                <li>list_accounts</li>
+                <li>get_account</li>
+                <li>get_account_metrics</li>
+                <li>list_videos</li>
+                <li>get_video</li>
+                <li>list_uploads</li>
+                <li>get_follower_history</li>
+                <li>get_growth_summary</li>
+                <li>get_post_metrics_history</li>
+                <li>get_content_profile</li>
+              </ul>
+            </div>
+            <div class="card card--sky">
+              <p class="eyebrow">read</p>
+              <h3 class="heading-3">Creators and competitors</h3>
+              <ul class="tool-list">
+                <li>get_creator</li>
+                <li>list_creator_videos</li>
+                <li>list_similar_videos</li>
+                <li>search</li>
+                <li>search_videos</li>
+                <li>fetch</li>
+              </ul>
+            </div>
+            <div class="card card--butter">
+              <p class="eyebrow">adds to your library</p>
+              <h3 class="heading-3">Analysis</h3>
+              <ul class="tool-list">
+                <li>analyze_creator</li>
+                <li>analyze_post</li>
+                <li>get_analysis_status</li>
+                <li>get_video_analysis</li>
+              </ul>
+            </div>
+            <div class="card card--pink">
+              <p class="eyebrow">one of these posts</p>
+              <h3 class="heading-3">Publishing</h3>
+              <ul class="tool-list">
+                <li>get_publish_options</li>
+                <li>get_upload_link</li>
+                <li>get_publish_status</li>
+                <li class="tool--write">publish_post</li>
+              </ul>
+            </div>
+            <div class="card card--violet">
+              <p class="eyebrow">read</p>
+              <h3 class="heading-3">Server</h3>
+              <ul class="tool-list">
+                <li>server_info</li>
+              </ul>
+            </div>
+        </div>
+        <p class="mini-note" style="margin-top: 20px">
+          Read off the live server on 26 August 2026 — the names, the scopes and
+          the limits all came from <code>server_info</code> and the tools' own
+          definitions, not from documentation that could have drifted.
+        </p>
+      </div>
+    </section>
+
+    <section class="section about">
+      <div class="wrap">
         <div style="margin-top: 32px; display: flex; flex-wrap: wrap; gap: 16px">
           <a class="btn btn--primary" href="https://github.com/scrollmark/socialgpt-mcp">Read the docs on GitHub</a>
           <a class="btn btn--secondary" href="https://gpt.social/integrations/mcp">Full guide on gpt.social</a>
@@ -337,7 +486,6 @@ url = "https://mcp.gpt.social/mcp"</code></pre>
       </div>
     </section>
   </main>
-
   <footer>
     <div class="wrap">
       <div class="footer-grid">

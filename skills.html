@@ -7,7 +7,14 @@
   <meta name="description" content="Sixteen installable Claude Code skills for understanding social media and planning short-form video — tone, hooks, trends, platform fluency, scene grammars, brand consistency. One npx command to install." />
   <meta property="og:title" content="Social Skills — Scrollmark Open Source" />
   <meta property="og:description" content="Sixteen installable Claude Code skills for understanding social media and planning short-form video. npx skills add scrollmark/social-skills" />
+  <link rel="canonical" href="https://scrollmark.github.io/skills.html" />
   <meta property="og:url" content="https://scrollmark.github.io/skills.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://scrollmark.github.io/og-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://scrollmark.github.io/og-card.png" />
   <meta name="theme-color" content="#fffdf8" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#16101f" media="(prefers-color-scheme: dark)" />
   <link rel="icon" href="brand-logo.svg" type="image/svg+xml" sizes="any" />
@@ -33,7 +40,19 @@
   <link rel="stylesheet" href="styles.css" />
 
   <!-- Datastar — all interactivity on this page -->
-  <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0/bundles/datastar.js"></script>
+  <!-- Every tab, OS variant and client panel on this site is a `data-show`
+       element that starts at `display: none` and is revealed by Datastar. If
+       Datastar never runs, thirteen of those sixteen blocks are unreachable —
+       including the install commands. So say so in three ways that between
+       them cover every way it can fail to run: the CDN being blocked or down
+       (onerror), a browser that ignores ES modules (nomodule), and JS being
+       off entirely (noscript). Any of them reveals all the panels at once,
+       which is the correct degraded state: each is labelled by its own tab, so
+       the page reads as a plain document listing every option. -->
+  <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0/bundles/datastar.js"
+          onerror="document.documentElement.classList.add('no-ds')"></script>
+  <script nomodule>document.documentElement.classList.add('no-ds')</script>
+  <noscript><style>[data-show] { display: block !important }</style></noscript>
 </head>
 
 <body
@@ -163,7 +182,134 @@ cd social-skills && ./install.sh</code></pre>
     </header>
 
     <!-- ── What ships where ── -->
-    <section class="section" id="boundary" style="padding-top: clamp(24px, 4vw, 48px)">
+       <section class="section" id="matrix" style="padding-top: clamp(24px, 4vw, 48px)">
+      <div class="wrap">
+        <div class="section-head" style="margin-bottom: 20px">
+          <p class="eyebrow">Before the essay</p>
+          <h2 class="heading-2">What do I actually have to install?</h2>
+          <p class="sub" style="max-width: 62ch">
+            Eight of the sixteen need nothing but the skill itself. The rest
+            reach for the engine, and four of them carry scripts that ship
+            inside the skill and run with no install of their own. The long
+            version is below; this is the short one.
+          </p>
+        </div>
+        <div class="matrix-scroll">
+          <table class="matrix">
+            <thead>
+              <tr><th>Skill</th><th>Needs</th><th class="num">Bundled</th><th>Reach for it&hellip;</th></tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td><code>read-the-room</code></td>
+              <td><span class="chip sticker--lime">nothing</span></td>
+              <td class="num">—</td>
+              <td>interpreting comments, captions, replies, or DMs</td>
+            </tr>
+            <tr>
+              <td><code>hook-anatomy</code></td>
+              <td><span class="chip sticker--lime">nothing</span></td>
+              <td class="num">—</td>
+              <td>analyzing, scoring, or generating hooks</td>
+            </tr>
+            <tr>
+              <td><code>trend-radar</code></td>
+              <td><span class="chip sticker--lime">nothing</span></td>
+              <td class="num">—</td>
+              <td>deciding if (and when) a trend is worth riding</td>
+            </tr>
+            <tr>
+              <td><code>platform-fluency</code></td>
+              <td><span class="chip sticker--lime">nothing</span></td>
+              <td class="num">—</td>
+              <td>platform conventions, algorithms, audience behavior</td>
+            </tr>
+            <tr>
+              <td><code>content-autopsy</code></td>
+              <td><span class="chip sticker--lime">nothing</span></td>
+              <td class="num">—</td>
+              <td>figuring out why a post took off — or didn&#x27;t</td>
+            </tr>
+            <tr>
+              <td><code>voice-matching</code></td>
+              <td><span class="chip sticker--lime">nothing</span></td>
+              <td class="num">—</td>
+              <td>writing as a creator, or auditing consistency</td>
+            </tr>
+            <tr>
+              <td><code>repurpose-engine</code></td>
+              <td><span class="chip sticker--lime">nothing</span></td>
+              <td class="num">—</td>
+              <td>taking one piece of content everywhere it can go</td>
+            </tr>
+            <tr>
+              <td><code>video-formats</code></td>
+              <td><span class="chip sticker--butter">engine</span></td>
+              <td class="num">—</td>
+              <td>planning, structuring, or critiquing a short-form video</td>
+            </tr>
+            <tr>
+              <td><code>brand-kit</code></td>
+              <td><span class="chip sticker--butter">engine</span></td>
+              <td class="num">—</td>
+              <td>keeping a run of videos visually consistent</td>
+            </tr>
+            <tr>
+              <td><code>media-acquisition</code></td>
+              <td><span class="chip sticker--butter">engine · ffmpeg</span></td>
+              <td class="num">1</td>
+              <td>deciding where a shot&#x27;s pictures come from</td>
+            </tr>
+            <tr>
+              <td><code>audio-acquisition</code></td>
+              <td><span class="chip sticker--butter">engine · [audio] · [captions] · ffmpeg</span></td>
+              <td class="num">2</td>
+              <td>a video needs a voice, a bed, or a fix for bad levels</td>
+            </tr>
+            <tr>
+              <td><code>subject-compositing</code></td>
+              <td><span class="chip sticker--butter">engine</span></td>
+              <td class="num">—</td>
+              <td>planning a shot that composites a person into a scene</td>
+            </tr>
+            <tr>
+              <td><code>edit-handoff</code></td>
+              <td><span class="chip sticker--butter">engine</span></td>
+              <td class="num">—</td>
+              <td>an editor is picking the cut up from here</td>
+            </tr>
+            <tr>
+              <td><code>video-production</code></td>
+              <td><span class="chip sticker--butter">engine · [qc] · ffmpeg · node</span></td>
+              <td class="num">4</td>
+              <td>producing a video end to end, or a run has stalled</td>
+            </tr>
+            <tr>
+              <td><code>agent-interview</code></td>
+              <td><span class="chip sticker--lime">nothing</span></td>
+              <td class="num">—</td>
+              <td>an agent has to interview someone before it can act</td>
+            </tr>
+            <tr>
+              <td><code>studio-setup</code></td>
+              <td><span class="chip sticker--butter">engine · [qc] · ffmpeg · node</span></td>
+              <td class="num">1</td>
+              <td>checking or repairing a video toolchain</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="mini-note" style="margin-top: 16px">
+          &ldquo;Engine&rdquo; is <code>video-studio-engine</code>, installed from this
+          repo rather than PyPI — the exact command is under
+          <a href="#boundary">One repo. Four layers.</a> Bracketed names are its
+          optional extras. Generated from the skills themselves, and checked on
+          every push.
+        </p>
+      </div>
+    </section>
+
+ <section class="section" id="boundary" style="padding-top: clamp(24px, 4vw, 48px)">
       <div class="wrap">
         <div class="section-head">
           <p class="eyebrow" style="color: var(--se-pink-text)">Read this before you install</p>

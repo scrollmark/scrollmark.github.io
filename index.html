@@ -7,7 +7,14 @@
   <meta name="description" content="Claude Code skills for social media and short-form video — including the whole production pipeline — plus a hosted MCP server, from the team behind SocialGPT. MIT-licensed — clone and go." />
   <meta property="og:title" content="Scrollmark Open Source" />
   <meta property="og:description" content="Claude Code skills for social media and short-form video — including the whole production pipeline — plus a hosted MCP server, from the team behind SocialGPT." />
+  <link rel="canonical" href="https://scrollmark.github.io/" />
   <meta property="og:url" content="https://scrollmark.github.io/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://scrollmark.github.io/og-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://scrollmark.github.io/og-card.png" />
   <meta name="theme-color" content="#fffdf8" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#16101f" media="(prefers-color-scheme: dark)" />
   <link rel="icon" href="brand-logo.svg" type="image/svg+xml" sizes="any" />
@@ -34,7 +41,19 @@
 
   <!-- Datastar — all interactivity on this page (https://data-star.dev,
        see https://data-star.dev/essays/why_another_framework) -->
-  <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0/bundles/datastar.js"></script>
+  <!-- Every tab, OS variant and client panel on this site is a `data-show`
+       element that starts at `display: none` and is revealed by Datastar. If
+       Datastar never runs, thirteen of those sixteen blocks are unreachable —
+       including the install commands. So say so in three ways that between
+       them cover every way it can fail to run: the CDN being blocked or down
+       (onerror), a browser that ignores ES modules (nomodule), and JS being
+       off entirely (noscript). Any of them reveals all the panels at once,
+       which is the correct degraded state: each is labelled by its own tab, so
+       the page reads as a plain document listing every option. -->
+  <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0/bundles/datastar.js"
+          onerror="document.documentElement.classList.add('no-ds')"></script>
+  <script nomodule>document.documentElement.classList.add('no-ds')</script>
+  <noscript><style>[data-show] { display: block !important }</style></noscript>
 </head>
 
 <body

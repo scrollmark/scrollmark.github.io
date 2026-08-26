@@ -1291,3 +1291,71 @@ footer {
   .card:hover,
   .about-card:hover { transform: rotate(var(--tilt, 0deg)); }
 }
+
+/* Datastar did not run — see the comment beside the script tag. Reveal every
+   conditional block rather than leaving the page with one visible panel and no
+   way to reach the other twelve. */
+.no-ds [data-show] { display: block !important; }
+
+/* Tool catalog. There is no table style on this site and one table would have
+   been a whole new primitive for a single block, so the twenty-six tools reuse
+   the card grid and read as chips. `tool--write` marks the only tool that can
+   post — the distinction the reader is actually scanning for. */
+.tool-list {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.tool-list li {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.45);
+  white-space: nowrap;
+}
+.dark .tool-list li { background: rgba(255, 255, 255, 0.06); }
+.tool-list li.tool--write {
+  border-color: var(--se-pink);
+  border-width: 2px;
+  font-weight: 700;
+}
+
+/* The dependency matrix. This IS tabular — sixteen skills against the same
+   four questions — so it is a table rather than cards, and it scrolls inside
+   its own container so the page body never scrolls sideways on a phone. */
+.matrix-scroll {
+  overflow-x: auto;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.4);
+}
+.dark .matrix-scroll { background: rgba(255, 255, 255, 0.04); }
+.matrix {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 640px;
+  font-size: 0.92rem;
+}
+.matrix th,
+.matrix td {
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.matrix thead th {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.matrix tbody tr:last-child td { border-bottom: 0; }
+.matrix td code { font-family: var(--font-mono); font-size: 0.85rem; }
+.matrix .num { text-align: center; }
+.matrix .chip { font-size: 0.72rem; padding: 2px 10px; white-space: nowrap; }
