@@ -21,8 +21,9 @@ Exit 0 = every checked claim matches. Exit 1 = at least one does not.
 from __future__ import annotations
 
 import argparse
-import base64
+import functools
 import json
+import os
 import re
 import sys
 import urllib.error
@@ -45,18 +46,58 @@ RETIRED_PHRASES = [
 ]
 
 
+#: The API allows 60 unauthenticated calls an hour, per IP — which shared CI
+#: runners burn through without any help from us. So: one API call for the
+#: whole file tree, and file BODIES over raw.githubusercontent.com, which is
+#: not part of that budget. A token is used when one is present (CI passes
+#: the workflow's own) and is not required otherwise.
+RAW = f"https://raw.githubusercontent.com/{REPO}/master"
+
+
+def _headers(accept: str) -> dict[str, str]:
+    h = {"Accept": accept}
+    token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
+    if token:
+        h["Authorization"] = f"Bearer {token}"
+    return h
+
+
 def fetch(path: str) -> str:
-    req = urllib.request.Request(f"{API}/contents/{path}",
-                                 headers={"Accept": "application/vnd.github+json"})
+    """A file's contents, off raw — no API budget spent."""
+    req = urllib.request.Request(f"{RAW}/{path}", headers=_headers("text/plain"))
     with urllib.request.urlopen(req, timeout=30) as r:
-        return base64.b64decode(json.load(r)["content"]).decode()
+        return r.read().decode()
+
+
+@functools.lru_cache(maxsize=1)
+def tree() -> list[str]:
+    """Every path in the repo, in a single request."""
+    req = urllib.request.Request(f"{API}/git/trees/master?recursive=1",
+                                 headers=_headers("application/vnd.github+json"))
+    with urllib.request.urlopen(req, timeout=60) as r:
+        data = json.load(r)
+    if data.get("truncated"):
+        raise SystemExit("repo tree came back truncated — this check needs a new approach")
+    return [e["path"] for e in data["tree"]]
 
 
 def list_dir(path: str) -> list[str]:
-    req = urllib.request.Request(f"{API}/contents/{path}",
-                                 headers={"Accept": "application/vnd.github+json"})
-    with urllib.request.urlopen(req, timeout=30) as r:
-        return [e["name"] for e in json.load(r) if e["type"] == "dir"]
+    """Immediate subdirectory names under `path`, from the cached tree."""
+    prefix = path.rstrip("/") + "/"
+    names = set()
+    for entry in tree():
+        if entry.startswith(prefix):
+            rest = entry[len(prefix):]
+            if "/" in rest:
+                names.add(rest.split("/", 1)[0])
+    return sorted(names)
+
+
+def list_files(path: str) -> list[str]:
+    """Immediate file names under `path`, from the cached tree."""
+    prefix = path.rstrip("/") + "/"
+    return sorted(e[len(prefix):] for e in tree()
+                  if e.startswith(prefix) and "/" not in e[len(prefix):])
 
 
 def site_text() -> dict[str, str]:
@@ -133,6 +174,71 @@ def main() -> int:
         hits = [f for f, t in pages.items() if phrase.lower() in t.lower()]
         expect("retired phrase", not hits,
                f"{phrase!r} absent — {why}" + (f" — FOUND IN {hits}" if hits else ""))
+
+    # 5. Page furniture that only fails silently.
+    #
+    # Everything below is invisible when it breaks. A missing canonical, an
+    # og:image pointing at a 404, a fallback that stopped covering one page —
+    # none of them change how the site looks to the person editing it, which
+    # is exactly why they need a machine to notice.
+    CANONICAL = {
+        "index.html": "https://scrollmark.github.io/",
+        "skills.html": "https://scrollmark.github.io/skills.html",
+        "mcp.html": "https://scrollmark.github.io/mcp.html",
+    }
+    for page, url in CANONICAL.items():
+        text = pages.get(page, "")
+        expect("canonical", f'<link rel="canonical" href="{url}" />' in text,
+               f"{page} declares canonical {url}")
+        expect("og:url matches canonical",
+               f'<meta property="og:url" content="{url}" />' in text,
+               f"{page} og:url agrees with its canonical")
+
+    card = SITE / "og-card.png"
+    expect("og:image exists", card.is_file(),
+           "og-card.png is present, so the social preview is not a 404")
+
+    for name in ("404.html", "sitemap.xml", "robots.txt"):
+        expect("page furniture", (SITE / name).is_file(), f"{name} exists")
+
+    # 6. The Datastar fallback, on every page that hides anything.
+    #
+    # Thirteen of the sixteen `data-show` blocks start at display:none and are
+    # revealed by Datastar — including install commands. If it never runs they
+    # are unreachable, so all three escape hatches have to stay in place.
+    for page, text in pages.items():
+        if "data-show" not in text:
+            continue
+        for marker, what in (("no-ds", "onerror/nomodule hook"),
+                             ("<noscript>", "noscript override")):
+            expect("js fallback", marker in text,
+                   f"{page} keeps its {what}")
+
+    # 7. The dependency matrix must agree with the skills themselves.
+    skills_html = pages.get("skills.html", "")
+    rows = re.findall(r"<tr>\s*<td><code>([a-z-]+)</code></td>(.*?)</tr>",
+                      skills_html, re.S)
+    expect("matrix rows", len(rows) == n,
+           f"matrix has one row per skill ({len(rows)} of {n})")
+    named = {r[0] for r in rows}
+    expect("matrix names", named <= set(skills),
+           "matrix names only real skills"
+           + (f" — UNKNOWN {sorted(named - set(skills))}" if named - set(skills) else ""))
+    free = sum(1 for _, cells in rows if ">nothing<" in cells)
+    repo_free = sum(
+        1 for sk in skills
+        if not list_files(f"skills/{sk}/scripts")
+        and "video-studio" not in fetch(f"skills/{sk}/SKILL.md")
+    )
+    expect("matrix install-free", free == repo_free,
+           f"matrix marks {free} skills install-free (repo agrees)")
+
+    # 8. The MCP tool catalog.
+    mcp_html = pages.get("mcp.html", "")
+    tools = re.findall(r'<li[^>]*>([a-z_]+)</li>', mcp_html)
+    stated = re.search(r"All (\d+) tools", mcp_html)
+    expect("tool catalog", stated is not None and len(tools) == int(stated.group(1)),
+           f"catalog lists {len(tools)} tools and says so")
 
     if args.json:
         print(json.dumps({"ok": not problems, "checked": checked, "problems": problems}, indent=2))

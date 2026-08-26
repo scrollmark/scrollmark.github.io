@@ -27,6 +27,12 @@ jobs:
         with:
           python-version: "3.12"
       - name: Claims match scrollmark/social-skills
+        # Shared runners share an IP, and the unauthenticated GitHub API
+        # allows sixty calls an hour across all of them. The checker needs
+        # only one API call, but it makes that one with a token so a busy
+        # runner cannot turn a passing check into a red build.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 scripts/check-accuracy.py
 
   html:
