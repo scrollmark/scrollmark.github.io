@@ -241,6 +241,11 @@ h3 {
 .sticker--butter { background: var(--se-butter); }
 .sticker--pink { background: var(--se-pink); color: #fff; }
 .sticker--violet { background: var(--se-violet); color: #fff; }
+/* Tangerine reached the palette, the card variants and the text tokens, but
+   never got a sticker. `.chip` carries NO background of its own, so the two
+   tangerine chips in skills.html rendered as bare text. Ink, not white:
+   #211633 on #ff8a3d is 7.3:1, white is 2.35:1. */
+.sticker--tangerine { background: var(--se-tangerine); }
 
 /* Small code-name chips inside cards */
 .chip {

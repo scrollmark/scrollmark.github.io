@@ -39,6 +39,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Classes and custom properties resolve
+        run: python3 scripts/check-styles.py
+
       - name: Tags balance
         run: |
           python3 - <<'PY'
