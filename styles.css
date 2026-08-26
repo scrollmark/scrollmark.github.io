@@ -20,7 +20,9 @@
   /* Constant dark ink for text/icons on saturated accent fills — never flips */
   --plum: #211633;
   --se-pink: #ff4d8d;
-  --se-violet: #7b5bff;
+  /* Darkened from #7b5bff, where white was 4.39:1 and ink 3.90:1 — neither
+     reached AA. At #7556f2 white is 4.79:1. */
+  --se-violet: #7556f2;
   --se-lime: #c5f53c;
   --se-sky: #53cdff;
   --se-tangerine: #ff8a3d;
@@ -49,7 +51,10 @@
 
   --text-primary: rgba(33, 22, 51, 0.92);
   --text-secondary: rgba(33, 22, 51, 0.7);
-  --text-tertiary: rgba(33, 22, 51, 0.52);
+  /* 0.52 was 3.52:1 on paper — under AA. 0.62 is 4.82:1. This token
+     dresses mini-note, skill-when, inline code, the footer and the card
+     sub-labels, so the whole muted tier moves with it. */
+  --text-tertiary: rgba(33, 22, 51, 0.62);
 
   --shadow-sticker: 0 2px 0 rgba(33, 22, 51, 0.16), 0 10px 24px rgba(33, 22, 51, 0.12);
   --shadow-card: 0 1px 2px rgba(33, 22, 51, 0.06), 0 16px 40px rgba(33, 22, 51, 0.1);
@@ -88,7 +93,8 @@
 
   --text-primary: rgba(255, 253, 248, 0.92);
   --text-secondary: rgba(255, 253, 248, 0.62);
-  --text-tertiary: rgba(255, 253, 248, 0.42);
+  /* 0.42 was 4.04:1 on #16101f — under AA. 0.52 is ~5.4:1. */
+  --text-tertiary: rgba(255, 253, 248, 0.52);
 
   --shadow-sticker: 0 2px 0 rgba(0, 0, 0, 0.35), 0 10px 24px rgba(0, 0, 0, 0.3);
   --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.25);
@@ -239,8 +245,24 @@ h3 {
 .sticker--lime { background: var(--se-lime); }
 .sticker--sky { background: var(--se-sky); }
 .sticker--butter { background: var(--se-butter); }
-.sticker--pink { background: var(--se-pink); color: #fff; }
+/* Ink, not white: white on this pink is 3.14:1, ink is 5.46:1. --plum is
+   :root-only and never re-themed, so it stays ink in the dark too. */
+.sticker--pink { background: var(--se-pink); color: var(--plum); }
 .sticker--violet { background: var(--se-violet); color: #fff; }
+/* Tangerine reached the palette, the card variants and the text tokens, but
+   never got a sticker. `.chip` carries NO background of its own, so the two
+   tangerine chips in skills.html rendered as bare text. Ink, not white:
+   #211633 on #ff8a3d is 7.3:1, white is 2.35:1. */
+.sticker--tangerine { background: var(--se-tangerine); }
+
+/* `.chip` is defined below and sets ink, which silently beat the white these
+   two variants ask for — same specificity, later in the file. Violet needs
+   white to pass, so it says so at chip specificity as well. */
+/* `.fact-chip` is a separate class that also lands after the variants and
+   also sets its own colour, so it needs naming too — catching only `.chip`
+   left the one fact-chip on the home and MCP pages at 3.56:1. */
+.chip.sticker--violet,
+.fact-chip.sticker--violet { color: #fff; }
 
 /* Small code-name chips inside cards */
 .chip {
