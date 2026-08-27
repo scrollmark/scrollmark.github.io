@@ -2,9 +2,9 @@
 active: "skills.html"
 footer: true
 title: "Social Skills \u2014 Scrollmark Open Source"
-description: "Sixteen installable Claude Code skills for understanding social media and planning short-form video \u2014 tone, hooks, trends, platform fluency, scene grammars, brand consistency. One npx command to install."
+description: "Sixteen installable Claude Code skills for social media agents: tone, hooks, trends, platform fluency, video planning, production handoff, and toolchain checks."
 ogTitle: "Social Skills \u2014 Scrollmark Open Source"
-ogDesc: "Sixteen installable Claude Code skills for understanding social media and planning short-form video. npx skills add scrollmark/social-skills"
+ogDesc: "Sixteen installable Claude Code skills for social media judgement, short-form video planning, and production workflows."
 canonical: "https://scrollmark.github.io/skills.html"
 signals: "{theme: localStorage.getItem('theme') || 'system', install: 'npx', copied: ''}"
 home: "index.html"
@@ -69,10 +69,10 @@ cd social-skills && ./install.sh</code></pre>
             The <code>npx</code> route uses the
             <a href="https://skills.sh">skills.sh CLI</a> — the open agent-skills
             ecosystem — and works with Claude Code and other supported agents.
-            Want just one skill? Every card below has its own one-liner. The video
-            skills add an optional second step —
-            <code>pip install</code> from the repo
-            — which <a href="#boundary">the next section</a> lays out.
+            Want just one skill? Every card below has its own one-liner. Some video
+            skills add an optional second step:
+            <code>pip install</code> from the repo.
+            The next section explains what that unlocks.
           </p>
         </div>
       </div>
@@ -82,13 +82,12 @@ cd social-skills && ./install.sh</code></pre>
        <section class="section" id="matrix" style="padding-top: clamp(24px, 4vw, 48px)">
       <div class="wrap">
         <div class="section-head" style="margin-bottom: 20px">
-          <p class="eyebrow">Before the essay</p>
-          <h2 class="heading-2">What you actually install.</h2>
+          <p class="eyebrow">Install options</p>
+          <h2 class="heading-2">What each skill needs.</h2>
           <p class="sub" style="max-width: 62ch">
-            Eight of the sixteen need nothing but the skill itself. The rest
-            reach for the engine, and four of them carry scripts that ship
-            inside the skill and run with no install of their own. The long
-            version is below; this is the short one.
+            Eight skills need only the skill files. The rest can use the video
+            engine, and four also carry small scripts that run as soon as the
+            skill is installed.
           </p>
         </div>
         <div class="matrix-scroll">
@@ -121,18 +120,15 @@ cd social-skills && ./install.sh</code></pre>
  <section class="section" id="boundary" style="padding-top: clamp(24px, 4vw, 48px)">
       <div class="wrap">
         <div class="section-head">
-          <p class="eyebrow" style="color: var(--se-pink-text)">Read this before you install</p>
-          <h2 class="heading-2">One repo. Four layers.</h2>
+          <p class="eyebrow" style="color: var(--se-pink-text)">Dependency guide</p>
+          <h2 class="heading-2">One repo, four layers.</h2>
           <p class="sub">
-            There used to be a wall here: the prose lived in this repo, and the Python and Remotion
-            toolchain that composites, generates, tracks and renders lived somewhere you could not
-            reach. That wall is gone. The engine moved in — it is
-            <code>src/video_studio/</code> in the same public
-            repo, and installs from it directly as
-            <code>video-studio-engine</code>. What is left is not a boundary but a ladder: prose you can read anywhere, skills
-            that carry their own programs, skills that want one
-            <code>pip install</code>, and exactly one thing
-            still genuinely outside.
+            The skill pack is useful even before you install a video toolchain.
+            Some skills are pure guidance, some ship small scripts, and some use
+            the Python and Remotion engine in the same public repo. The layers
+            below show what works immediately, what needs one
+            <code>pip install</code>, and what still depends on
+            external licenses or API keys.
           </p>
         </div>
 
@@ -162,19 +158,18 @@ cd social-skills && ./install.sh</code></pre>
           <article class="card card--butter" style="--tilt: 1deg">
             <span class="sticker sticker--butter corner-sticker" style="--tilt: -4deg">4 skills</span>
             <p class="eyebrow">Layer two · prose + a bundled script</p>
-            <h3 class="heading-3">Executable the moment you install the skill.</h3>
+            <h3 class="heading-3">Runs as soon as the skill is installed.</h3>
             <p>
-              Six programs are pure standard library and take their input on the command line, so
-              they ship <em>inside</em> the skill folder that uses them and travel with
-              <code>npx skills add</code> like any other file:
+              Six programs use the Python standard library and take their input on the command line, so
+              they ship <em>inside</em> the skill folder and travel with
+              <code>npx skills add</code>:
               <strong>doctor.py</strong> (what is reachable right now),
               <strong>measure.py</strong> (durations and a track's energy structure),
               <strong>normalize_audio.py</strong> (loudness after a render),
               <strong>poster.py</strong> (thumbnail shortlist and contact sheet),
               <strong>qc_render.py</strong> (the render checked against the plan it was built from) and
               <strong>prekey.py</strong> (key a generated clip to alpha). Two of them are carried by
-              two skills each — eight copies across four skills — because a skill may never reach
-              outside its own folder.
+              two skills each, so the skill stays self-contained.
             </p>
             <p>
               They want <code>ffmpeg</code> and
@@ -194,13 +189,12 @@ cd social-skills && ./install.sh</code></pre>
             <p class="eyebrow">Layer three · one pip install</p>
             <h3 class="heading-3">The engine, from the repo.</h3>
             <p>
-              The other thirty-four programs either carry third-party dependencies or read a project's
-              state — a props document, a composer directory, a styles tree — which makes them unfit
-              to sit in a skill folder as a lone file. They are built from
+              The other thirty-four programs use third-party dependencies or read project
+              state: a props document, a composer directory, a styles tree. They live in
               <code>src/video_studio/</code> and run as
               <code>video-studio &lt;command&gt;</code>. The base
-              install is deliberately thin; the heavy dependencies are opt-in extras, so you install
-              the half you actually use.
+              install is small; heavier dependencies are opt-in extras, so you install
+              only the parts you use.
             </p>
             <div class="codebox">
               <button
@@ -243,11 +237,10 @@ cd social-skills && ./install.sh</code></pre>
               does not get you this. The URL is the install.
             </p>
             <p>
-              It is independent of the skills and installed separately —
-              <code>npx skills add</code> never touches it. It is
-              also genuinely optional, and being honest about that matters more than making the repo
-              look complete: a skill whose work needs the package is not self-contained for a user who
-              skips it. The cards below say exactly what skipping it costs.
+              The engine is independent of the skills and installed separately:
+              <code>npx skills add</code> never touches it. The
+              cards below spell out which skills still work without it and which
+              become planning guidance only.
             </p>
           </article>
 
@@ -261,7 +254,7 @@ cd social-skills && ./install.sh</code></pre>
               props document the engine writes. What is still not ours to ship is <em>Remotion
               itself</em>: the project declares it as a dependency and vendors none of it, because
               Remotion requires a paid Company Licence above three people and for hosted or automated
-              rendering. The code is here; that licence stays between you and them. It is Node, not
+              rendering. The code is here; that license stays between you and them. It is Node, not
               Python, so <code>npm install</code> in
               <code>composer/</code> once, and then
               <code>npx remotion render</code> turns a storyboard
@@ -287,9 +280,9 @@ cd social-skills && ./install.sh</code></pre>
         </div>
 
         <div class="section-head" style="margin-top: clamp(40px, 6vw, 64px)">
-          <p class="eyebrow" style="color: var(--se-butter-text)">If you skip the pip install</p>
+          <p class="eyebrow" style="color: var(--se-butter-text)">Without the engine</p>
           <h3 class="heading-2">What you still get.</h3>
-          <p class="sub">Layer three is optional. Here is the honest accounting of what each video skill is worth without it.</p>
+          <p class="sub">Layer three is optional. Here is what each video skill still gives you without it.</p>
         </div>
 
         <div class="more-grid">
@@ -321,12 +314,12 @@ cd social-skills && ./install.sh</code></pre>
           <article class="card card--butter" style="--tilt: 1deg">
             <span class="sticker sticker--butter corner-sticker" style="--tilt: -4deg">holes in it</span>
             <p class="eyebrow">Partly executable</p>
-            <h3 class="heading-3">Useful, with holes in it.</h3>
+            <h3 class="heading-3">Useful, but incomplete.</h3>
             <p>
-              <strong>video-formats</strong> still works for eight of its ten formats — those are
+              <strong>video-formats</strong> still works for eight of its ten formats. Those are
               structure you can follow in any editor. <strong>Boil is roughly 40% inoperative</strong>
               without <code>[generate]</code>: its mark
-              vocabulary, shape files and palette workflow are
+              vocabulary, shape files, and palette workflow are
               <code>gen_boil</code>, so the interview questions
               have no answers to pick from. <strong>PointerPopups does not work at all as written</strong>
               without <code>[vision]</code> — its entire grammar
@@ -388,7 +381,7 @@ cd social-skills && ./install.sh</code></pre>
         <div class="section-head">
           <p class="eyebrow" style="color: var(--se-violet-text)">The full deck</p>
           <h2 class="heading-2">Sixteen skills, three jobs.</h2>
-          <p class="sub">Reading social media, producing short-form video, and the working method underneath both. Each one is a compact playbook — patterns and judgement calls, not API wrappers. They pair well with the <a href="mcp.html">SocialGPT MCP server</a>, which brings your real numbers into the conversation.</p>
+          <p class="sub">Understanding social media, producing short-form video, and running the working method underneath both. Each skill is a compact playbook: patterns and judgement calls, not API wrappers. They pair well with the <a href="mcp.html">SocialGPT MCP server</a>, which brings your real numbers into the conversation.</p>
         </div>
 
         <div class="section-head" style="margin-top: clamp(24px, 4vw, 40px)">
@@ -405,7 +398,7 @@ cd social-skills && ./install.sh</code></pre>
         <div class="section-head" style="margin-top: clamp(40px, 6vw, 64px)">
           <p class="eyebrow" style="color: var(--se-tangerine-text)">Group two · 7 skills</p>
           <h3 class="heading-2">Producing video.</h3>
-          <p class="sub">Craft skills for <em>making</em> a short-form video, not only planning one. The judgement is prose you can follow anywhere; the execution is a script bundled in the skill, or one install away in the same repo — and since the Remotion composer moved in, that now includes the render itself. See what each layer gives you.</p>
+          <p class="sub">Craft skills for making a short-form video, not only planning one. The judgement is prose you can follow anywhere; execution comes from scripts bundled with the skill or from the engine in the same repo.</p>
         </div>
 
         <div class="projects-grid">

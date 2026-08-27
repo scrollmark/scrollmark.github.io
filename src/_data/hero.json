@@ -2,35 +2,35 @@
   "index": {
     "eyebrow": "Scrollmark · open source",
     "headline": {
-      "before": "Built for the feed,",
-      "marked": "free to fork",
-      "after": "."
+      "before": "Open tools for",
+      "marked": "social media",
+      "after": " agents."
     },
-    "sub": "Claude Code skills for social media *and* short-form video — the whole pipeline, from the interview to a rendered file — plus a hosted MCP server. Side quests from the team building SocialGPT. MIT-licensed. No waitlist, no gate: clone and go."
+    "sub": "Install Claude Code skills for reading social media, planning short-form video, and running a production workflow. Connect SocialGPT to any MCP client for analytics, creator research, and publishing workflows. Open-source infrastructure from the team building SocialGPT."
   },
   "skills": {
     "eyebrow": "Claude Code skills · scrollmark/social-skills",
     "headline": {
-      "before": "Even AI needs",
-      "marked": "social skills",
-      "after": "."
+      "before": "Teach agents how",
+      "marked": "social media",
+      "after": " works."
     },
-    "sub": "Sixteen installable skills: the cultural literacy of the feed — reading tone, dissecting hooks, timing trends, speaking each platform's dialect — plus the craft of *making* one. Deep coverage of Instagram, TikTok, and YouTube; X and LinkedIn too. Eight of the sixteen need nothing installed; the video engine now lives in the same repo, one `pip install` away — [what each layer gives you](#boundary)."
+    "sub": "Sixteen installable skills for Claude Code and other skill-aware agents: social-media judgement, short-form video planning, production handoffs, and toolchain checks. Eight need no dependencies. The video engine lives in the same repo and installs separately when you want execution, not just guidance — [what each layer gives you](#boundary)."
   },
   "mcp": {
     "eyebrow": "Hosted MCP server · mcp.gpt.social",
     "headline": {
-      "before": "Your social data, inside",
-      "marked": "every AI tool",
-      "after": "."
+      "before": "Your ",
+      "marked": "social data",
+      "after": ", inside every AI tool."
     },
-    "sub": "One URL connects your SocialGPT analytics, video analysis, and content intelligence to any agent that speaks MCP. Nothing to install, no API keys: OAuth 2.1 with PKCE, read-only by default, revoke any time."
+    "sub": "Connect SocialGPT to Claude, ChatGPT, Cursor, VS Code, Codex, or any MCP client. Ask for content performance, competitor research, creator analysis, post analysis, and publishing workflows through one OAuth-backed server URL."
   },
   "404": {
     "eyebrow": "404",
     "headline": {
-      "before": "That page is not",
-      "marked": "on the shelf",
+      "before": "That page",
+      "marked": "isn't here",
       "after": "."
     },
     "sub": "The link may be old, or something here moved. Everything this site has lives on three pages:"

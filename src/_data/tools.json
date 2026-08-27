@@ -1,8 +1,8 @@
 [
   {
     "colour": "card--lime",
-    "eyebrow": "read",
-    "title": "Your accounts and content",
+    "eyebrow": "workspace",
+    "title": "Your SocialGPT workspace",
     "tools": [
       {
         "name": "whoami",
@@ -52,8 +52,8 @@
   },
   {
     "colour": "card--sky",
-    "eyebrow": "read",
-    "title": "Creators and competitors",
+    "eyebrow": "research",
+    "title": "Creator and competitor research",
     "tools": [
       {
         "name": "get_creator",
@@ -83,8 +83,8 @@
   },
   {
     "colour": "card--butter",
-    "eyebrow": "adds to your library",
-    "title": "Analysis",
+    "eyebrow": "analysis",
+    "title": "Content analysis",
     "tools": [
       {
         "name": "analyze_creator",
@@ -106,8 +106,8 @@
   },
   {
     "colour": "card--pink",
-    "eyebrow": "one of these posts",
-    "title": "Publishing",
+    "eyebrow": "guarded write",
+    "title": "Publishing workflows",
     "tools": [
       {
         "name": "get_publish_options",
@@ -129,8 +129,8 @@
   },
   {
     "colour": "card--violet",
-    "eyebrow": "read",
-    "title": "Server",
+    "eyebrow": "metadata",
+    "title": "Server metadata",
     "tools": [
       {
         "name": "server_info",

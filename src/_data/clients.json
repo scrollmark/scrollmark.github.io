@@ -30,7 +30,7 @@
     "id": "chatgpt",
     "label": "ChatGPT",
     "hidden": true,
-    "note": "Settings → Tools &amp; integrations → Add MCP server, then paste the URL. Custom MCP connectors need a paid ChatGPT plan (Plus, Pro, Team, or Enterprise) &mdash; true as of August 2026; OpenAI moves this one.",
+    "note": "Settings → Tools &amp; integrations → Add MCP server, then paste the URL. Custom MCP connectors require a paid ChatGPT plan (Plus, Pro, Team, or Enterprise) as of August 2026.",
     "codeLabel": "server URL",
     "copyLabel": "ChatGPT setup",
     "code": "https://mcp.gpt.social/mcp"
