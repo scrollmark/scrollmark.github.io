@@ -1,0 +1,7 @@
+{%- comment -%}
+  The words come from _data/hero.json; the hand-drawn underline lives here.
+  It is decoration, not copy, so it belongs in one place — which also means the
+  404 stops being the odd one out: its marker had no SVG at all before.
+{%- endcomment -%}
+{{ h.before }}
+          <span class="marker">{{ h.marked }}<svg viewBox="0 0 200 12" aria-hidden="true"><path pathLength="100" d="M3 9 C 40 3, 120 2, 197 7" /></svg></span>{{ h.after }}

@@ -17,16 +17,10 @@ about: "index.html#about"
         <span class="w1"></span><span class="w2"></span>
       </div>
       <div class="wrap" style="position: relative">
-        <p class="eyebrow rise rise-1" style="color: var(--se-sky-text)">Hosted MCP server · mcp.gpt.social</p>
+        <p class="eyebrow rise rise-1" style="color: var(--se-sky-text)">{{ hero.mcp.eyebrow }}</p>
         <h1 class="display rise rise-2" style="font-size: clamp(2.4rem, 5.5vw, 4.2rem)">
-          Your social data, inside
-          <span class="marker">every AI tool<svg viewBox="0 0 200 12" aria-hidden="true"><path pathLength="100" d="M3 9 C 40 3, 120 2, 197 7" /></svg></span>.
-        </h1>
-        <p class="sub rise rise-3" style="margin: 24px 0 28px">
-          One URL connects your SocialGPT analytics, video analysis, and content
-          intelligence to any agent that speaks MCP. Nothing to install, no API
-          keys: OAuth 2.1 with PKCE, read-only by default, revoke any time.
-        </p>
+          {% assign h = hero.mcp.headline %}{% include "headline.html" %}</h1>
+        <p class="sub rise rise-3" style="margin: 24px 0 28px">{{ hero.mcp.sub }}</p>
         <div class="install-box rise rise-4">
           <div class="codebox">
             <button class="copy-btn" type="button" aria-label="Copy server URL"

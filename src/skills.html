@@ -17,20 +17,10 @@ about: "index.html#about"
         <span class="w1"></span><span class="w2"></span>
       </div>
       <div class="wrap" style="position: relative">
-        <p class="eyebrow rise rise-1" style="color: var(--se-pink-text)">Claude Code skills · scrollmark/social-skills</p>
+        <p class="eyebrow rise rise-1" style="color: var(--se-pink-text)">{{ hero.skills.eyebrow }}</p>
         <h1 class="display rise rise-2" style="font-size: clamp(2.4rem, 5.5vw, 4.2rem)">
-          Even AI needs
-          <span class="marker">social skills<svg viewBox="0 0 200 12" aria-hidden="true"><path pathLength="100" d="M3 9 C 40 3, 120 2, 197 7" /></svg></span>.
-        </h1>
-        <p class="sub rise rise-3" style="margin: 24px 0 28px">
-          Sixteen installable skills: the cultural literacy of the feed — reading
-          tone, dissecting hooks, timing trends, speaking each platform's dialect —
-          plus the craft of <em>making</em> one. Deep coverage of Instagram,
-          TikTok, and YouTube; X and LinkedIn too. Eight of the sixteen need nothing
-          installed; the video engine now lives in the same repo, one
-          <code style="font-family: var(--font-mono)">pip install</code> away —
-          <a href="#boundary">what each layer gives you</a>.
-        </p>
+          {% assign h = hero.skills.headline %}{% include "headline.html" %}</h1>
+        <p class="sub rise rise-3" style="margin: 24px 0 28px">{{ hero.skills.subHtml }}</p>
 
         <div class="install-box rise rise-4">
           <div class="tabs" role="tablist" aria-label="Install method"

@@ -12,12 +12,10 @@ about: "/index.html#about"
   <main>
     <header class="hero">
       <div class="wrap">
-        <p class="eyebrow">404</p>
-        <h1 class="display">That page is not <span class="marker">on the shelf</span>.</h1>
-        <p class="sub">
-          The link may be old, or something here moved. Everything this
-          site has lives on three pages:
-        </p>
+        <p class="eyebrow">{{ hero.404.eyebrow }}</p>
+        <h1 class="display">
+          {% assign h = hero.404.headline %}{% include "headline.html" %}</h1>
+        <p class="sub">{{ hero.404.sub }}</p>
         <div class="hero-ctas">
           <a class="btn btn--primary" href="/skills.html">Social Skills</a>
           <a class="btn btn--secondary" href="/mcp.html">SocialGPT MCP</a>
