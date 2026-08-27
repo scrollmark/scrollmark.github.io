@@ -858,6 +858,15 @@ h3 {
   overflow-x: auto;
 }
 
+/* Inline <code> in prose. Without this the tag falls back to the browser's
+   default monospace, so the site carried ~45 copies of an inline
+   font-family style to compensate — and the few that lacked it rendered in a
+   different mono from their neighbours. One rule; the codebox and matrix set
+   their own sizes below and are unaffected. */
+code {
+  font-family: var(--font-mono);
+}
+
 .codebox code {
   font-family: var(--font-mono);
   font-size: 0.82rem;

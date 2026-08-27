@@ -15,7 +15,7 @@ about: "/index.html#about"
         <p class="eyebrow">{{ hero.404.eyebrow }}</p>
         <h1 class="display">
           {% assign h = hero.404.headline %}{% include "headline.html" %}</h1>
-        <p class="sub">{{ hero.404.sub }}</p>
+        <p class="sub">{{ hero.404.sub | md }}</p>
         <div class="hero-ctas">
           <a class="btn btn--primary" href="/skills.html">Social Skills</a>
           <a class="btn btn--secondary" href="/mcp.html">SocialGPT MCP</a>

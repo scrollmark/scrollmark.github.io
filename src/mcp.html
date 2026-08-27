@@ -20,7 +20,7 @@ about: "index.html#about"
         <p class="eyebrow rise rise-1" style="color: var(--se-sky-text)">{{ hero.mcp.eyebrow }}</p>
         <h1 class="display rise rise-2" style="font-size: clamp(2.4rem, 5.5vw, 4.2rem)">
           {% assign h = hero.mcp.headline %}{% include "headline.html" %}</h1>
-        <p class="sub rise rise-3" style="margin: 24px 0 28px">{{ hero.mcp.sub }}</p>
+        <p class="sub rise rise-3" style="margin: 24px 0 28px">{{ hero.mcp.sub | md }}</p>
         <div class="install-box rise rise-4">
           <div class="codebox">
             <button class="copy-btn" type="button" aria-label="Copy server URL"

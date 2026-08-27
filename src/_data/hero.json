@@ -6,7 +6,7 @@
       "marked": "free to fork",
       "after": "."
     },
-    "subHtml": "Claude Code skills for social media <em>and</em> short-form video — the whole pipeline, from the interview to a rendered file — plus a hosted MCP server. Side quests from the team building SocialGPT. MIT-licensed. No waitlist, no gate: clone and go."
+    "sub": "Claude Code skills for social media *and* short-form video — the whole pipeline, from the interview to a rendered file — plus a hosted MCP server. Side quests from the team building SocialGPT. MIT-licensed. No waitlist, no gate: clone and go."
   },
   "skills": {
     "eyebrow": "Claude Code skills · scrollmark/social-skills",
@@ -15,7 +15,7 @@
       "marked": "social skills",
       "after": "."
     },
-    "subHtml": "Sixteen installable skills: the cultural literacy of the feed — reading tone, dissecting hooks, timing trends, speaking each platform's dialect — plus the craft of <em>making</em> one. Deep coverage of Instagram, TikTok, and YouTube; X and LinkedIn too. Eight of the sixteen need nothing installed; the video engine now lives in the same repo, one <code style=\"font-family: var(--font-mono)\">pip install</code> away — <a href=\"#boundary\">what each layer gives you</a>."
+    "sub": "Sixteen installable skills: the cultural literacy of the feed — reading tone, dissecting hooks, timing trends, speaking each platform's dialect — plus the craft of *making* one. Deep coverage of Instagram, TikTok, and YouTube; X and LinkedIn too. Eight of the sixteen need nothing installed; the video engine now lives in the same repo, one `pip install` away — [what each layer gives you](#boundary)."
   },
   "mcp": {
     "eyebrow": "Hosted MCP server · mcp.gpt.social",
