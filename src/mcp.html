@@ -2,9 +2,9 @@
 active: "mcp.html"
 footer: true
 title: "SocialGPT MCP \u2014 Scrollmark Open Source"
-description: "Connect SocialGPT to Claude, ChatGPT, Cursor, and any MCP-compatible agent. One URL, OAuth sign-in, 26 tools \u2014 setup instructions for every client."
+description: "Connect SocialGPT to Claude, ChatGPT, Cursor, VS Code, Codex, and any MCP-compatible agent. One OAuth-backed URL exposes 26 social media tools."
 ogTitle: "SocialGPT MCP \u2014 Scrollmark Open Source"
-ogDesc: "Your social data, inside every AI tool. Setup for Claude, ChatGPT, Cursor, VS Code, Codex, and more."
+ogDesc: "Connect SocialGPT analytics, creator research, content analysis, and publishing workflows to any MCP client."
 canonical: "https://scrollmark.github.io/mcp.html"
 signals: "{theme: localStorage.getItem('theme') || 'system', client: 'code', copied: ''}"
 home: "index.html"
@@ -47,7 +47,7 @@ about: "index.html#about"
       <div class="wrap">
         <div class="section-head" style="margin-bottom: 24px">
           <p class="eyebrow" style="color: var(--se-tangerine-text)">What you can ask</p>
-          <h2 class="heading-2">Talk to it like a teammate.</h2>
+          <h2 class="heading-2">Ask for the work directly.</h2>
         </div>
         <div class="ask-grid">
           <p class="annotation">"How did my content perform this month compared to last?"</p>
@@ -62,8 +62,8 @@ about: "index.html#about"
       <div class="wrap">
         <div class="section-head">
           <p class="eyebrow" style="color: var(--se-violet-text)">Set up in 60 seconds</p>
-          <h2 class="heading-2">Pick your client.</h2>
-          <p class="sub">Paste the config, authenticate with your SocialGPT account once, done. Most clients open a browser for OAuth the first time an agent touches a SocialGPT tool.</p>
+          <h2 class="heading-2">Pick your MCP client.</h2>
+          <p class="sub">Paste the config and authenticate with your SocialGPT account once. Most clients open a browser for OAuth the first time an agent calls a SocialGPT tool.</p>
         </div>
         <div class="setup-box">
           <div class="tabs" role="tablist" aria-label="MCP client"
@@ -88,7 +88,7 @@ about: "index.html#about"
 {%- endfor %}
           <p class="mini-note">
             Setup steps for all eleven clients were last walked through in
-            August 2026. Vendors rename these menus without warning &mdash; if
+            August 2026. Vendors rename these menus often &mdash; if
             a path here does not match what you see, trust your client's own
             docs and
             <a href="https://github.com/scrollmark/socialgpt-mcp/issues">open an issue</a>.
@@ -110,7 +110,7 @@ about: "index.html#about"
       <div class="wrap">
         <div class="section-head" style="margin-bottom: 24px">
           <p class="eyebrow">What you are granting</p>
-          <h2 class="heading-2">Read by default. One tool posts.</h2>
+          <h2 class="heading-2">Read-first access. One tool can post.</h2>
         </div>
         <p class="sub" style="max-width: 62ch">
           Connecting runs OAuth 2.1 with PKCE — the server never sees a password
@@ -127,22 +127,22 @@ about: "index.html#about"
         </div>
         <div class="about-grid">
           <div class="about-card">
-            <h3 class="heading-3">Posting is not something it does quietly</h3>
+            <h3 class="heading-3">Publishing requires explicit approval</h3>
             <p>
               Of the twenty-six tools, exactly one publishes to a platform, and
               it will not run without an explicit attestation that a human
               approved that content for that destination. Posting straight to
               TikTok needs more still: a token minted by a separate call, a
-              privacy level a person picked by hand, and a second attestation
-              that they previewed it. The soft path — a draft that lands in
-              your TikTok inbox for you to finish there — is the default.
+              privacy level chosen by hand, and a second attestation
+              that someone previewed it. The default path is a draft that lands
+              in your TikTok inbox for you to finish there.
             </p>
           </div>
           <div class="about-card">
-            <h3 class="heading-3">Limits, and how to take it back</h3>
+            <h3 class="heading-3">Limits and revocation</h3>
             <p>
-              Publishing is capped at ten calls an hour and analysing a post at
-              thirty, so nothing runs away with your account. Public and
+              Publishing is capped at ten calls an hour and post analysis at
+              thirty calls an hour. Public and
               competitor analysis needs no connected account at all. Manage or
               disconnect the accounts you have connected from your
               <a href="https://app.gpt.social/account">SocialGPT account page</a>.
@@ -156,7 +156,7 @@ about: "index.html#about"
       <div class="wrap">
         <div class="section-head" style="margin-bottom: 24px">
           <p class="eyebrow">All {% assign n = 0 %}{% for g in tools %}{% assign n = n | plus: g.tools.size %}{% endfor %}{{ n }} tools</p>
-          <h2 class="heading-2">What it can actually reach.</h2>
+          <h2 class="heading-2">Available MCP tools.</h2>
         </div>
         <div class="more-grid">
 {%- for g in tools %}
