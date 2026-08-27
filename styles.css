@@ -1276,10 +1276,6 @@ footer {
   font-size: 0.9rem;
 }
 
-.footer-note .annotation {
-  color: var(--text-secondary);
-}
-
 /* ── Reduced motion — mandatory ── */
 @media (prefers-reduced-motion: reduce) {
   html {

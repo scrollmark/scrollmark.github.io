@@ -3,11 +3,12 @@
 Landing site for Scrollmark's open-source work, intended for GitHub Pages at
 [scrollmark.github.io](https://scrollmark.github.io).
 
-Three static pages — `index.html`, `skills.html`, `mcp.html` — plus `styles.css`.
+Four static pages — `index.html`, `skills.html`, `mcp.html` and `404.html` —
+plus `styles.css`.
 No build step, no framework runtime. Styling follows the **Sticker Energy** design
 system (tokens mirrored from the SocialGPT design system; light
 paper default with the ink-canvas dark theme). Interactivity (theme toggle,
-install-snippet tabs, copy buttons) is [Datastar](https://data-star.dev) via CDN.
+install-snippet tabs, copy buttons) is Datastar via CDN.
 
 The `<nav>`, the `<footer>` and the pre-paint theme `<script>` are duplicated
 verbatim in all three pages. Edit all three copies or they drift apart.
