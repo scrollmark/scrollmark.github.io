@@ -1,109 +1,14 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Scrollmark Open Source</title>
-  <meta name="description" content="Claude Code skills for social media and short-form video — including the whole production pipeline — plus a hosted MCP server, from the team behind SocialGPT. MIT-licensed — clone and go." />
-  <meta property="og:title" content="Scrollmark Open Source" />
-  <meta property="og:description" content="Claude Code skills for social media and short-form video — including the whole production pipeline — plus a hosted MCP server, from the team behind SocialGPT." />
-  <link rel="canonical" href="https://scrollmark.github.io/" />
-  <meta property="og:url" content="https://scrollmark.github.io/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://scrollmark.github.io/og-card.png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="https://scrollmark.github.io/og-card.png" />
-  <meta name="theme-color" content="#fffdf8" media="(prefers-color-scheme: light)" />
-  <meta name="theme-color" content="#16101f" media="(prefers-color-scheme: dark)" />
-  <link rel="icon" href="brand-scrollmark.png" type="image/png" sizes="any" />
-
-  <!-- Theme before first paint: stored choice, falling back to the OS -->
-  <script>
-    (() => {
-      const stored = localStorage.getItem("theme");
-      const mq = matchMedia("(prefers-color-scheme: dark)");
-      const dark = stored ? stored === "dark" : mq.matches;
-      document.documentElement.classList.toggle("dark", dark);
-      mq.addEventListener("change", (e) => {
-        if (!localStorage.getItem("theme")) {
-          document.documentElement.classList.toggle("dark", e.matches);
-        }
-      });
-    })();
-  </script>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Shantell+Sans:wght@500&family=Fragment+Mono&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
-
-  <!-- Datastar — all interactivity on this page (https://data-star.dev,
-       see https://data-star.dev/essays/why_another_framework) -->
-  <!-- Every tab, OS variant and client panel on this site is a `data-show`
-       element that starts at `display: none` and is revealed by Datastar. If
-       Datastar never runs, thirteen of those sixteen blocks are unreachable —
-       including the install commands. So say so in three ways that between
-       them cover every way it can fail to run: the CDN being blocked or down
-       (onerror), a browser that ignores ES modules (nomodule), and JS being
-       off entirely (noscript). Any of them reveals all the panels at once,
-       which is the correct degraded state: each is labelled by its own tab, so
-       the page reads as a plain document listing every option. -->
-  <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0/bundles/datastar.js"
-          onerror="document.documentElement.classList.add('no-ds')"></script>
-  <script nomodule>document.documentElement.classList.add('no-ds')</script>
-  <noscript><style>[data-show] { display: block !important }</style></noscript>
-</head>
-
-<body
-  data-signals="{theme: localStorage.getItem('theme') || 'system', client: 'code', copied: ''}"
-  data-effect="document.documentElement.classList.toggle('dark', $theme === 'dark' || ($theme === 'system' && matchMedia('(prefers-color-scheme: dark)').matches)); $theme === 'system' ? localStorage.removeItem('theme') : localStorage.setItem('theme', $theme)"
->
-  <div class="paper-grain" aria-hidden="true"></div>
-
-  <nav class="nav" aria-label="Main">
-    <a class="brand" href="#top">
-      <img class="mark" src="brand-scrollmark.png" alt="" />
-      Scrollmark
-      <span class="chip oss-tag sticker--lime" style="--tilt: 3deg">oss</span>
-    </a>
-    <div class="nav-links">
-      <a href="skills.html">Skills</a>
-      <a href="mcp.html">MCP</a>
-      <a class="nav-optional" href="#about">About</a>
-      <a class="nav-optional" href="https://github.com/scrollmark">GitHub</a>
-    </div>
-    <div
-      class="theme-switch"
-      role="radiogroup"
-      aria-label="Theme"
-      aria-orientation="horizontal"
-      data-on:keydown="const order = ['system', 'light', 'dark']; const i = order.indexOf($theme); let next = -1; if (evt.key === 'ArrowRight' || evt.key === 'ArrowDown') next = (i + 1) % 3; if (evt.key === 'ArrowLeft' || evt.key === 'ArrowUp') next = (i + 2) % 3; if (evt.key === 'Home') next = 0; if (evt.key === 'End') next = 2; if (next >= 0) { evt.preventDefault(); document.documentElement.classList.add('theme-fade'); $theme = order[next]; el.querySelectorAll('button')[next].focus(); setTimeout(() => document.documentElement.classList.remove('theme-fade'), 350) }"
-      data-class:pos-light="$theme === 'light'"
-      data-class:pos-dark="$theme === 'dark'"
-    >
-      <button type="button" role="radio" aria-label="System theme"
-        data-attr:aria-checked="$theme === 'system' ? 'true' : 'false'"
-        data-attr:tabindex="$theme === 'system' ? '0' : '-1'"
-        data-on:click="document.documentElement.classList.add('theme-fade'); $theme = 'system'; setTimeout(() => document.documentElement.classList.remove('theme-fade'), 350)">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2.5"/><path d="M8.5 20h7M12 16.5V20"/></svg>
-      </button>
-      <button type="button" role="radio" aria-label="Light theme"
-        data-attr:aria-checked="$theme === 'light' ? 'true' : 'false'"
-        data-attr:tabindex="$theme === 'light' ? '0' : '-1'"
-        data-on:click="document.documentElement.classList.add('theme-fade'); $theme = 'light'; setTimeout(() => document.documentElement.classList.remove('theme-fade'), 350)">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.4" fill="currentColor" stroke="none"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5.3 5.3l1.7 1.7M17 17l1.7 1.7M18.7 5.3L17 7M7 17l-1.7 1.7"/></svg>
-      </button>
-      <button type="button" role="radio" aria-label="Dark theme"
-        data-attr:aria-checked="$theme === 'dark' ? 'true' : 'false'"
-        data-attr:tabindex="$theme === 'dark' ? '0' : '-1'"
-        data-on:click="document.documentElement.classList.add('theme-fade'); $theme = 'dark'; setTimeout(() => document.documentElement.classList.remove('theme-fade'), 350)">
-        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.6 14.4A8.8 8.8 0 0 1 9.6 3.4a8.8 8.8 0 1 0 11 11z" fill="currentColor"/></svg>
-      </button>
-    </div>
-  </nav>
-
+---
+footer: true
+title: "Scrollmark Open Source"
+description: "Claude Code skills for social media and short-form video \u2014 including the whole production pipeline \u2014 plus a hosted MCP server, from the team behind SocialGPT. MIT-licensed \u2014 clone and go."
+ogTitle: "Scrollmark Open Source"
+ogDesc: "Claude Code skills for social media and short-form video \u2014 including the whole production pipeline \u2014 plus a hosted MCP server, from the team behind SocialGPT."
+canonical: "https://scrollmark.github.io/"
+signals: "{theme: localStorage.getItem('theme') || 'system', client: 'code', copied: ''}"
+home: "#top"
+about: "#about"
+---
   <main id="top">
     <!-- ── Hero ── -->
     <header class="hero">
@@ -112,17 +17,10 @@
       </div>
       <div class="wrap hero-grid">
         <div>
-          <p class="eyebrow rise rise-1">Scrollmark · open source</p>
+          <p class="eyebrow rise rise-1">{{ hero.index.eyebrow }}</p>
           <h1 class="display rise rise-2">
-            Built for the feed,
-            <span class="marker">free to fork<svg viewBox="0 0 200 12" aria-hidden="true"><path pathLength="100" d="M3 9 C 40 3, 120 2, 197 7" /></svg></span>.
-          </h1>
-          <p class="sub rise rise-3">
-            Claude Code skills for social media <em>and</em> short-form video —
-            the whole pipeline, from the interview to a rendered file — plus a
-            hosted MCP server. Side quests from the team building SocialGPT.
-            MIT-licensed. No waitlist, no gate: clone and go.
-          </p>
+          {% assign h = hero.index.headline %}{% include "headline.html" %}</h1>
+          <p class="sub rise rise-3">{{ hero.index.sub | md }}</p>
           <div class="hero-ctas rise rise-4">
             <a class="btn btn--primary" href="https://github.com/scrollmark">
               <svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
@@ -208,7 +106,7 @@
             </div>
             <p class="mini-note">
               Eight of the sixteen need nothing installed; four carry their own scripts,
-              and the rendering engine is one <code style="font-family: var(--font-mono)">pip
+              and the rendering engine is one <code>pip
               install</code> away in the same repo —
               <a href="skills.html#boundary">what each layer gives you</a>.
             </p>
@@ -318,7 +216,7 @@
             <p class="eyebrow">Open invitation</p>
             <h3 class="heading-3">Add a skill</h3>
             <p>
-              A skill is prose: a <code style="font-family: var(--font-mono)">SKILL.md</code>,
+              A skill is prose: a <code>SKILL.md</code>,
               the reference files it needs, and a description saying when to reach for it.
               If you know something about the feed that Claude keeps getting wrong, that is
               a pull request — no build step, no framework to learn.
@@ -370,40 +268,3 @@
       </div>
     </section>
   </main>
-
-  <footer>
-    <div class="wrap">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a class="brand" href="#top">
-            <img class="mark" src="brand-scrollmark.png" alt="" />
-            Scrollmark
-          </a>
-          <p>Open-source tools from the team building Scrollmark and SocialGPT.</p>
-        </div>
-        <div class="footer-col">
-          <h3>Projects</h3>
-          <ul>
-            <li><a href="skills.html">Social Skills</a></li>
-            <li><a href="mcp.html">SocialGPT MCP</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h3>Scrollmark</h3>
-          <ul>
-            <li><a href="https://app.scrollmark.com">app.scrollmark.com</a></li>
-            <li><a href="https://app.gpt.social">app.gpt.social</a></li>
-            <li><a href="https://github.com/scrollmark">GitHub</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-note">
-        <span>© 2026 Scrollmark. MIT-licensed where marked.</span>
-        <a class="annotation" href="https://data-star.dev/essays/why_another_framework">
-          interactivity is 13KB of Datastar — why another framework? →
-        </a>
-      </div>
-    </div>
-  </footer>
-</body>
-</html>

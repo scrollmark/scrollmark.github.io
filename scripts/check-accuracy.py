@@ -32,7 +32,10 @@ from pathlib import Path
 
 REPO = "scrollmark/social-skills"
 API = f"https://api.github.com/repos/{REPO}"
-SITE = Path(__file__).resolve().parent.parent
+#: The checkers run against BUILT output. Templates contain Liquid, and a
+#: half-rendered `{% if %}` is not what a reader ever sees — so a claim or a
+#: class is only real once Eleventy has written it into _site.
+SITE = Path(__file__).resolve().parent.parent / "_site"
 
 #: Phrases that were true once and became false. Their reappearance means a
 #: revert or a copy-paste from an old draft, so they are checked by name.
@@ -233,12 +236,41 @@ def main() -> int:
     expect("matrix install-free", free == repo_free,
            f"matrix marks {free} skills install-free (repo agrees)")
 
-    # 8. The MCP tool catalog.
+    # 8. The MCP tool catalog, against what the server actually exposes.
+    #
+    # The page's heading now derives its count from the same data the list comes
+    # from, so comparing those two would pass no matter what either said — the
+    # shape of check this repo has been burned by before. The comparison that
+    # means something is against the server, and CI cannot reach it (the MCP
+    # endpoint needs OAuth). So the server's answer is recorded here, dated, and
+    # the catalog is checked against the record. Refresh it by calling
+    # server_info and the tools/list on mcp.gpt.social, not by editing to match.
+    SERVER_TOOLS = {  # read from mcp.gpt.social on 26 August 2026
+        "whoami", "list_accounts", "get_account", "get_account_metrics",
+        "list_videos", "get_video", "list_uploads", "get_follower_history",
+        "get_growth_summary", "get_post_metrics_history", "get_content_profile",
+        "get_creator", "list_creator_videos", "list_similar_videos", "search",
+        "search_videos", "fetch", "analyze_creator", "analyze_post",
+        "get_analysis_status", "get_video_analysis", "get_publish_options",
+        "get_upload_link", "get_publish_status", "publish_post", "server_info",
+    }
+    WRITE_TOOLS = {"publish_post"}   # the only one that posts to a platform
+
     mcp_html = pages.get("mcp.html", "")
-    tools = re.findall(r'<li[^>]*>([a-z_]+)</li>', mcp_html)
+    listed = set(re.findall(r'<li[^>]*>([a-z_]+)</li>', mcp_html))
+    expect("tool catalog", listed == SERVER_TOOLS,
+           f"catalog lists exactly the {len(SERVER_TOOLS)} tools the server exposes"
+           + (f" — MISSING {sorted(SERVER_TOOLS - listed)}" if SERVER_TOOLS - listed else "")
+           + (f" — EXTRA {sorted(listed - SERVER_TOOLS)}" if listed - SERVER_TOOLS else ""))
+
+    marked = set(re.findall(r'<li class="tool--write">([a-z_]+)</li>', mcp_html))
+    expect("write-capable tools", marked == WRITE_TOOLS,
+           "exactly the write-capable tools are marked as such"
+           + (f" — marked {sorted(marked)}, expected {sorted(WRITE_TOOLS)}" if marked != WRITE_TOOLS else ""))
+
     stated = re.search(r"All (\d+) tools", mcp_html)
-    expect("tool catalog", stated is not None and len(tools) == int(stated.group(1)),
-           f"catalog lists {len(tools)} tools and says so")
+    expect("stated tool count", stated and int(stated.group(1)) == len(SERVER_TOOLS),
+           f"the page says {len(SERVER_TOOLS)}")
 
     if args.json:
         print(json.dumps({"ok": not problems, "checked": checked, "problems": problems}, indent=2))

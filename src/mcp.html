@@ -1,0 +1,190 @@
+---
+active: "mcp.html"
+footer: true
+title: "SocialGPT MCP \u2014 Scrollmark Open Source"
+description: "Connect SocialGPT to Claude, ChatGPT, Cursor, and any MCP-compatible agent. One URL, OAuth sign-in, 26 tools \u2014 setup instructions for every client."
+ogTitle: "SocialGPT MCP \u2014 Scrollmark Open Source"
+ogDesc: "Your social data, inside every AI tool. Setup for Claude, ChatGPT, Cursor, VS Code, Codex, and more."
+canonical: "https://scrollmark.github.io/mcp.html"
+signals: "{theme: localStorage.getItem('theme') || 'system', client: 'code', copied: ''}"
+home: "index.html"
+about: "index.html#about"
+---
+  <main id="top">
+    <!-- ── Page hero ── -->
+    <header class="hero hero--page">
+      <div class="hero-washes" aria-hidden="true">
+        <span class="w1"></span><span class="w2"></span>
+      </div>
+      <div class="wrap" style="position: relative">
+        <p class="eyebrow rise rise-1" style="color: var(--se-sky-text)">{{ hero.mcp.eyebrow }}</p>
+        <h1 class="display rise rise-2" style="font-size: clamp(2.4rem, 5.5vw, 4.2rem)">
+          {% assign h = hero.mcp.headline %}{% include "headline.html" %}</h1>
+        <p class="sub rise rise-3" style="margin: 24px 0 28px">{{ hero.mcp.sub | md }}</p>
+        <div class="install-box rise rise-4">
+          <div class="codebox">
+            <button class="copy-btn" type="button" aria-label="Copy server URL"
+              data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-url').innerText); $copied = 'url'; setTimeout(() => { $copied = '' }, 1500)">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span data-text="$copied === 'url' ? 'Copied' : 'Copy'">Copy</span>
+            </button>
+            <span class="code-label">server URL · streamable HTTP</span>
+            <pre><code id="cmd-url">https://mcp.gpt.social/mcp</code></pre>
+          </div>
+          <div class="fact-row" aria-label="Tool categories" style="margin: 22px 0 0">
+            <span class="fact-chip sticker--butter" style="--tilt: -2deg">your content</span>
+            <span class="fact-chip sticker--lime" style="--tilt: 2deg">competitor intel</span>
+            <span class="fact-chip sticker--violet" style="--tilt: -1deg">guided workflows</span>
+            <span class="fact-chip sticker--pink" style="--tilt: 2.5deg">content profile</span>
+            <span class="fact-chip sticker--sky" style="--tilt: -2.5deg">publish &amp; post</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── Setup ── -->
+    <section class="section about" id="just-ask" style="padding-bottom: 0">
+      <div class="wrap">
+        <div class="section-head" style="margin-bottom: 24px">
+          <p class="eyebrow" style="color: var(--se-tangerine-text)">What you can ask</p>
+          <h2 class="heading-2">Talk to it like a teammate.</h2>
+        </div>
+        <div class="ask-grid">
+          <p class="annotation">"How did my content perform this month compared to last?"</p>
+          <p class="annotation">"Find creators in the fitness niche on TikTok and show me what's working for them."</p>
+          <p class="annotation">"Analyze my latest Instagram reel and suggest better hooks."</p>
+          <p class="annotation">"Compare my engagement rate to similar creators on YouTube."</p>
+          <p class="annotation">"Post this video to my TikTok as a draft."</p>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="setup" style="padding-top: clamp(24px, 4vw, 48px)">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow" style="color: var(--se-violet-text)">Set up in 60 seconds</p>
+          <h2 class="heading-2">Pick your client.</h2>
+          <p class="sub">Paste the config, authenticate with your SocialGPT account once, done. Most clients open a browser for OAuth the first time an agent touches a SocialGPT tool.</p>
+        </div>
+        <div class="setup-box">
+          <div class="tabs" role="tablist" aria-label="MCP client"
+            data-on:keydown="const order = [{% for c in clients %}'{{ c.id }}'{% unless forloop.last %}, {% endunless %}{% endfor %}]; const i = order.indexOf($client); let n = -1; if (evt.key === 'ArrowRight' || evt.key === 'ArrowDown') n = (i + 1) % order.length; if (evt.key === 'ArrowLeft' || evt.key === 'ArrowUp') n = (i + order.length - 1) % order.length; if (evt.key === 'Home') n = 0; if (evt.key === 'End') n = order.length - 1; if (n >= 0) { evt.preventDefault(); $client = order[n]; el.querySelectorAll('button')[n].focus() }">
+{%- for c in clients %}
+            <button type="button" role="tab" id="tab-{{ c.id }}" aria-controls="panel-{{ c.id }}"{% if forloop.first %} class="active"{% endif %} data-class:active="$client === '{{ c.id }}'" data-attr:aria-selected="$client === '{{ c.id }}' ? 'true' : 'false'" data-attr:tabindex="$client === '{{ c.id }}' ? '0' : '-1'" data-on:click="$client = '{{ c.id }}'">{{ c.label }}</button>
+{%- endfor %}
+          </div>
+          {%- for c in clients %}
+          <div class="client-panel" role="tabpanel" id="panel-{{ c.id }}" aria-labelledby="tab-{{ c.id }}" tabindex="0" data-show="$client === '{{ c.id }}'"{% unless forloop.first %} style="display: none"{% endunless %}>
+            <p class="mini-note" style="margin: 0 0 10px">{{ c.note }}</p>
+            <div class="codebox">
+              <button class="copy-btn" type="button" aria-label="Copy {{ c.copyLabel }}"
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-{{ c.id }}').innerText); $copied = '{{ c.id }}'; setTimeout(() => { $copied = '' }, 1500)">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-text="$copied === '{{ c.id }}' ? 'Copied' : 'Copy'">Copy</span>
+              </button>
+              <span class="code-label">{{ c.codeLabel }}</span>
+              <pre><code id="cmd-{{ c.id }}">{{ c.code }}</code></pre>
+            </div>
+          </div>
+{%- endfor %}
+          <p class="mini-note">
+            Setup steps for all eleven clients were last walked through in
+            August 2026. Vendors rename these menus without warning &mdash; if
+            a path here does not match what you see, trust your client's own
+            docs and
+            <a href="https://github.com/scrollmark/socialgpt-mcp/issues">open an issue</a>.
+          </p>
+          <p class="mini-note">
+            Free to start: <a href="https://app.gpt.social/signup">create a SocialGPT account</a>,
+            then <a href="https://app.gpt.social/account">connect a social account</a> to analyse
+            your own content — public/competitor analysis works without connecting anything.
+            Ready-to-copy config files live in the repo's
+            <a href="https://github.com/scrollmark/socialgpt-mcp/tree/main/examples">examples/</a>.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Just ask ── -->
+
+    <section class="section" id="access">
+      <div class="wrap">
+        <div class="section-head" style="margin-bottom: 24px">
+          <p class="eyebrow">What you are granting</p>
+          <h2 class="heading-2">Read by default. One tool posts.</h2>
+        </div>
+        <p class="sub" style="max-width: 62ch">
+          Connecting runs OAuth 2.1 with PKCE — the server never sees a password
+          and never asks you for an API key. It identifies itself as
+          <code>public-read-v1</code> and declares six scopes:
+        </p>
+        <div class="chip-row" style="margin: 16px 0 28px">
+          <span class="chip sticker--sky">analysis:read</span>
+          <span class="chip sticker--sky">analysis:read:public</span>
+          <span class="chip sticker--butter">analysis:upload</span>
+          <span class="chip sticker--butter">content:ingest</span>
+          <span class="chip sticker--pink">content:publish</span>
+          <span class="chip sticker--pink">content:write</span>
+        </div>
+        <div class="about-grid">
+          <div class="about-card">
+            <h3 class="heading-3">Posting is not something it does quietly</h3>
+            <p>
+              Of the twenty-six tools, exactly one publishes to a platform, and
+              it will not run without an explicit attestation that a human
+              approved that content for that destination. Posting straight to
+              TikTok needs more still: a token minted by a separate call, a
+              privacy level a person picked by hand, and a second attestation
+              that they previewed it. The soft path — a draft that lands in
+              your TikTok inbox for you to finish there — is the default.
+            </p>
+          </div>
+          <div class="about-card">
+            <h3 class="heading-3">Limits, and how to take it back</h3>
+            <p>
+              Publishing is capped at ten calls an hour and analysing a post at
+              thirty, so nothing runs away with your account. Public and
+              competitor analysis needs no connected account at all. Manage or
+              disconnect the accounts you have connected from your
+              <a href="https://app.gpt.social/account">SocialGPT account page</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="tools">
+      <div class="wrap">
+        <div class="section-head" style="margin-bottom: 24px">
+          <p class="eyebrow">All {% assign n = 0 %}{% for g in tools %}{% assign n = n | plus: g.tools.size %}{% endfor %}{{ n }} tools</p>
+          <h2 class="heading-2">What it can actually reach.</h2>
+        </div>
+        <div class="more-grid">
+{%- for g in tools %}
+            <div class="card {{ g.colour }}">
+              <p class="eyebrow">{{ g.eyebrow }}</p>
+              <h3 class="heading-3">{{ g.title }}</h3>
+              <ul class="tool-list">
+{%- for t in g.tools %}
+                <li{% if t.write %} class="tool--write"{% endif %}>{{ t.name }}</li>
+{%- endfor %}
+              </ul>
+            </div>
+{%- endfor %}
+        </div>
+        <p class="mini-note" style="margin-top: 20px">
+          Read off the live server on 26 August 2026 — the names, the scopes and
+          the limits all came from <code>server_info</code> and the tools' own
+          definitions, not from documentation that could have drifted.
+        </p>
+      </div>
+    </section>
+
+    <section class="section about">
+      <div class="wrap">
+        <div style="margin-top: 32px; display: flex; flex-wrap: wrap; gap: 16px">
+          <a class="btn btn--primary" href="https://github.com/scrollmark/socialgpt-mcp">Read the docs on GitHub</a>
+          <a class="btn btn--secondary" href="https://gpt.social/integrations/mcp">Full guide on gpt.social</a>
+        </div>
+      </div>
+    </section>
+  </main>

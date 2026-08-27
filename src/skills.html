@@ -1,0 +1,449 @@
+---
+active: "skills.html"
+footer: true
+title: "Social Skills \u2014 Scrollmark Open Source"
+description: "Sixteen installable Claude Code skills for understanding social media and planning short-form video \u2014 tone, hooks, trends, platform fluency, scene grammars, brand consistency. One npx command to install."
+ogTitle: "Social Skills \u2014 Scrollmark Open Source"
+ogDesc: "Sixteen installable Claude Code skills for understanding social media and planning short-form video. npx skills add scrollmark/social-skills"
+canonical: "https://scrollmark.github.io/skills.html"
+signals: "{theme: localStorage.getItem('theme') || 'system', install: 'npx', copied: ''}"
+home: "index.html"
+about: "index.html#about"
+---
+  <main id="top">
+    <!-- ── Page hero ── -->
+    <header class="hero hero--page">
+      <div class="hero-washes" aria-hidden="true">
+        <span class="w1"></span><span class="w2"></span>
+      </div>
+      <div class="wrap" style="position: relative">
+        <p class="eyebrow rise rise-1" style="color: var(--se-pink-text)">{{ hero.skills.eyebrow }}</p>
+        <h1 class="display rise rise-2" style="font-size: clamp(2.4rem, 5.5vw, 4.2rem)">
+          {% assign h = hero.skills.headline %}{% include "headline.html" %}</h1>
+        <p class="sub rise rise-3" style="margin: 24px 0 28px">{{ hero.skills.sub | md }}</p>
+
+        <div class="install-box rise rise-4">
+          <div class="tabs" role="tablist" aria-label="Install method"
+            data-on:keydown="const order = ['npx', 'git']; const i = order.indexOf($install); let n = -1; if (evt.key === 'ArrowRight' || evt.key === 'ArrowDown') n = (i + 1) % order.length; if (evt.key === 'ArrowLeft' || evt.key === 'ArrowUp') n = (i + order.length - 1) % order.length; if (evt.key === 'Home') n = 0; if (evt.key === 'End') n = order.length - 1; if (n >= 0) { evt.preventDefault(); $install = order[n]; el.querySelectorAll('button')[n].focus() }">
+            <button type="button" role="tab" id="tab-npx" aria-controls="panel-npx" class="active" data-class:active="$install === 'npx'" data-attr:aria-selected="$install === 'npx' ? 'true' : 'false'" data-attr:tabindex="$install === 'npx' ? '0' : '-1'" data-on:click="$install = 'npx'">npx skills</button>
+            <button type="button" role="tab" id="tab-git" aria-controls="panel-git" data-class:active="$install === 'git'" data-attr:aria-selected="$install === 'git' ? 'true' : 'false'" data-attr:tabindex="$install === 'git' ? '0' : '-1'" data-on:click="$install = 'git'">git clone</button>
+          </div>
+          <div class="codebox" role="tabpanel" id="panel-npx" aria-labelledby="tab-npx" tabindex="0" data-show="$install === 'npx'">
+            <button
+              class="copy-btn"
+              type="button"
+              aria-label="Copy npx install command"
+              data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-npx').innerText); $copied = 'npx'; setTimeout(() => { $copied = '' }, 1500)"
+            >
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span data-text="$copied === 'npx' ? 'Copied' : 'Copy'">Copy</span>
+            </button>
+            <span class="code-label">terminal · via skills.sh</span>
+            <pre><code><span id="cmd-npx">npx skills add scrollmark/social-skills</span>                  # all 16
+npx skills add scrollmark/social-skills -s hook-anatomy  # just one
+
+# Needs Node 22.20+. No Node? Same result without it:
+#   mkdir -p ~/social-skills
+#   curl -Ls https://github.com/scrollmark/social-skills/archive/refs/heads/master.tar.gz \
+#     | tar xz --strip-components=1 -C ~/social-skills
+#   ~/social-skills/install.sh
+#
+# Keep that directory: install.sh symlinks into it, so extracting to /tmp
+# loses all 16 skills at the next purge — at once, and with no error.</code></pre>
+          </div>
+          <div class="codebox" role="tabpanel" id="panel-git" aria-labelledby="tab-git" tabindex="0" data-show="$install === 'git'" style="display: none">
+            <button
+              class="copy-btn"
+              type="button"
+              aria-label="Copy git install command"
+              data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-git').innerText); $copied = 'git'; setTimeout(() => { $copied = '' }, 1500)"
+            >
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span data-text="$copied === 'git' ? 'Copied' : 'Copy'">Copy</span>
+            </button>
+            <span class="code-label">terminal · symlinks into ~/.claude/skills</span>
+            <pre><code id="cmd-git">git clone https://github.com/scrollmark/social-skills.git
+cd social-skills && ./install.sh</code></pre>
+          </div>
+          <p class="mini-note">
+            The <code>npx</code> route uses the
+            <a href="https://skills.sh">skills.sh CLI</a> — the open agent-skills
+            ecosystem — and works with Claude Code and other supported agents.
+            Want just one skill? Every card below has its own one-liner. The video
+            skills add an optional second step —
+            <code>pip install</code> from the repo
+            — which <a href="#boundary">the next section</a> lays out.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── What ships where ── -->
+       <section class="section" id="matrix" style="padding-top: clamp(24px, 4vw, 48px)">
+      <div class="wrap">
+        <div class="section-head" style="margin-bottom: 20px">
+          <p class="eyebrow">Before the essay</p>
+          <h2 class="heading-2">What you actually install.</h2>
+          <p class="sub" style="max-width: 62ch">
+            Eight of the sixteen need nothing but the skill itself. The rest
+            reach for the engine, and four of them carry scripts that ship
+            inside the skill and run with no install of their own. The long
+            version is below; this is the short one.
+          </p>
+        </div>
+        <div class="matrix-scroll">
+          <table class="matrix">
+            <thead>
+              <tr><th>Skill</th><th>Needs</th><th class="num">Bundled</th><th>Reach for it&hellip;</th></tr>
+            </thead>
+            <tbody>
+{%- for s in skills %}
+            <tr>
+              <td><code>{{ s.slug }}</code></td>
+              <td>{{ s.needsHtml }}</td>
+              <td class="num">{{ s.bundled }}</td>
+              <td>{{ s.when }}</td>
+            </tr>
+{%- endfor %}
+            </tbody>
+          </table>
+        </div>
+        <p class="mini-note" style="margin-top: 16px">
+          &ldquo;Engine&rdquo; is <code>video-studio-engine</code>, installed from this
+          repo rather than PyPI — the exact command is under
+          <a href="#boundary">One repo. Four layers.</a> Bracketed names are its
+          optional extras. Generated from the skills themselves, and checked on
+          every push.
+        </p>
+      </div>
+    </section>
+
+ <section class="section" id="boundary" style="padding-top: clamp(24px, 4vw, 48px)">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow" style="color: var(--se-pink-text)">Read this before you install</p>
+          <h2 class="heading-2">One repo. Four layers.</h2>
+          <p class="sub">
+            There used to be a wall here: the prose lived in this repo, and the Python and Remotion
+            toolchain that composites, generates, tracks and renders lived somewhere you could not
+            reach. That wall is gone. The engine moved in — it is
+            <code>src/video_studio/</code> in the same public
+            repo, and installs from it directly as
+            <code>video-studio-engine</code>. What is left is not a boundary but a ladder: prose you can read anywhere, skills
+            that carry their own programs, skills that want one
+            <code>pip install</code>, and exactly one thing
+            still genuinely outside.
+          </p>
+        </div>
+
+        <div class="projects-grid" style="margin-top: 28px">
+          <article class="card card--lime" style="--tilt: -1deg">
+            <span class="sticker sticker--lime corner-sticker" style="--tilt: 4deg">8 skills</span>
+            <p class="eyebrow">Layer one · prose</p>
+            <h3 class="heading-3">Nothing to install.</h3>
+            <p>
+              The seven social-media skills are pure judgement — tone, hooks, trend timing, platform
+              dialect, post-mortems, voice. No external tools, no accounts, no keys. So is
+              <strong>agent-interview</strong>, which has nothing video-specific in it. These are the
+              same whichever way you install them.
+            </p>
+            <div class="chip-row" aria-label="Prose-only skills">
+              <span class="chip sticker--sky" style="--tilt: -2deg">read-the-room</span>
+              <span class="chip sticker--pink" style="--tilt: 2deg">hook-anatomy</span>
+              <span class="chip sticker--butter" style="--tilt: -1deg">trend-radar</span>
+              <span class="chip sticker--violet" style="--tilt: 2.5deg">platform-fluency</span>
+              <span class="chip sticker--lime" style="--tilt: -2.5deg">content-autopsy</span>
+              <span class="chip sticker--sky" style="--tilt: 1.5deg">voice-matching</span>
+              <span class="chip sticker--pink" style="--tilt: -1.5deg">repurpose-engine</span>
+              <span class="chip sticker--butter" style="--tilt: 2deg">agent-interview</span>
+            </div>
+          </article>
+
+          <article class="card card--butter" style="--tilt: 1deg">
+            <span class="sticker sticker--butter corner-sticker" style="--tilt: -4deg">4 skills</span>
+            <p class="eyebrow">Layer two · prose + a bundled script</p>
+            <h3 class="heading-3">Executable the moment you install the skill.</h3>
+            <p>
+              Six programs are pure standard library and take their input on the command line, so
+              they ship <em>inside</em> the skill folder that uses them and travel with
+              <code>npx skills add</code> like any other file:
+              <strong>doctor.py</strong> (what is reachable right now),
+              <strong>measure.py</strong> (durations and a track's energy structure),
+              <strong>normalize_audio.py</strong> (loudness after a render),
+              <strong>poster.py</strong> (thumbnail shortlist and contact sheet),
+              <strong>qc_render.py</strong> (the render checked against the plan it was built from) and
+              <strong>prekey.py</strong> (key a generated clip to alpha). Two of them are carried by
+              two skills each — eight copies across four skills — because a skill may never reach
+              outside its own folder.
+            </p>
+            <p>
+              They want <code>ffmpeg</code> and
+              <code>ffprobe</code> on your PATH. That is the one
+              thing the repo cannot ship for you.
+            </p>
+            <div class="chip-row" aria-label="Skills that ship a script">
+              <span class="chip sticker--violet" style="--tilt: -2deg">studio-setup</span>
+              <span class="chip sticker--sky" style="--tilt: 2deg">audio-acquisition</span>
+              <span class="chip sticker--tangerine" style="--tilt: -1deg">media-acquisition</span>
+              <span class="chip sticker--lime" style="--tilt: 2deg">video-production</span>
+            </div>
+          </article>
+
+          <article class="card card--tangerine" style="--tilt: -1deg">
+            <span class="sticker sticker--tangerine corner-sticker" style="--tilt: 4deg">34 programs</span>
+            <p class="eyebrow">Layer three · one pip install</p>
+            <h3 class="heading-3">The engine, from the repo.</h3>
+            <p>
+              The other thirty-four programs either carry third-party dependencies or read a project's
+              state — a props document, a composer directory, a styles tree — which makes them unfit
+              to sit in a skill folder as a lone file. They are built from
+              <code>src/video_studio/</code> and run as
+              <code>video-studio &lt;command&gt;</code>. The base
+              install is deliberately thin; the heavy dependencies are opt-in extras, so you install
+              the half you actually use.
+            </p>
+            <div class="codebox">
+              <button
+                class="copy-btn"
+                type="button"
+                aria-label="Copy pip install command"
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-pip').innerText); $copied = 'pip'; setTimeout(() => { $copied = '' }, 1500)"
+              >
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-text="$copied === 'pip' ? 'Copied' : 'Copy'">Copy</span>
+              </button>
+              <span class="code-label">terminal · optional, video skills only</span>
+              <pre><code><span id="cmd-pip">uv tool install --python 3.12 --refresh 'video-studio-engine[standard] @ https://github.com/scrollmark/social-skills/archive/refs/heads/master.tar.gz'</span>
+
+# Needs no git, no Xcode tools and no system Python — uv brings its own.
+# Get uv first:  curl -LsSf https://astral.sh/uv/install.sh | sh
+#                source "$HOME/.local/bin/env"    # or open a new terminal
+#
+# --python 3.12 is pinned: on 3.13 the [audio] extra installs cleanly and
+# silently has no voice. --refresh because GitHub's tarball is cached forever.
+
+# Or one extra at a time — same URL, different bracket:
+#   [sourcing]  + source_clips (yt-dlp)
+#   [audio]     + tts_kokoro, gen_music, duck_music
+#   [captions]  + gen_captions (local whisper word timings)
+#   [generate]  + gen_veo, gen_boil
+#   [vision]    + composite_subject, track_pointing  (needs mediapipe)
+#   [export]    + export_edit (OpenTimelineIO)
+#   [qc]        + qc_analyze — the render checked against its plan, decoded
+#
+# The four model-backed QC checks stay opt-in, one extra each:
+#   [qc-ocr]  captions and text layout    [qc-yolo]  planned subjects on screen
+#   [qc-face] lip sync                    [qc-clip]  scene footage vs its prompt</code></pre>
+            </div>
+            <p class="mini-note">
+              It installs <strong>from the repo, not from PyPI</strong> — the name
+              <code>video-studio-engine</code> is
+              not published there, so a bare
+              <code>pip install video-studio-engine</code>
+              does not get you this. The URL is the install.
+            </p>
+            <p>
+              It is independent of the skills and installed separately —
+              <code>npx skills add</code> never touches it. It is
+              also genuinely optional, and being honest about that matters more than making the repo
+              look complete: a skill whose work needs the package is not self-contained for a user who
+              skips it. The cards below say exactly what skipping it costs.
+            </p>
+          </article>
+
+          <article class="card card--pink" style="--tilt: 1deg">
+            <span class="sticker sticker--pink corner-sticker" style="--tilt: -4deg">licences, not code</span>
+            <p class="eyebrow">Layer four · yours to licence</p>
+            <h3 class="heading-3">A Remotion licence, and the keys.</h3>
+            <p>
+              <strong>The Remotion composer ships in this repo now</strong> —
+              <code>composer/</code>, React driven entirely by the
+              props document the engine writes. What is still not ours to ship is <em>Remotion
+              itself</em>: the project declares it as a dependency and vendors none of it, because
+              Remotion requires a paid Company Licence above three people and for hosted or automated
+              rendering. The code is here; that licence stays between you and them. It is Node, not
+              Python, so <code>npm install</code> in
+              <code>composer/</code> once, and then
+              <code>npx remotion render</code> turns a storyboard
+              into a file.
+            </p>
+            <p>
+              <strong>ElevenLabs voice</strong> has a script now —
+              <code>video-studio tts_eleven</code> — but it bills
+              per character and returns no word timings, so captions for an ElevenLabs read come from
+              <code>gen_captions</code>. The local voice is free
+              and runs offline; reach past it deliberately. The automated quality gate at the last step of a
+              production run used to be an unpublished internal CLI; it is now
+              <strong>qc_render.py</strong>, bundled, needing no install. It proves a render matches
+              its plan — it cannot tell you the plan was worth rendering, so the looking is still
+              yours.
+            </p>
+            <div class="chip-row" aria-label="External dependencies">
+              <span class="chip sticker--violet" style="--tilt: -2deg">Remotion · Node</span>
+              <span class="chip sticker--sky" style="--tilt: 2deg">ElevenLabs · paid API</span>
+              <span class="chip sticker--butter" style="--tilt: -1deg">ffmpeg on PATH</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="section-head" style="margin-top: clamp(40px, 6vw, 64px)">
+          <p class="eyebrow" style="color: var(--se-butter-text)">If you skip the pip install</p>
+          <h3 class="heading-2">What you still get.</h3>
+          <p class="sub">Layer three is optional. Here is the honest accounting of what each video skill is worth without it.</p>
+        </div>
+
+        <div class="more-grid">
+          <article class="card card--lime" style="--tilt: -1deg">
+            <span class="sticker sticker--lime corner-sticker" style="--tilt: 4deg">loses nothing</span>
+            <p class="eyebrow">Unaffected</p>
+            <h3 class="heading-3">The whole social half.</h3>
+            <p>
+              All seven social-media skills and <strong>agent-interview</strong> are untouched by any
+              of this.
+            </p>
+            <p>
+              <strong>studio-setup</strong> loses the least of the video skills:
+              <code>doctor.py</code> ships with it, so the status
+              report and the triage work immediately. Only the install plan —
+              <code>video-studio setup</code> and its
+              auto/system/manual classification — needs the package.
+            </p>
+            <p>
+              <strong>audio-acquisition</strong> is the best-off of the production skills. It carries
+              <code>measure</code> and
+              <code>normalize_audio</code>, so the
+              measure-don't-trust discipline and the music-costs-6-dB fix are both executable out of
+              the box. Voice, generated music and licence-filtered effects are
+              <code>[audio]</code>.
+            </p>
+          </article>
+
+          <article class="card card--butter" style="--tilt: 1deg">
+            <span class="sticker sticker--butter corner-sticker" style="--tilt: -4deg">holes in it</span>
+            <p class="eyebrow">Partly executable</p>
+            <h3 class="heading-3">Useful, with holes in it.</h3>
+            <p>
+              <strong>video-formats</strong> still works for eight of its ten formats — those are
+              structure you can follow in any editor. <strong>Boil is roughly 40% inoperative</strong>
+              without <code>[generate]</code>: its mark
+              vocabulary, shape files and palette workflow are
+              <code>gen_boil</code>, so the interview questions
+              have no answers to pick from. <strong>PointerPopups does not work at all as written</strong>
+              without <code>[vision]</code> — its entire grammar
+              is the output of a hand-tracking pass.
+            </p>
+            <p>
+              <strong>brand-kit</strong> lets you agree a brand with someone and hand-write the files.
+              The preset mechanism that lists, shows, saves and applies one is
+              <code>video-studio styles</code>, so applying a
+              brand becomes manual editing.
+            </p>
+            <p>
+              <strong>media-acquisition</strong> keeps <code>prekey</code>.
+              The provider ladder and the landmine list will still tell a human which library to open,
+              but the searching, generating, licence filtering and the five-way check on what came back
+              are <code>[sourcing,generate]</code>.
+            </p>
+          </article>
+
+          <article class="card card--pink" style="--tilt: -1deg">
+            <span class="sticker sticker--pink corner-sticker" style="--tilt: 4deg">briefings</span>
+            <p class="eyebrow">Package-side</p>
+            <h3 class="heading-3">Briefings, not workflows.</h3>
+            <p>
+              <strong>subject-compositing</strong> is entirely package-side: segmentation, the feathered
+              occlusion seam, the arm punch-through and the gesture timing all need
+              <code>[vision]</code>, because MediaPipe and OpenCV
+              cannot be bundled into a skill folder. What survives is the footage brief — what a
+              segmenter needs from a take — and it is worth having before anyone films.
+            </p>
+            <p>
+              <strong>edit-handoff</strong> cannot produce a file without
+              <code>[export]</code>; the exporters read the
+              engine's per-project timeline document. What generalises is the judgement: which format
+              each application actually imports, and that no interchange format carries effects.
+            </p>
+            <p>
+              <strong>video-production</strong> ships doctor, normalize, poster and qc_render, but it sequences the
+              whole engine — props, preview, preflight — and the Remotion renderer on top. With none of
+              those present there is nothing to sequence. What survives is the shape of a production
+              run: which decision precedes which, and where money enters.
+            </p>
+          </article>
+        </div>
+
+        <p class="mini-note" style="margin-top: 22px">
+          Each of those skills states its own dependency in a
+          <code>## Requires</code> section near the top of its
+          <code>SKILL.md</code> — that is where the authoritative
+          answer lives. The longer version of this page is
+          <a href="https://github.com/scrollmark/social-skills#what-ships-where">in the README</a>.
+        </p>
+      </div>
+    </section>
+
+    <!-- ── The full deck ── -->
+    <section class="section" id="all-skills" style="padding-top: clamp(24px, 4vw, 48px)">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow" style="color: var(--se-violet-text)">The full deck</p>
+          <h2 class="heading-2">Sixteen skills, three jobs.</h2>
+          <p class="sub">Reading social media, producing short-form video, and the working method underneath both. Each one is a compact playbook — patterns and judgement calls, not API wrappers. They pair well with the <a href="mcp.html">SocialGPT MCP server</a>, which brings your real numbers into the conversation.</p>
+        </div>
+
+        <div class="section-head" style="margin-top: clamp(24px, 4vw, 40px)">
+          <p class="eyebrow" style="color: var(--se-sky-text)">Group one · 7 skills</p>
+          <h3 class="heading-2">Understanding social media.</h3>
+          <p class="sub">Tone, hooks, trends, platform conventions, creator voice. All seven run standalone — no external tools, no accounts, no keys.</p>
+        </div>
+
+        <div class="projects-grid">
+          {%- for s in skills %}{% if s.group == "Understanding social media." %}
+{% include "skill-card.html" %}{% endif %}{% endfor %}
+        </div>
+
+        <div class="section-head" style="margin-top: clamp(40px, 6vw, 64px)">
+          <p class="eyebrow" style="color: var(--se-tangerine-text)">Group two · 7 skills</p>
+          <h3 class="heading-2">Producing video.</h3>
+          <p class="sub">Craft skills for <em>making</em> a short-form video, not only planning one. The judgement is prose you can follow anywhere; the execution is a script bundled in the skill, or one install away in the same repo — and since the Remotion composer moved in, that now includes the render itself. See what each layer gives you.</p>
+        </div>
+
+        <div class="projects-grid">
+          {%- for s in skills %}{% if s.group == "Producing video." %}
+{% include "skill-card.html" %}{% endif %}{% endfor %}
+        </div>
+
+        <div class="section-head" style="margin-top: clamp(40px, 6vw, 64px)">
+          <p class="eyebrow" style="color: var(--se-violet-text)">Group three · 2 skills</p>
+          <h3 class="heading-2">Working method and toolchain.</h3>
+          <p class="sub">How to ask a person the right questions, and how to tell whether the machine can do the job.</p>
+        </div>
+
+        <div class="projects-grid">
+          {%- for s in skills %}{% if s.group == "Working method and toolchain." %}
+{% include "skill-card.html" %}{% endif %}{% endfor %}
+
+          <article class="card card--lime" style="--tilt: 1deg">
+            <p class="eyebrow">Open invitation</p>
+            <h4 class="heading-3">Add a skill</h4>
+            <p>
+              A skill here is prose: a <code>SKILL.md</code>,
+              the reference files it needs, and a description saying when to reach for it. If you
+              know something about the feed that Claude keeps getting wrong, that is a pull request.
+            </p>
+            <a class="card-link" href="https://github.com/scrollmark/social-skills/blob/master/CONTRIBUTING.md">
+              Read CONTRIBUTING.md
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </article>
+        </div>
+
+        <div style="margin-top: clamp(36px, 5vw, 56px)">
+          <a class="btn btn--secondary" href="https://github.com/scrollmark/social-skills">
+            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+            Read the source on GitHub
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>

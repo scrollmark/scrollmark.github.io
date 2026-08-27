@@ -3,12 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Not here — Scrollmark Open Source</title>
-  <meta name="description" content="Claude Code skills for social media and short-form video — including the whole production pipeline — plus a hosted MCP server, from the team behind SocialGPT. MIT-licensed — clone and go." />
-  <meta property="og:title" content="Scrollmark Open Source" />
-  <meta property="og:description" content="Claude Code skills for social media and short-form video — including the whole production pipeline — plus a hosted MCP server, from the team behind SocialGPT." />
-  
-  
+  <title>{{ title }}</title>
+  <meta name="description" content="{{ description }}" />
+  <meta property="og:title" content="{{ ogTitle }}" />
+  <meta property="og:description" content="{{ ogDesc }}" />
+{%- if canonical %}
+  <link rel="canonical" href="{{ canonical }}" />
+  <meta property="og:url" content="{{ canonical }}" />
+{%- endif %}
+{%- if noindex %}
+  <meta name="robots" content="noindex" />
+{%- endif %}
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://scrollmark.github.io/og-card.png" />
   <meta property="og:image:width" content="1200" />
@@ -17,7 +22,7 @@
   <meta name="twitter:image" content="https://scrollmark.github.io/og-card.png" />
   <meta name="theme-color" content="#fffdf8" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#16101f" media="(prefers-color-scheme: dark)" />
-  <link rel="icon" href="/brand-scrollmark.png" type="image/png" sizes="any" />
+  <link rel="icon" href="{{ prefix }}brand-scrollmark.png" type="image/png" sizes="any" />
 
   <!-- Theme before first paint: stored choice, falling back to the OS -->
   <script>
@@ -37,10 +42,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Shantell+Sans:wght@500&family=Fragment+Mono&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="{{ prefix }}styles.css" />
 
-  <!-- Datastar — all interactivity on this page (https://data-star.dev,
-       see https://data-star.dev/essays/why_another_framework) -->
+  <!-- Datastar — all interactivity on this page -->
   <!-- Every tab, OS variant and client panel on this site is a `data-show`
        element that starts at `display: none` and is revealed by Datastar. If
        Datastar never runs, thirteen of those sixteen blocks are unreachable —
@@ -54,20 +58,24 @@
           onerror="document.documentElement.classList.add('no-ds')"></script>
   <script nomodule>document.documentElement.classList.add('no-ds')</script>
   <noscript><style>[data-show] { display: block !important }</style></noscript>
-  <meta name="robots" content="noindex" />
 </head>
-<body id="top">
+
+<body
+  data-signals="{{ signals }}"
+  data-effect="document.documentElement.classList.toggle('dark', $theme === 'dark' || ($theme === 'system' && matchMedia('(prefers-color-scheme: dark)').matches)); $theme === 'system' ? localStorage.removeItem('theme') : localStorage.setItem('theme', $theme)"
+>
   <div class="paper-grain" aria-hidden="true"></div>
+
   <nav class="nav" aria-label="Main">
-    <a class="brand" href="/">
-      <img class="mark" src="/brand-scrollmark.png" alt="" />
+    <a class="brand" href="{{ home }}">
+      <img class="mark" src="{{ prefix }}brand-scrollmark.png" alt="" />
       Scrollmark
       <span class="chip oss-tag sticker--lime" style="--tilt: 3deg">oss</span>
     </a>
     <div class="nav-links">
-      <a href="/skills.html">Skills</a>
-      <a href="/mcp.html">MCP</a>
-      <a class="nav-optional" href="/index.html#about">About</a>
+      <a href="{{ prefix }}skills.html"{% if active == "skills.html" %} aria-current="page"{% endif %}>Skills</a>
+      <a href="{{ prefix }}mcp.html"{% if active == "mcp.html" %} aria-current="page"{% endif %}>MCP</a>
+      <a class="nav-optional" href="{{ about }}">About</a>
       <a class="nav-optional" href="https://github.com/scrollmark">GitHub</a>
     </div>
     <div
@@ -99,22 +107,43 @@
       </button>
     </div>
   </nav>
-  <main>
-    <header class="hero">
-      <div class="wrap">
-        <p class="eyebrow">404</p>
-        <h1 class="display">That page is not <span class="marker">on the shelf</span>.</h1>
-        <p class="sub">
-          The link may be old, or something here moved. Everything this
-          site has lives on three pages:
-        </p>
-        <div class="hero-ctas">
-          <a class="btn btn--primary" href="/skills.html">Social Skills</a>
-          <a class="btn btn--secondary" href="/mcp.html">SocialGPT MCP</a>
-          <a class="btn btn--secondary" href="/">Home</a>
+
+{{ content }}{%- if footer %}
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="{{ home }}">
+            <img class="mark" src="brand-scrollmark.png" alt="" />
+            Scrollmark
+          </a>
+          <p>Open-source tools from the team building Scrollmark and SocialGPT.</p>
+        </div>
+        <div class="footer-col">
+          <h3>Projects</h3>
+          <ul>
+            <li><a href="skills.html"{% if active == "skills.html" %} aria-current="page"{% endif %}>Social Skills</a></li>
+            <li><a href="mcp.html"{% if active == "mcp.html" %} aria-current="page"{% endif %}>SocialGPT MCP</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>Scrollmark</h3>
+          <ul>
+            <li><a href="https://app.scrollmark.com">app.scrollmark.com</a></li>
+            <li><a href="https://app.gpt.social">app.gpt.social</a></li>
+            <li><a href="https://github.com/scrollmark">GitHub</a></li>
+          </ul>
         </div>
       </div>
-    </header>
-  </main>
+      <div class="footer-note">
+        <span>© 2026 Scrollmark. MIT-licensed where marked.</span>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
+{%- else %}
+</body>
+</html>
+{%- endif %}
