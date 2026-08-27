@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Serve this site locally, for editing.
+"""Serve the built site locally — the no-Node fallback.
+
+Prefer `npm run dev` (Eleventy's own server): it watches src/ and rebuilds,
+so a layout edit shows up without a manual build. This exists for when you
+want to serve _site/ without Node in the loop.
 
 Two departures from `python3 -m http.server`, both learned the hard way:
 
@@ -25,7 +29,9 @@ import http.server
 import pathlib
 import sys
 
-ROOT = pathlib.Path(__file__).resolve().parent.parent
+#: Serves the BUILD, not the sources. Run `npx eleventy` first, or use
+#: `npm run dev`, which watches and rebuilds as you edit.
+ROOT = pathlib.Path(__file__).resolve().parent.parent / "_site"
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):

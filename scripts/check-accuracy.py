@@ -32,7 +32,10 @@ from pathlib import Path
 
 REPO = "scrollmark/social-skills"
 API = f"https://api.github.com/repos/{REPO}"
-SITE = Path(__file__).resolve().parent.parent
+#: The checkers run against BUILT output. Templates contain Liquid, and a
+#: half-rendered `{% if %}` is not what a reader ever sees — so a claim or a
+#: class is only real once Eleventy has written it into _site.
+SITE = Path(__file__).resolve().parent.parent / "_site"
 
 #: Phrases that were true once and became false. Their reappearance means a
 #: revert or a copy-paste from an old draft, so they are checked by name.

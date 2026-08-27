@@ -1,0 +1,13 @@
+{
+  "name": "scrollmarkgithubio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "eleventy --serve --port=4321",
+    "build": "eleventy",
+    "check": "python3 scripts/check-styles.py && python3 scripts/check-accuracy.py"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0"
+  }
+}

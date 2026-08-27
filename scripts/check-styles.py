@@ -22,7 +22,10 @@ import re
 import sys
 from collections import defaultdict
 
-SITE = pathlib.Path(__file__).resolve().parent.parent
+#: The checkers run against BUILT output. Templates contain Liquid, and a
+#: half-rendered `{% if %}` is not what a reader ever sees — so a claim or a
+#: class is only real once Eleventy has written it into _site.
+SITE = pathlib.Path(__file__).resolve().parent.parent / "_site"
 
 
 def strip_comments(css: str) -> str:
@@ -30,7 +33,7 @@ def strip_comments(css: str) -> str:
 
 
 def main() -> int:
-    css = strip_comments((SITE / "styles.css").read_text())
+    css = strip_comments((SITE / "styles.css").read_text())  # passthrough-copied
     defined_classes = set(re.findall(r"\.([A-Za-z_][\w-]*)", css))
     defined_vars = set(re.findall(r"(--[\w-]+)\s*:", css))
 
