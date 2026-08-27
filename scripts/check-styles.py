@@ -72,6 +72,29 @@ def main() -> int:
             ):
                 problems.append(f".{kind}--{fam} is used but not defined")
 
+    # `.marker` is `white-space: nowrap`, so a trailing space inside a marked
+    # phrase is not a break opportunity — and the template puts no whitespace
+    # between </span> and what follows. A headline written that way cannot wrap
+    # after the marker and runs off its column. It happened on the home page:
+    # "social media " + "agents." rendered 147px past its own box, with the
+    # last word clipped by the graphic beside it. Invisible in the source, and
+    # only at some widths.
+    hero = SITE.parent / "src" / "_data" / "hero.json"
+    if hero.is_file():
+        import json
+        for page, block in json.loads(hero.read_text()).items():
+            head = block.get("headline", {})
+            marked, after = head.get("marked", ""), head.get("after", "")
+            if marked != marked.rstrip():
+                problems.append(
+                    f'hero.{page}: marked phrase {marked!r} ends with a space. '
+                    "`.marker` is nowrap, so that space cannot break — move it "
+                    "to the front of `after`.")
+            elif after and not after[0] in " ,.;:!?" and not marked.endswith(("-", "—")):
+                problems.append(
+                    f'hero.{page}: {marked!r} runs straight into {after!r} with no '
+                    "separator; the template adds none after the marker.")
+
     print(f"  {len(used_classes)} classes and {len(used_vars)} custom properties checked")
     for p in problems:
         print(f"  FAIL  {p}", file=sys.stderr)

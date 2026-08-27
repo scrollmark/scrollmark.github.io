@@ -3,8 +3,8 @@
     "eyebrow": "Scrollmark · open source",
     "headline": {
       "before": "Open tools for",
-      "marked": "social media ",
-      "after": "agents."
+      "marked": "social media",
+      "after": " agents."
     },
     "sub": "Install Claude Code skills for reading social media, planning short-form video, and running a production workflow. Connect SocialGPT to any MCP client for analytics, creator research, and publishing workflows. Open-source infrastructure from the team building SocialGPT."
   },
@@ -12,8 +12,8 @@
     "eyebrow": "Claude Code skills · scrollmark/social-skills",
     "headline": {
       "before": "Teach agents how",
-      "marked": "social media ",
-      "after": "works."
+      "marked": "social media",
+      "after": " works."
     },
     "sub": "Sixteen installable skills for Claude Code and other skill-aware agents: social-media judgement, short-form video planning, production handoffs, and toolchain checks. Eight need no dependencies. The video engine lives in the same repo and installs separately when you want execution, not just guidance — [what each layer gives you](#boundary)."
   },
