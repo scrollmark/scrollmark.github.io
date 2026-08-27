@@ -46,6 +46,17 @@ Editing `src/_includes/base.html` updates every page at once — that is the
 point of the build. `npm run build` writes `_site/` without serving, and
 `npm run check` runs both guards against that output.
 
+The watcher covers `src/` — pages, `_includes/` and `_data/`. Editing a JSON
+file in `_data/` rebuilds and reloads like any template edit.
+
+**`eleventy.config.js` is the exception, and it fails quietly.** A change there
+does trigger a rebuild, but the config module is already loaded, so anything
+newly *registered* — a filter, a shortcode, a passthrough — is not picked up.
+The build then fails with `undefined filter: …` and writes zero files, while
+the dev server carries on serving the last good output. The browser looks
+completely normal and nothing you edit is taking effect. Restart after touching
+the config.
+
 `scripts/dev-server.py` serves an already-built `_site/` without Node, for when
 that is easier. It sends `no-store`, because a browser holding a stale
 `styles.css` reads exactly like a CSS fix that did not work.
