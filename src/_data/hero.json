@@ -3,8 +3,8 @@
     "eyebrow": "Scrollmark · open source",
     "headline": {
       "before": "Open tools for",
-      "marked": "social media agents",
-      "after": "."
+      "marked": "social media ",
+      "after": "agents."
     },
     "sub": "Install Claude Code skills for reading social media, planning short-form video, and running a production workflow. Connect SocialGPT to any MCP client for analytics, creator research, and publishing workflows. Open-source infrastructure from the team building SocialGPT."
   },
@@ -12,17 +12,17 @@
     "eyebrow": "Claude Code skills · scrollmark/social-skills",
     "headline": {
       "before": "Teach agents how",
-      "marked": "social media works",
-      "after": "."
+      "marked": "social media ",
+      "after": "works."
     },
     "sub": "Sixteen installable skills for Claude Code and other skill-aware agents: social-media judgement, short-form video planning, production handoffs, and toolchain checks. Eight need no dependencies. The video engine lives in the same repo and installs separately when you want execution, not just guidance — [what each layer gives you](#boundary)."
   },
   "mcp": {
     "eyebrow": "Hosted MCP server · mcp.gpt.social",
     "headline": {
-      "before": "Your social data, inside",
-      "marked": "every AI tool",
-      "after": "."
+      "before": "Your ",
+      "marked": "social data",
+      "after": ", inside every AI tool."
     },
     "sub": "Connect SocialGPT to Claude, ChatGPT, Cursor, VS Code, Codex, or any MCP client. Ask for content performance, competitor research, creator analysis, post analysis, and publishing workflows through one OAuth-backed server URL."
   },
