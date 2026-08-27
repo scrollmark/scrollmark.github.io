@@ -1,0 +1,101 @@
+[
+  {
+    "id": "code",
+    "label": "Claude Code",
+    "hidden": false,
+    "note": "One command. Claude Code opens a browser for OAuth sign-in on your first request that uses SocialGPT tools, then caches the token locally.",
+    "codeLabel": "terminal",
+    "copyLabel": "Claude Code setup",
+    "code": "claude mcp add --transport http socialgpt https://mcp.gpt.social/mcp"
+  },
+  {
+    "id": "desktop",
+    "label": "Claude Desktop",
+    "hidden": true,
+    "note": "Add to your Claude Desktop config, then restart Claude Desktop. On macOS the file lives at ~/Library/Application Support/Claude/claude_desktop_config.json.",
+    "codeLabel": "claude_desktop_config.json",
+    "copyLabel": "Claude Desktop setup",
+    "code": "{\n  \"mcpServers\": {\n    \"socialgpt\": { \"url\": \"https://mcp.gpt.social/mcp\" }\n  }\n}"
+  },
+  {
+    "id": "claudeai",
+    "label": "Claude.ai",
+    "hidden": true,
+    "note": "Settings → Integrations → Add more → paste the URL and follow the prompts. Claude.ai handles authentication during the integration setup flow.",
+    "codeLabel": "connector URL",
+    "copyLabel": "Claude.ai setup",
+    "code": "https://mcp.gpt.social/mcp"
+  },
+  {
+    "id": "chatgpt",
+    "label": "ChatGPT",
+    "hidden": true,
+    "note": "Settings → Tools &amp; integrations → Add MCP server, then paste the URL. Custom MCP connectors need a paid ChatGPT plan (Plus, Pro, Team, or Enterprise) &mdash; true as of August 2026; OpenAI moves this one.",
+    "codeLabel": "server URL",
+    "copyLabel": "ChatGPT setup",
+    "code": "https://mcp.gpt.social/mcp"
+  },
+  {
+    "id": "cursor",
+    "label": "Cursor",
+    "hidden": true,
+    "note": "Add to your project's .cursor/mcp.json, or ~/.cursor/mcp.json for global access.",
+    "codeLabel": ".cursor/mcp.json",
+    "copyLabel": "Cursor setup",
+    "code": "{\n  \"mcpServers\": {\n    \"socialgpt\": { \"url\": \"https://mcp.gpt.social/mcp\" }\n  }\n}"
+  },
+  {
+    "id": "vscode",
+    "label": "VS Code",
+    "hidden": true,
+    "note": "Add to .vscode/mcp.json in your workspace, or run MCP: Add Server from the command palette.",
+    "codeLabel": ".vscode/mcp.json",
+    "copyLabel": "VS Code setup",
+    "code": "{\n  \"servers\": {\n    \"socialgpt\": { \"type\": \"http\", \"url\": \"https://mcp.gpt.social/mcp\" }\n  }\n}"
+  },
+  {
+    "id": "codex",
+    "label": "Codex",
+    "hidden": true,
+    "note": "Add to ~/.codex/config.toml, or .codex/config.toml for a single project.",
+    "codeLabel": "~/.codex/config.toml",
+    "copyLabel": "Codex setup",
+    "code": "[mcp_servers.socialgpt]\nurl = \"https://mcp.gpt.social/mcp\""
+  },
+  {
+    "id": "cline",
+    "label": "Cline",
+    "hidden": true,
+    "note": "MCP Servers icon → Remote Servers → add the server URL, or edit cline_mcp_settings.json.",
+    "codeLabel": "cline_mcp_settings.json",
+    "copyLabel": "Cline setup",
+    "code": "{\n  \"mcpServers\": {\n    \"socialgpt\": {\n      \"type\": \"streamableHttp\",\n      \"url\": \"https://mcp.gpt.social/mcp\"\n    }\n  }\n}"
+  },
+  {
+    "id": "windsurf",
+    "label": "Windsurf",
+    "hidden": true,
+    "note": "Add to ~/.codeium/windsurf/mcp_config.json.",
+    "codeLabel": "~/.codeium/windsurf/mcp_config.json",
+    "copyLabel": "Windsurf setup",
+    "code": "{\n  \"mcpServers\": {\n    \"socialgpt\": { \"serverUrl\": \"https://mcp.gpt.social/mcp\" }\n  }\n}"
+  },
+  {
+    "id": "antigravity",
+    "label": "AntiGravity",
+    "hidden": true,
+    "note": "Add to ~/.gemini/config/mcp_config.json.",
+    "codeLabel": "~/.gemini/config/mcp_config.json",
+    "copyLabel": "AntiGravity setup",
+    "code": "{\n  \"mcpServers\": {\n    \"socialgpt\": { \"serverUrl\": \"https://mcp.gpt.social/mcp\" }\n  }\n}"
+  },
+  {
+    "id": "other",
+    "label": "Other",
+    "hidden": true,
+    "note": "Any client that speaks the Model Context Protocol can connect: register the server URL with the streamable HTTP transport, wherever your client keeps its MCP servers.",
+    "codeLabel": "server URL",
+    "copyLabel": "Other setup",
+    "code": "https://mcp.gpt.social/mcp"
+  }
+]

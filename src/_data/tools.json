@@ -1,0 +1,141 @@
+[
+  {
+    "colour": "card--lime",
+    "eyebrow": "read",
+    "title": "Your accounts and content",
+    "tools": [
+      {
+        "name": "whoami",
+        "write": false
+      },
+      {
+        "name": "list_accounts",
+        "write": false
+      },
+      {
+        "name": "get_account",
+        "write": false
+      },
+      {
+        "name": "get_account_metrics",
+        "write": false
+      },
+      {
+        "name": "list_videos",
+        "write": false
+      },
+      {
+        "name": "get_video",
+        "write": false
+      },
+      {
+        "name": "list_uploads",
+        "write": false
+      },
+      {
+        "name": "get_follower_history",
+        "write": false
+      },
+      {
+        "name": "get_growth_summary",
+        "write": false
+      },
+      {
+        "name": "get_post_metrics_history",
+        "write": false
+      },
+      {
+        "name": "get_content_profile",
+        "write": false
+      }
+    ]
+  },
+  {
+    "colour": "card--sky",
+    "eyebrow": "read",
+    "title": "Creators and competitors",
+    "tools": [
+      {
+        "name": "get_creator",
+        "write": false
+      },
+      {
+        "name": "list_creator_videos",
+        "write": false
+      },
+      {
+        "name": "list_similar_videos",
+        "write": false
+      },
+      {
+        "name": "search",
+        "write": false
+      },
+      {
+        "name": "search_videos",
+        "write": false
+      },
+      {
+        "name": "fetch",
+        "write": false
+      }
+    ]
+  },
+  {
+    "colour": "card--butter",
+    "eyebrow": "adds to your library",
+    "title": "Analysis",
+    "tools": [
+      {
+        "name": "analyze_creator",
+        "write": false
+      },
+      {
+        "name": "analyze_post",
+        "write": false
+      },
+      {
+        "name": "get_analysis_status",
+        "write": false
+      },
+      {
+        "name": "get_video_analysis",
+        "write": false
+      }
+    ]
+  },
+  {
+    "colour": "card--pink",
+    "eyebrow": "one of these posts",
+    "title": "Publishing",
+    "tools": [
+      {
+        "name": "get_publish_options",
+        "write": false
+      },
+      {
+        "name": "get_upload_link",
+        "write": false
+      },
+      {
+        "name": "get_publish_status",
+        "write": false
+      },
+      {
+        "name": "publish_post",
+        "write": true
+      }
+    ]
+  },
+  {
+    "colour": "card--violet",
+    "eyebrow": "read",
+    "title": "Server",
+    "tools": [
+      {
+        "name": "server_info",
+        "write": false
+      }
+    ]
+  }
+]

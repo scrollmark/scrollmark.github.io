@@ -73,179 +73,25 @@ about: "index.html#about"
         </div>
         <div class="setup-box">
           <div class="tabs" role="tablist" aria-label="MCP client"
-            data-on:keydown="const order = ['code', 'desktop', 'claudeai', 'chatgpt', 'cursor', 'vscode', 'codex', 'cline', 'windsurf', 'antigravity', 'other']; const i = order.indexOf($client); let n = -1; if (evt.key === 'ArrowRight' || evt.key === 'ArrowDown') n = (i + 1) % order.length; if (evt.key === 'ArrowLeft' || evt.key === 'ArrowUp') n = (i + order.length - 1) % order.length; if (evt.key === 'Home') n = 0; if (evt.key === 'End') n = order.length - 1; if (n >= 0) { evt.preventDefault(); $client = order[n]; el.querySelectorAll('button')[n].focus() }">
-            <button type="button" role="tab" id="tab-code" aria-controls="panel-code" class="active" data-class:active="$client === 'code'" data-attr:aria-selected="$client === 'code' ? 'true' : 'false'" data-attr:tabindex="$client === 'code' ? '0' : '-1'" data-on:click="$client = 'code'">Claude Code</button>
-            <button type="button" role="tab" id="tab-desktop" aria-controls="panel-desktop" data-class:active="$client === 'desktop'" data-attr:aria-selected="$client === 'desktop' ? 'true' : 'false'" data-attr:tabindex="$client === 'desktop' ? '0' : '-1'" data-on:click="$client = 'desktop'">Claude Desktop</button>
-            <button type="button" role="tab" id="tab-claudeai" aria-controls="panel-claudeai" data-class:active="$client === 'claudeai'" data-attr:aria-selected="$client === 'claudeai' ? 'true' : 'false'" data-attr:tabindex="$client === 'claudeai' ? '0' : '-1'" data-on:click="$client = 'claudeai'">Claude.ai</button>
-            <button type="button" role="tab" id="tab-chatgpt" aria-controls="panel-chatgpt" data-class:active="$client === 'chatgpt'" data-attr:aria-selected="$client === 'chatgpt' ? 'true' : 'false'" data-attr:tabindex="$client === 'chatgpt' ? '0' : '-1'" data-on:click="$client = 'chatgpt'">ChatGPT</button>
-            <button type="button" role="tab" id="tab-cursor" aria-controls="panel-cursor" data-class:active="$client === 'cursor'" data-attr:aria-selected="$client === 'cursor' ? 'true' : 'false'" data-attr:tabindex="$client === 'cursor' ? '0' : '-1'" data-on:click="$client = 'cursor'">Cursor</button>
-            <button type="button" role="tab" id="tab-vscode" aria-controls="panel-vscode" data-class:active="$client === 'vscode'" data-attr:aria-selected="$client === 'vscode' ? 'true' : 'false'" data-attr:tabindex="$client === 'vscode' ? '0' : '-1'" data-on:click="$client = 'vscode'">VS Code</button>
-            <button type="button" role="tab" id="tab-codex" aria-controls="panel-codex" data-class:active="$client === 'codex'" data-attr:aria-selected="$client === 'codex' ? 'true' : 'false'" data-attr:tabindex="$client === 'codex' ? '0' : '-1'" data-on:click="$client = 'codex'">Codex</button>
-            <button type="button" role="tab" id="tab-cline" aria-controls="panel-cline" data-class:active="$client === 'cline'" data-attr:aria-selected="$client === 'cline' ? 'true' : 'false'" data-attr:tabindex="$client === 'cline' ? '0' : '-1'" data-on:click="$client = 'cline'">Cline</button>
-            <button type="button" role="tab" id="tab-windsurf" aria-controls="panel-windsurf" data-class:active="$client === 'windsurf'" data-attr:aria-selected="$client === 'windsurf' ? 'true' : 'false'" data-attr:tabindex="$client === 'windsurf' ? '0' : '-1'" data-on:click="$client = 'windsurf'">Windsurf</button>
-            <button type="button" role="tab" id="tab-antigravity" aria-controls="panel-antigravity" data-class:active="$client === 'antigravity'" data-attr:aria-selected="$client === 'antigravity' ? 'true' : 'false'" data-attr:tabindex="$client === 'antigravity' ? '0' : '-1'" data-on:click="$client = 'antigravity'">AntiGravity</button>
-            <button type="button" role="tab" id="tab-other" aria-controls="panel-other" data-class:active="$client === 'other'" data-attr:aria-selected="$client === 'other' ? 'true' : 'false'" data-attr:tabindex="$client === 'other' ? '0' : '-1'" data-on:click="$client = 'other'">Other</button>
+            data-on:keydown="const order = [{% for c in clients %}'{{ c.id }}'{% unless forloop.last %}, {% endunless %}{% endfor %}]; const i = order.indexOf($client); let n = -1; if (evt.key === 'ArrowRight' || evt.key === 'ArrowDown') n = (i + 1) % order.length; if (evt.key === 'ArrowLeft' || evt.key === 'ArrowUp') n = (i + order.length - 1) % order.length; if (evt.key === 'Home') n = 0; if (evt.key === 'End') n = order.length - 1; if (n >= 0) { evt.preventDefault(); $client = order[n]; el.querySelectorAll('button')[n].focus() }">
+{%- for c in clients %}
+            <button type="button" role="tab" id="tab-{{ c.id }}" aria-controls="panel-{{ c.id }}"{% if forloop.first %} class="active"{% endif %} data-class:active="$client === '{{ c.id }}'" data-attr:aria-selected="$client === '{{ c.id }}' ? 'true' : 'false'" data-attr:tabindex="$client === '{{ c.id }}' ? '0' : '-1'" data-on:click="$client = '{{ c.id }}'">{{ c.label }}</button>
+{%- endfor %}
           </div>
-          <div class="client-panel" role="tabpanel" id="panel-code" aria-labelledby="tab-code" tabindex="0" data-show="$client === 'code'">
-            <p class="mini-note" style="margin: 0 0 10px">One command. Claude Code opens a browser for OAuth sign-in on your first request that uses SocialGPT tools, then caches the token locally.</p>
+          {%- for c in clients %}
+          <div class="client-panel" role="tabpanel" id="panel-{{ c.id }}" aria-labelledby="tab-{{ c.id }}" tabindex="0" data-show="$client === '{{ c.id }}'"{% unless forloop.first %} style="display: none"{% endunless %}>
+            <p class="mini-note" style="margin: 0 0 10px">{{ c.note }}</p>
             <div class="codebox">
-              <button class="copy-btn" type="button" aria-label="Copy Claude Code setup"
-                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-code').innerText); $copied = 'code'; setTimeout(() => { $copied = '' }, 1500)">
+              <button class="copy-btn" type="button" aria-label="Copy {{ c.copyLabel }}"
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-{{ c.id }}').innerText); $copied = '{{ c.id }}'; setTimeout(() => { $copied = '' }, 1500)">
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                <span data-text="$copied === 'code' ? 'Copied' : 'Copy'">Copy</span>
+                <span data-text="$copied === '{{ c.id }}' ? 'Copied' : 'Copy'">Copy</span>
               </button>
-              <span class="code-label">terminal</span>
-              <pre><code id="cmd-code">claude mcp add --transport http socialgpt https://mcp.gpt.social/mcp</code></pre>
+              <span class="code-label">{{ c.codeLabel }}</span>
+              <pre><code id="cmd-{{ c.id }}">{{ c.code }}</code></pre>
             </div>
           </div>
-          <div class="client-panel" role="tabpanel" id="panel-desktop" aria-labelledby="tab-desktop" tabindex="0" data-show="$client === 'desktop'" style="display: none">
-            <p class="mini-note" style="margin: 0 0 10px">Add to your Claude Desktop config, then restart Claude Desktop. On macOS the file lives at ~/Library/Application Support/Claude/claude_desktop_config.json.</p>
-            <div class="codebox">
-              <button class="copy-btn" type="button" aria-label="Copy Claude Desktop setup"
-                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-desktop').innerText); $copied = 'desktop'; setTimeout(() => { $copied = '' }, 1500)">
-                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                <span data-text="$copied === 'desktop' ? 'Copied' : 'Copy'">Copy</span>
-              </button>
-              <span class="code-label">claude_desktop_config.json</span>
-              <pre><code id="cmd-desktop">{
-  "mcpServers": {
-    "socialgpt": { "url": "https://mcp.gpt.social/mcp" }
-  }
-}</code></pre>
-            </div>
-          </div>
-          <div class="client-panel" role="tabpanel" id="panel-claudeai" aria-labelledby="tab-claudeai" tabindex="0" data-show="$client === 'claudeai'" style="display: none">
-            <p class="mini-note" style="margin: 0 0 10px">Settings → Integrations → Add more → paste the URL and follow the prompts. Claude.ai handles authentication during the integration setup flow.</p>
-            <div class="codebox">
-              <button class="copy-btn" type="button" aria-label="Copy Claude.ai setup"
-                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-claudeai').innerText); $copied = 'claudeai'; setTimeout(() => { $copied = '' }, 1500)">
-                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                <span data-text="$copied === 'claudeai' ? 'Copied' : 'Copy'">Copy</span>
-              </button>
-              <span class="code-label">connector URL</span>
-              <pre><code id="cmd-claudeai">https://mcp.gpt.social/mcp</code></pre>
-            </div>
-          </div>
-          <div class="client-panel" role="tabpanel" id="panel-chatgpt" aria-labelledby="tab-chatgpt" tabindex="0" data-show="$client === 'chatgpt'" style="display: none">
-            <p class="mini-note" style="margin: 0 0 10px">Settings → Tools &amp; integrations → Add MCP server, then paste the URL. Custom MCP connectors need a paid ChatGPT plan (Plus, Pro, Team, or Enterprise) &mdash; true as of August 2026; OpenAI moves this one.</p>
-            <div class="codebox">
-              <button class="copy-btn" type="button" aria-label="Copy ChatGPT setup"
-                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-chatgpt').innerText); $copied = 'chatgpt'; setTimeout(() => { $copied = '' }, 1500)">
-                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                <span data-text="$copied === 'chatgpt' ? 'Copied' : 'Copy'">Copy</span>
-              </button>
-              <span class="code-label">server URL</span>
-              <pre><code id="cmd-chatgpt">https://mcp.gpt.social/mcp</code></pre>
-            </div>
-          </div>
-          <div class="client-panel" role="tabpanel" id="panel-cursor" aria-labelledby="tab-cursor" tabindex="0" data-show="$client === 'cursor'" style="display: none">
-            <p class="mini-note" style="margin: 0 0 10px">Add to your project's .cursor/mcp.json, or ~/.cursor/mcp.json for global access.</p>
-            <div class="codebox">
-              <button class="copy-btn" type="button" aria-label="Copy Cursor setup"
-                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-cursor').innerText); $copied = 'cursor'; setTimeout(() => { $copied = '' }, 1500)">
-                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                <span data-text="$copied === 'cursor' ? 'Copied' : 'Copy'">Copy</span>
-              </button>
-              <span class="code-label">.cursor/mcp.json</span>
-              <pre><code id="cmd-cursor">{
-  "mcpServers": {
-    "socialgpt": { "url": "https://mcp.gpt.social/mcp" }
-  }
-}</code></pre>
-            </div>
-          </div>
-          <div class="client-panel" role="tabpanel" id="panel-vscode" aria-labelledby="tab-vscode" tabindex="0" data-show="$client === 'vscode'" style="display: none">
-            <p class="mini-note" style="margin: 0 0 10px">Add to .vscode/mcp.json in your workspace, or run MCP: Add Server from the command palette.</p>
-            <div class="codebox">
-              <button class="copy-btn" type="button" aria-label="Copy VS Code setup"
-                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-vscode').innerText); $copied = 'vscode'; setTimeout(() => { $copied = '' }, 1500)">
-                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                <span data-text="$copied === 'vscode' ? 'Copied' : 'Copy'">Copy</span>
-              </button>
-              <span class="code-label">.vscode/mcp.json</span>
-              <pre><code id="cmd-vscode">{
-  "servers": {
-    "socialgpt": { "type": "http", "url": "https://mcp.gpt.social/mcp" }
-  }
-}</code></pre>
-            </div>
-          </div>
-          <div class="client-panel" role="tabpanel" id="panel-codex" aria-labelledby="tab-codex" tabindex="0" data-show="$client === 'codex'" style="display: none">
-            <p class="mini-note" style="margin: 0 0 10px">Add to ~/.codex/config.toml, or .codex/config.toml for a single project.</p>
-            <div class="codebox">
-              <button class="copy-btn" type="button" aria-label="Copy Codex setup"
-                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-codex').innerText); $copied = 'codex'; setTimeout(() => { $copied = '' }, 1500)">
-                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                <span data-text="$copied === 'codex' ? 'Copied' : 'Copy'">Copy</span>
-              </button>
-              <span class="code-label">~/.codex/config.toml</span>
-              <pre><code id="cmd-codex">[mcp_servers.socialgpt]
-url = "https://mcp.gpt.social/mcp"</code></pre>
-            </div>
-          </div>
-          <div class="client-panel" role="tabpanel" id="panel-cline" aria-labelledby="tab-cline" tabindex="0" data-show="$client === 'cline'" style="display: none">
-            <p class="mini-note" style="margin: 0 0 10px">MCP Servers icon → Remote Servers → add the server URL, or edit cline_mcp_settings.json.</p>
-            <div class="codebox">
-              <button class="copy-btn" type="button" aria-label="Copy Cline setup"
-                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-cline').innerText); $copied = 'cline'; setTimeout(() => { $copied = '' }, 1500)">
-                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                <span data-text="$copied === 'cline' ? 'Copied' : 'Copy'">Copy</span>
-              </button>
-              <span class="code-label">cline_mcp_settings.json</span>
-              <pre><code id="cmd-cline">{
-  "mcpServers": {
-    "socialgpt": {
-      "type": "streamableHttp",
-      "url": "https://mcp.gpt.social/mcp"
-    }
-  }
-}</code></pre>
-            </div>
-          </div>
-          <div class="client-panel" role="tabpanel" id="panel-windsurf" aria-labelledby="tab-windsurf" tabindex="0" data-show="$client === 'windsurf'" style="display: none">
-            <p class="mini-note" style="margin: 0 0 10px">Add to ~/.codeium/windsurf/mcp_config.json.</p>
-            <div class="codebox">
-              <button class="copy-btn" type="button" aria-label="Copy Windsurf setup"
-                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-windsurf').innerText); $copied = 'windsurf'; setTimeout(() => { $copied = '' }, 1500)">
-                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                <span data-text="$copied === 'windsurf' ? 'Copied' : 'Copy'">Copy</span>
-              </button>
-              <span class="code-label">~/.codeium/windsurf/mcp_config.json</span>
-              <pre><code id="cmd-windsurf">{
-  "mcpServers": {
-    "socialgpt": { "serverUrl": "https://mcp.gpt.social/mcp" }
-  }
-}</code></pre>
-            </div>
-          </div>
-          <div class="client-panel" role="tabpanel" id="panel-antigravity" aria-labelledby="tab-antigravity" tabindex="0" data-show="$client === 'antigravity'" style="display: none">
-            <p class="mini-note" style="margin: 0 0 10px">Add to ~/.gemini/config/mcp_config.json.</p>
-            <div class="codebox">
-              <button class="copy-btn" type="button" aria-label="Copy AntiGravity setup"
-                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-antigravity').innerText); $copied = 'antigravity'; setTimeout(() => { $copied = '' }, 1500)">
-                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                <span data-text="$copied === 'antigravity' ? 'Copied' : 'Copy'">Copy</span>
-              </button>
-              <span class="code-label">~/.gemini/config/mcp_config.json</span>
-              <pre><code id="cmd-antigravity">{
-  "mcpServers": {
-    "socialgpt": { "serverUrl": "https://mcp.gpt.social/mcp" }
-  }
-}</code></pre>
-            </div>
-          </div>
-          <div class="client-panel" role="tabpanel" id="panel-other" aria-labelledby="tab-other" tabindex="0" data-show="$client === 'other'" style="display: none">
-            <p class="mini-note" style="margin: 0 0 10px">Any client that speaks the Model Context Protocol can connect: register the server URL with the streamable HTTP transport, wherever your client keeps its MCP servers.</p>
-            <div class="codebox">
-              <button class="copy-btn" type="button" aria-label="Copy Other setup"
-                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-other').innerText); $copied = 'other'; setTimeout(() => { $copied = '' }, 1500)">
-                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                <span data-text="$copied === 'other' ? 'Copied' : 'Copy'">Copy</span>
-              </button>
-              <span class="code-label">server URL</span>
-              <pre><code id="cmd-other">https://mcp.gpt.social/mcp</code></pre>
-            </div>
-          </div>
+{%- endfor %}
           <p class="mini-note">
             Setup steps for all eleven clients were last walked through in
             August 2026. Vendors rename these menus without warning &mdash; if
@@ -315,66 +161,21 @@ url = "https://mcp.gpt.social/mcp"</code></pre>
     <section class="section" id="tools">
       <div class="wrap">
         <div class="section-head" style="margin-bottom: 24px">
-          <p class="eyebrow">All 26 tools</p>
+          <p class="eyebrow">All {% assign n = 0 %}{% for g in tools %}{% assign n = n | plus: g.tools.size %}{% endfor %}{{ n }} tools</p>
           <h2 class="heading-2">What it can actually reach.</h2>
         </div>
         <div class="more-grid">
-            <div class="card card--lime">
-              <p class="eyebrow">read</p>
-              <h3 class="heading-3">Your accounts and content</h3>
+{%- for g in tools %}
+            <div class="card {{ g.colour }}">
+              <p class="eyebrow">{{ g.eyebrow }}</p>
+              <h3 class="heading-3">{{ g.title }}</h3>
               <ul class="tool-list">
-                <li>whoami</li>
-                <li>list_accounts</li>
-                <li>get_account</li>
-                <li>get_account_metrics</li>
-                <li>list_videos</li>
-                <li>get_video</li>
-                <li>list_uploads</li>
-                <li>get_follower_history</li>
-                <li>get_growth_summary</li>
-                <li>get_post_metrics_history</li>
-                <li>get_content_profile</li>
+{%- for t in g.tools %}
+                <li{% if t.write %} class="tool--write"{% endif %}>{{ t.name }}</li>
+{%- endfor %}
               </ul>
             </div>
-            <div class="card card--sky">
-              <p class="eyebrow">read</p>
-              <h3 class="heading-3">Creators and competitors</h3>
-              <ul class="tool-list">
-                <li>get_creator</li>
-                <li>list_creator_videos</li>
-                <li>list_similar_videos</li>
-                <li>search</li>
-                <li>search_videos</li>
-                <li>fetch</li>
-              </ul>
-            </div>
-            <div class="card card--butter">
-              <p class="eyebrow">adds to your library</p>
-              <h3 class="heading-3">Analysis</h3>
-              <ul class="tool-list">
-                <li>analyze_creator</li>
-                <li>analyze_post</li>
-                <li>get_analysis_status</li>
-                <li>get_video_analysis</li>
-              </ul>
-            </div>
-            <div class="card card--pink">
-              <p class="eyebrow">one of these posts</p>
-              <h3 class="heading-3">Publishing</h3>
-              <ul class="tool-list">
-                <li>get_publish_options</li>
-                <li>get_upload_link</li>
-                <li>get_publish_status</li>
-                <li class="tool--write">publish_post</li>
-              </ul>
-            </div>
-            <div class="card card--violet">
-              <p class="eyebrow">read</p>
-              <h3 class="heading-3">Server</h3>
-              <ul class="tool-list">
-                <li>server_info</li>
-              </ul>
-            </div>
+{%- endfor %}
         </div>
         <p class="mini-note" style="margin-top: 20px">
           Read off the live server on 26 August 2026 — the names, the scopes and
