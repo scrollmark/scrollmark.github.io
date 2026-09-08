@@ -127,8 +127,8 @@ cd social-skills && ./install.sh</code></pre>
             Some skills are pure guidance, some ship small scripts, and some use
             the Python and Remotion engine in the same public repo. The layers
             below show what works immediately, what needs one
-            <code>pip install</code>, and what still depends on
-            external licenses or API keys.
+            <code>pip install</code>, and what reaches for an external API key
+            or a licence you may not need to buy.
           </p>
         </div>
 
@@ -247,7 +247,7 @@ cd social-skills && ./install.sh</code></pre>
           <article class="card card--pink" style="--tilt: 1deg">
             <span class="sticker sticker--pink corner-sticker" style="--tilt: -4deg">licences, not code</span>
             <p class="eyebrow">Layer four · yours to licence</p>
-            <h3 class="heading-3">A Remotion licence, and the keys.</h3>
+            <h3 class="heading-3">A Remotion licence, or not.</h3>
             <p>
               <strong>The Remotion composer ships in this repo now</strong> —
               <code>composer/</code>, React driven entirely by the
@@ -259,6 +259,14 @@ cd social-skills && ./install.sh</code></pre>
               <code>composer/</code> once, and then
               <code>npx remotion render</code> turns a storyboard
               into a file.
+            </p>
+            <p>
+              <strong>That licence is now optional.</strong> Scrollmark's own editor renders too —
+              MIT, no seat threshold, no paid tier — and an agent drives it over MCP. It does not read
+              the props document: it has its own project format, so the agent builds the timeline from
+              the same storyboard through the editor's own commands. The trade is honest rather than
+              hidden. Remotion renders headless, so it suits a run nobody is watching; the editor
+              needs to be running, which suits one where somebody is.
             </p>
             <p>
               <strong>ElevenLabs voice</strong> has a script now —
@@ -273,6 +281,7 @@ cd social-skills && ./install.sh</code></pre>
             </p>
             <div class="chip-row" aria-label="External dependencies">
               <span class="chip sticker--violet" style="--tilt: -2deg">Remotion · Node</span>
+              <span class="chip sticker--lime" style="--tilt: 1deg">or the editor · no licence</span>
               <span class="chip sticker--sky" style="--tilt: 2deg">ElevenLabs · paid API</span>
               <span class="chip sticker--butter" style="--tilt: -1deg">ffmpeg on PATH</span>
             </div>
@@ -358,8 +367,8 @@ cd social-skills && ./install.sh</code></pre>
             </p>
             <p>
               <strong>video-production</strong> ships doctor, normalize, poster and qc_render, but it sequences the
-              whole engine — props, preview, preflight — and the Remotion renderer on top. With none of
-              those present there is nothing to sequence. What survives is the shape of a production
+              whole engine — props, preview, preflight — and a renderer on top, whether that is
+              Remotion or the editor. With none of those present there is nothing to sequence. What survives is the shape of a production
               run: which decision precedes which, and where money enters.
             </p>
           </article>
