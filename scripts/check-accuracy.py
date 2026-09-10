@@ -339,6 +339,39 @@ def main() -> int:
                "gallery.json holds no pairing sync-gallery.py does not make"
                + (f" — ORPHANED: {sorted(by_pair)}" if by_pair else ""))
 
+    # 9b. Caption legibility, measured rather than asserted in a comment.
+    #
+    # The band under a caption is the preset's own stroke, which is what makes
+    # an arbitrary palette readable. The stylesheet states the floor that
+    # produces, and a stated floor is a claim like any other here: it said
+    # 14:1 until a preset measured 13.45. So the claim is parsed out of the CSS
+    # and checked against the data it describes.
+    def _contrast(a: str, b: str) -> float:
+        def lum(h):
+            h = h.lstrip("#")
+            ch = [int(h[i:i + 2], 16) / 255 for i in (0, 2, 4)]
+            ch = [x / 12.92 if x <= 0.03928 else ((x + 0.055) / 1.055) ** 2.4 for x in ch]
+            return 0.2126 * ch[0] + 0.7152 * ch[1] + 0.0722 * ch[2]
+        la, lb = lum(a), lum(b)
+        return (max(la, lb) + 0.05) / (min(la, lb) + 0.05)
+
+    captions = {}
+    for e in committed["entries"]:
+        sw = e["swatch"]
+        captions[f"{e['format']} + {e['style']}"] = _contrast(
+            sw["caption"], sw.get("stroke", sw["bg"]))
+    below_aa = sorted(k for k, v in captions.items() if v < 4.5)
+    expect("caption legibility", not below_aa,
+           f"every caption clears AA on its own band (worst {min(captions.values()):.2f}:1)"
+           + (f" — BELOW 4.5: {below_aa}" if below_aa else ""))
+
+    css = (SITE / "styles.css").read_text()
+    stated = re.search(r"caption is (\d+(?:\.\d+)?):1 or better", css)
+    measured = min(captions.values())
+    expect("stated contrast floor", stated is not None and float(stated.group(1)) <= measured,
+           f"the stylesheet says {stated.group(1) if stated else 'no'}:1, "
+           f"the worst measured is {measured:.2f}:1")
+
     # Every pairing must reach the built page, or the data is a file nobody sees.
     gallery_html = pages.get("gallery.html", "")
     # This one still means something with no source: it compares the committed

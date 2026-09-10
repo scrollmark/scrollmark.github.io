@@ -1467,7 +1467,11 @@ footer {
    A stroke is not neutral, and it is not arbitrary either -- it is the colour
    the preset itself puts immediately around every letter, at 3 to 14px, so
    the fill was designed to be legible against exactly this. Measured: every
-   caption is 14:1 or better against its own band.
+   caption is 13:1 or better against its own band.
+   That number is checked rather than remembered -- see `check-accuracy.py`.
+   It said 14:1 for exactly as long as it took to add a preset that measured
+   13.45, which is what every hand-maintained number on this site has always
+   done.
    The emphasised word is a different matter. It is the preset's `highlight`,
    and two presets pair a mid-tone highlight with a near-white stroke --
    `clean-corporate` 3.8:1, `warm-minimal` 2.9:1 -- because in a render that
