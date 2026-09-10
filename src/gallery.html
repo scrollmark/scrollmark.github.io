@@ -27,15 +27,24 @@ about: "index.html#about"
     <!-- ── The pairings ── -->
     <section class="section" id="templates" style="padding-top: clamp(24px, 4vw, 48px)">
       <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow" style="color: var(--se-violet-text)">Six pairings</p>
+          <h2 class="heading-2">Start from one of these.</h2>
+          <p class="sub" style="max-width: 62ch">
+            Each preview paints the style's own colours: the title card as the
+            preset defines it, and a caption with its own outline over grey
+            standing in for footage, which is where a caption actually sits.
+          </p>
+        </div>
         <div class="gallery-grid">
 {%- for t in gallery.entries %}
           <article class="card tpl-card">
             <div class="tpl-preview tpl-preview--{{ t.aspect | replace: ":", "x" }}"
-                 style="--tpl-bg: {{ t.swatch.bg }}; --tpl-fg: {{ t.swatch.fg }}; --tpl-caption: {{ t.swatch.caption }}; --tpl-highlight: {{ t.swatch.highlight }}"
+                 style="--tpl-bg: {{ t.swatch.bg }}; --tpl-fg: {{ t.swatch.fg }}; --tpl-caption: {{ t.swatch.caption }}; --tpl-accent: {{ t.swatch.accent }}; --tpl-stroke: {{ t.swatch.stroke | default: "transparent" }}"
                  role="img"
-                 aria-label="{{ t.title }} in the {{ t.style }} style: {{ t.styleDescription }}">
+                 aria-label="A {{ t.aspect }} frame: the title card of {{ t.title }} in {{ t.swatch.bg }} and {{ t.swatch.fg }}, and a sample caption in {{ t.swatch.caption }} with one word in {{ t.swatch.accent }}, over grey standing in for footage.">
               <span class="tpl-preview-title" aria-hidden="true">{{ t.title }}</span>
-              <span class="tpl-preview-caption" aria-hidden="true">
+              <span class="tpl-preview-caption{% if t.uppercase %} tpl-preview-caption--upper{% endif %}" aria-hidden="true">
                 caption <em>word</em>
               </span>
             </div>
@@ -44,8 +53,8 @@ about: "index.html#about"
             <p>{{ t.why }}</p>
             <dl class="tpl-specs">
               <div><dt>Frame</dt><dd>{{ t.aspect }}{% if t.alsoWorks %} · also {{ t.alsoWorks }}{% endif %}</dd></div>
-{%- if t.scenes %}
-              <div><dt>Scenes</dt><dd>{{ t.scenes }}{% if t.sceneSeconds %} × {{ t.sceneSeconds }}s{% endif %}</dd></div>
+{%- if t.scenes or t.sceneSeconds %}
+              <div><dt>Scenes</dt><dd>{% if t.scenes %}{{ t.scenes }}{% endif %}{% if t.scenes and t.sceneSeconds %} × {% endif %}{% if t.sceneSeconds %}{{ t.sceneSeconds }}s{% endif %}</dd></div>
 {%- endif %}
 {%- if t.captions %}
               <div><dt>Captions</dt><dd>{{ t.captions }}</dd></div>
@@ -55,6 +64,9 @@ about: "index.html#about"
 {%- endif %}
 {%- if t.music %}
               <div><dt>Music</dt><dd>{{ t.music }}</dd></div>
+{%- endif %}
+{%- if t.fontFamily %}
+              <div><dt>Type</dt><dd>{{ t.fontFamily }}</dd></div>
 {%- endif %}
 {%- if t.needs %}
               <div><dt>Needs</dt><dd><code>{{ t.needs }}</code></dd></div>

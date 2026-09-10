@@ -1443,8 +1443,6 @@ footer {
 /* The frame the format is composed for, drawn at that ratio. */
 .tpl-preview--9x16 { aspect-ratio: 9 / 16; max-width: 168px; }
 .tpl-preview--16x9 { aspect-ratio: 16 / 9; max-width: 100%; }
-.tpl-preview--1x1 { aspect-ratio: 1 / 1; max-width: 200px; }
-.tpl-preview--4x5 { aspect-ratio: 4 / 5; max-width: 190px; }
 /* `source` means the format keeps the footage's own frame, so there is no
    ratio to draw. A neutral 3:2 stands in, and the spec row says `source`. */
 .tpl-preview--source { aspect-ratio: 3 / 2; max-width: 100%; }
@@ -1459,16 +1457,28 @@ footer {
   text-align: left;
 }
 
+/* Captions sit over footage, not over a title card, so painting them on the
+   card's own background asked colours to work where they never appear —
+   `warm-minimal`'s amber highlight on its own cream card is 2.9:1. The grey
+   band stands in for the footage, and the outline is the preset's own
+   `stroke`, which is what makes these colours legible in a real render. */
 .tpl-preview-caption {
   font-family: var(--font-mono);
   font-size: 0.7rem;
+  padding: 3px 7px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #6b7280, #474e5c);
   color: var(--tpl-caption);
-  text-shadow: 0 1px 0 var(--tpl-bg);
+  text-shadow:
+    1px 0 0 var(--tpl-stroke), -1px 0 0 var(--tpl-stroke),
+    0 1px 0 var(--tpl-stroke), 0 -1px 0 var(--tpl-stroke);
 }
+
+.tpl-preview-caption--upper { text-transform: uppercase; letter-spacing: 0.04em; }
 
 .tpl-preview-caption em {
   font-style: normal;
-  color: var(--tpl-highlight);
+  color: var(--tpl-accent);
 }
 
 .tpl-specs {
@@ -1505,3 +1515,13 @@ footer {
 .tpl-specs dd code { font-family: var(--font-mono); font-size: 0.8rem; }
 
 .tpl-card .codebox--row { margin-top: auto; }
+
+/* A command that scrolls shows `video-studio formats` and hides the half that
+   says which format — a syntactically plausible line that does nothing. These
+   cards are narrow, so the command wraps instead. */
+.tpl-card .codebox--row pre,
+.tpl-card .codebox--row pre code {
+  white-space: pre-wrap;
+  word-break: break-word;
+  min-width: 0;
+}
