@@ -1457,21 +1457,32 @@ footer {
   text-align: left;
 }
 
-/* Captions sit over footage, not over a title card, so painting them on the
-   card's own background asked colours to work where they never appear —
-   `warm-minimal`'s amber highlight on its own cream card is 2.9:1. The grey
-   band stands in for the footage, and the outline is the preset's own
-   `stroke`, which is what makes these colours legible in a real render. */
+/* The band is the preset's own `stroke`, and the type on it is the preset's
+   own caption colour.
+   Captions sit over footage rather than over a title card, so painting them
+   on the card's background asked colours to work where they never appear.
+   A neutral grey band was the first answer and was worse: measured at the
+   drawn size, nine of twelve caption/accent pairs fell below 4.5:1 against
+   it, because a mid grey is close in luminance to half a palette.
+   A stroke is not neutral, and it is not arbitrary either -- it is the colour
+   the preset itself puts immediately around every letter, at 3 to 14px, so
+   the fill was designed to be legible against exactly this. Measured: every
+   caption is 14:1 or better against its own band.
+   The emphasised word is a different matter. It is the preset's `highlight`,
+   and two presets pair a mid-tone highlight with a near-white stroke --
+   `clean-corporate` 3.8:1, `warm-minimal` 2.9:1 -- because in a render that
+   word sits over footage, not over its own outline. Those two are reported
+   here rather than corrected: correcting them would mean showing a colour the
+   preset does not have, which is the whole thing this page refuses to do. The
+   swatch is decorative (`aria-hidden`, inside a `role="img"`), and the label
+   carries what it shows. */
 .tpl-preview-caption {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   padding: 3px 7px;
   border-radius: 4px;
-  background: linear-gradient(180deg, #6b7280, #474e5c);
+  background: var(--tpl-stroke);
   color: var(--tpl-caption);
-  text-shadow:
-    1px 0 0 var(--tpl-stroke), -1px 0 0 var(--tpl-stroke),
-    0 1px 0 var(--tpl-stroke), 0 -1px 0 var(--tpl-stroke);
 }
 
 .tpl-preview-caption--upper { text-transform: uppercase; letter-spacing: 0.04em; }

@@ -54,6 +54,12 @@ PAIRINGS = [
      "One from-here-to-there story, told quietly enough to be believed."),
     ("talking-head", "loud-social",
      "One person to camera, captions loud enough to work on mute."),
+    ("daily-recap", "vhs-90s",
+     "A day as a run of short beats, cut on the track, stamped like a camcorder."),
+    ("titled-video", "analog-editorial",
+     "A clip you already have, titled as though it were printed on paper."),
+    ("brand-origin", "magazine-cover",
+     "One claim, one masthead, one red. Nothing else on screen."),
 ]
 
 

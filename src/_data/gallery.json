@@ -10,7 +10,7 @@
       "styleDescription": "White/blue, professional business presentations",
       "aspect": "9:16",
       "alsoWorks": "16:9",
-      "sceneSeconds": "4-8",
+      "sceneSeconds": "3-8",
       "captions": "on",
       "narration": "one voice",
       "swatch": {
@@ -35,6 +35,7 @@
       "captions": "off",
       "narration": "optional",
       "music": "required",
+      "needs": "measure",
       "swatch": {
         "bg": "#0f172a",
         "fg": "#f8fafc",
@@ -125,6 +126,71 @@
         "accent": "#f472b6",
         "stroke": "#000000"
       },
+      "uppercase": true
+    },
+    {
+      "format": "daily-recap",
+      "style": "vhs-90s",
+      "why": "A day as a run of short beats, cut on the track, stamped like a camcorder.",
+      "title": "DailyRecap",
+      "description": "Photo-dump recap cut to the track",
+      "styleDescription": "Tape-deck monospace, cyan and magenta on near-black",
+      "aspect": "9:16",
+      "scenes": "8-14",
+      "sceneSeconds": "1.5-3",
+      "captions": "optional",
+      "narration": "none",
+      "music": "required",
+      "needs": "measure",
+      "swatch": {
+        "bg": "#0b0b0f",
+        "fg": "#ff3ea5",
+        "caption": "#f8fafc",
+        "accent": "#22d3ee",
+        "stroke": "#0b0b0f"
+      },
+      "fontFamily": "Courier New, ui-monospace, Menlo, monospace",
+      "uppercase": true
+    },
+    {
+      "format": "titled-video",
+      "style": "analog-editorial",
+      "why": "A clip you already have, titled as though it were printed on paper.",
+      "title": "TitledVideo",
+      "description": "Clip plus a typography package",
+      "styleDescription": "Warm film stock under fashion-magazine serifs",
+      "aspect": "source",
+      "captions": "optional",
+      "needs": "measure",
+      "swatch": {
+        "bg": "#f4ece1",
+        "fg": "#2b2118",
+        "caption": "#f4ece1",
+        "accent": "#e0a34a",
+        "stroke": "#2b2118"
+      },
+      "fontFamily": "Fraunces, Georgia, serif"
+    },
+    {
+      "format": "brand-origin",
+      "style": "magazine-cover",
+      "why": "One claim, one masthead, one red. Nothing else on screen.",
+      "title": "BrandOrigin",
+      "description": "30-second origin short",
+      "styleDescription": "Cover-line serif, black and white with one red",
+      "aspect": "9:16",
+      "scenes": "5-6",
+      "sceneSeconds": "4-6",
+      "captions": "on",
+      "narration": "one voice",
+      "swatch": {
+        "bg": "#ffffff",
+        "fg": "#111111",
+        "caption": "#ffffff",
+        "accent": "#e11d48",
+        "stroke": "#111111"
+      },
+      "fontFamily": "Fraunces, Didot, Georgia, serif",
       "uppercase": true
     }
   ]

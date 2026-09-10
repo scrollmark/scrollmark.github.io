@@ -331,17 +331,24 @@ def main() -> int:
                   else f" — STALE {stale}: {[(k, (have or {}).get(k), entry.get(k)) for k in stale]}"
                   if stale else "")
                + (" — regenerate with scripts/sync-gallery.py" if have is None or stale else ""))
-    expect("gallery extras", not by_pair,
-           "gallery.json holds no pairing sync-gallery.py does not make"
-           + (f" — ORPHANED: {sorted(by_pair)}" if by_pair else ""))
+    # Only meaningful when the source could be read. Reporting `ok` for a
+    # comparison that ran against nothing is the failure this file exists to
+    # prevent, one level up: a check that looks like it passed.
+    if live:
+        expect("gallery extras", not by_pair,
+               "gallery.json holds no pairing sync-gallery.py does not make"
+               + (f" — ORPHANED: {sorted(by_pair)}" if by_pair else ""))
 
     # Every pairing must reach the built page, or the data is a file nobody sees.
     gallery_html = pages.get("gallery.html", "")
+    # This one still means something with no source: it compares the committed
+    # data against the built page, and both are in the tree.
     shown = live or committed["entries"]
     unshown = [e["format"] for e in shown
                if f">{e['format']} · {e['style']}<" not in gallery_html]
     expect("gallery rendered", not unshown,
-           f"all {len(shown)} pairings appear on the page"
+           f"all {len(shown)} pairings in {'the repo' if live else 'gallery.json'}"
+           f" appear on the page"
            + (f" — MISSING: {unshown}" if unshown else ""))
 
     if args.json:

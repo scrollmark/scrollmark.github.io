@@ -28,12 +28,13 @@ about: "index.html#about"
     <section class="section" id="templates" style="padding-top: clamp(24px, 4vw, 48px)">
       <div class="wrap">
         <div class="section-head">
-          <p class="eyebrow" style="color: var(--se-violet-text)">Six pairings</p>
+          <p class="eyebrow" style="color: var(--se-violet-text)">Nine pairings</p>
           <h2 class="heading-2">Start from one of these.</h2>
           <p class="sub" style="max-width: 62ch">
-            Each preview paints the style's own colours: the title card as the
-            preset defines it, and a caption with its own outline over grey
-            standing in for footage, which is where a caption actually sits.
+            Each preview paints the style's own colours: the title card as
+            the preset defines it, and a caption in its own colour on a band
+            of its own outline colour, which is what surrounds those letters
+            in a render.
           </p>
         </div>
         <div class="gallery-grid">
@@ -42,7 +43,7 @@ about: "index.html#about"
             <div class="tpl-preview tpl-preview--{{ t.aspect | replace: ":", "x" }}"
                  style="--tpl-bg: {{ t.swatch.bg }}; --tpl-fg: {{ t.swatch.fg }}; --tpl-caption: {{ t.swatch.caption }}; --tpl-accent: {{ t.swatch.accent }}; --tpl-stroke: {{ t.swatch.stroke | default: "transparent" }}"
                  role="img"
-                 aria-label="A {{ t.aspect }} frame: the title card of {{ t.title }} in {{ t.swatch.bg }} and {{ t.swatch.fg }}, and a sample caption in {{ t.swatch.caption }} with one word in {{ t.swatch.accent }}, over grey standing in for footage.">
+                 aria-label="A {{ t.aspect }} preview: the {{ t.title }} title card, and a sample caption in the {{ t.style }} preset's own colours with one word in its highlight.">
               <span class="tpl-preview-title" aria-hidden="true">{{ t.title }}</span>
               <span class="tpl-preview-caption{% if t.uppercase %} tpl-preview-caption--upper{% endif %}" aria-hidden="true">
                 caption <em>word</em>
@@ -54,7 +55,7 @@ about: "index.html#about"
             <dl class="tpl-specs">
               <div><dt>Frame</dt><dd>{{ t.aspect }}{% if t.alsoWorks %} · also {{ t.alsoWorks }}{% endif %}</dd></div>
 {%- if t.scenes or t.sceneSeconds %}
-              <div><dt>Scenes</dt><dd>{% if t.scenes %}{{ t.scenes }}{% endif %}{% if t.scenes and t.sceneSeconds %} × {% endif %}{% if t.sceneSeconds %}{{ t.sceneSeconds }}s{% endif %}</dd></div>
+              <div><dt>{% if t.scenes %}Scenes{% else %}Scene length{% endif %}</dt><dd>{% if t.scenes %}{{ t.scenes }}{% endif %}{% if t.scenes and t.sceneSeconds %} × {% endif %}{% if t.sceneSeconds %}{{ t.sceneSeconds }}s{% endif %}</dd></div>
 {%- endif %}
 {%- if t.captions %}
               <div><dt>Captions</dt><dd>{{ t.captions }}</dd></div>
@@ -66,7 +67,7 @@ about: "index.html#about"
               <div><dt>Music</dt><dd>{{ t.music }}</dd></div>
 {%- endif %}
 {%- if t.fontFamily %}
-              <div><dt>Type</dt><dd>{{ t.fontFamily }}</dd></div>
+              <div><dt>Type</dt><dd>{{ t.fontFamily | split: "," | first }}</dd></div>
 {%- endif %}
 {%- if t.needs %}
               <div><dt>Needs</dt><dd><code>{{ t.needs }}</code></dd></div>
@@ -74,11 +75,11 @@ about: "index.html#about"
             </dl>
             <div class="codebox codebox--row">
               <button class="copy-btn" type="button" aria-label="Copy the command for {{ t.format }} with {{ t.style }}"
-                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-{{ t.format }}').innerText); $copied = '{{ t.format }}'; setTimeout(() => { $copied = '' }, 1500)">
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-{{ t.format }}-{{ t.style }}').innerText); $copied = '{{ t.format }}-{{ t.style }}'; setTimeout(() => { $copied = '' }, 1500)">
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                <span data-text="$copied === '{{ t.format }}' ? 'Copied' : 'Copy'">Copy</span>
+                <span data-text="$copied === '{{ t.format }}-{{ t.style }}' ? 'Copied' : 'Copy'">Copy</span>
               </button>
-              <pre><code id="cmd-{{ t.format }}">video-studio formats --show {{ t.format }} --style {{ t.style }}</code></pre>
+              <pre><code id="cmd-{{ t.format }}-{{ t.style }}">video-studio formats --show {{ t.format }} --style {{ t.style }}</code></pre>
             </div>
           </article>
 {%- endfor %}
@@ -93,12 +94,14 @@ about: "index.html#about"
           <p class="eyebrow" style="color: var(--se-lime-text)">Two halves</p>
           <h2 class="heading-2">Neither half is fixed.</h2>
           <p class="sub" style="max-width: 62ch">
-            Every colour above is read out of
+            Every hex value above is copied from
             <a href="https://github.com/scrollmark/social-skills">scrollmark/social-skills</a>
-            rather than chosen here, so a card shows what the engine would
-            actually render. Ten formats and fourteen presets ship; a project
-            can add its own of either and they take precedence over the ones
-            that ship.
+            rather than chosen here — a preset with no caption colour is an
+            error, not a default. A preview is still a preview: it stands the
+            colours next to each other at a card's size, where a render puts
+            the type over footage. Eleven formats and seventeen presets ship;
+            a project can add its own of either, and they take precedence over
+            the ones that ship.
           </p>
         </div>
         <div class="projects-grid">
