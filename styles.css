@@ -1396,3 +1396,112 @@ footer {
 .matrix td code { font-family: var(--font-mono); font-size: 0.85rem; }
 .matrix .num { text-align: center; }
 .matrix .chip { font-size: 0.72rem; padding: 2px 10px; white-space: nowrap; }
+
+/* ── Template gallery ──
+   A card previews a pairing by painting the style's own colours: the four
+   custom properties below are set inline from the preset's values, so the
+   preview changes when the preset does rather than being a drawing of it. */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+}
+
+@media (max-width: 1080px) {
+  .gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 720px) {
+  .gallery-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+.tpl-card {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(18px, 2vw, 24px);
+}
+
+.tpl-card .heading-3 { margin: 6px 0 0; }
+.tpl-card p { margin: 10px 0 16px; }
+
+.tpl-preview {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto 18px;
+  width: 100%;
+  max-width: 220px;
+  padding: 14px 12px;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--border);
+  background: var(--tpl-bg);
+  overflow: hidden;
+}
+
+/* The frame the format is composed for, drawn at that ratio. */
+.tpl-preview--9x16 { aspect-ratio: 9 / 16; max-width: 168px; }
+.tpl-preview--16x9 { aspect-ratio: 16 / 9; max-width: 100%; }
+.tpl-preview--1x1 { aspect-ratio: 1 / 1; max-width: 200px; }
+.tpl-preview--4x5 { aspect-ratio: 4 / 5; max-width: 190px; }
+/* `source` means the format keeps the footage's own frame, so there is no
+   ratio to draw. A neutral 3:2 stands in, and the spec row says `source`. */
+.tpl-preview--source { aspect-ratio: 3 / 2; max-width: 100%; }
+
+.tpl-preview-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.15rem;
+  line-height: 1.1;
+  color: var(--tpl-fg);
+  align-self: flex-start;
+  text-align: left;
+}
+
+.tpl-preview-caption {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--tpl-caption);
+  text-shadow: 0 1px 0 var(--tpl-bg);
+}
+
+.tpl-preview-caption em {
+  font-style: normal;
+  color: var(--tpl-highlight);
+}
+
+.tpl-specs {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 4px;
+  margin: 0 0 16px;
+  font-size: 0.85rem;
+}
+
+.tpl-specs div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.tpl-specs div:last-child { border-bottom: 0; }
+
+.tpl-specs dt {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+}
+
+.tpl-specs dd {
+  margin: 0;
+  text-align: right;
+}
+
+.tpl-specs dd code { font-family: var(--font-mono); font-size: 0.8rem; }
+
+.tpl-card .codebox--row { margin-top: auto; }

@@ -1,0 +1,120 @@
+{
+  "source": "scrollmark/social-skills@local checkout",
+  "entries": [
+    {
+      "format": "explainer",
+      "style": "clean-corporate",
+      "why": "A concept walked through end to end, in the flat palette a deck already uses.",
+      "title": "Explainer",
+      "description": "Narrated concept walkthrough",
+      "styleDescription": "White/blue, professional business presentations",
+      "aspect": "9:16",
+      "alsoWorks": "16:9",
+      "captions": "on",
+      "narration": "one voice",
+      "swatch": {
+        "bg": "#ffffff",
+        "fg": "#1e293b",
+        "caption": "#1e293b",
+        "highlight": "#059669"
+      },
+      "fontFamily": "Inter"
+    },
+    {
+      "format": "cinematic",
+      "style": "documentary",
+      "why": "Cut to the track, captions off, colour left alone. The look is the footage.",
+      "title": "Cinematic",
+      "description": "Mood-driven montage",
+      "styleDescription": "Restrained ink-on-cream captions and quiet lower-thirds",
+      "aspect": "9:16",
+      "captions": "off",
+      "narration": "optional",
+      "music": "required",
+      "swatch": {
+        "bg": "#0f172a",
+        "fg": "#f8fafc",
+        "caption": "#f8fafc",
+        "highlight": "#fbbf24"
+      }
+    },
+    {
+      "format": "timeline-explainer",
+      "style": "3b1b-dark",
+      "why": "Numbered beats on a dark ground, the way a maths lecture counts.",
+      "title": "TimelineExplainer",
+      "description": "Numbered walk through a history",
+      "styleDescription": "Navy/blue/gold, math education inspired by 3Blue1Brown",
+      "aspect": "16:9",
+      "alsoWorks": "9:16",
+      "scenes": "6-10",
+      "sceneSeconds": "5-7",
+      "captions": "on",
+      "narration": "one voice",
+      "swatch": {
+        "bg": "#1c1c2e",
+        "fg": "#ffffff",
+        "caption": "#ffffff",
+        "highlight": "#facc15"
+      },
+      "fontFamily": "Inter"
+    },
+    {
+      "format": "product-launch",
+      "style": "tech-startup",
+      "why": "Three capabilities and a name to land, in a palette built to look shipped.",
+      "title": "ProductLaunch",
+      "description": "30-40 second launch spot",
+      "styleDescription": "Dark/indigo/pink, modern SaaS aesthetic",
+      "aspect": "16:9",
+      "alsoWorks": "9:16",
+      "scenes": "5-7",
+      "captions": "on",
+      "narration": "one voice",
+      "swatch": {
+        "bg": "#18181b",
+        "fg": "#fafafa",
+        "caption": "#fafafa",
+        "highlight": "#ec4899"
+      },
+      "fontFamily": "Inter"
+    },
+    {
+      "format": "brand-origin",
+      "style": "warm-minimal",
+      "why": "One from-here-to-there story, told quietly enough to be believed.",
+      "title": "BrandOrigin",
+      "description": "30-second origin short",
+      "styleDescription": "Cream/brown, lifestyle and editorial",
+      "aspect": "9:16",
+      "scenes": "5-6",
+      "sceneSeconds": "4-6",
+      "captions": "on",
+      "narration": "one voice",
+      "swatch": {
+        "bg": "#faf5f0",
+        "fg": "#292524",
+        "caption": "#292524",
+        "highlight": "#d97706"
+      },
+      "fontFamily": "Fraunces"
+    },
+    {
+      "format": "talking-head",
+      "style": "loud-social",
+      "why": "One person to camera, captions loud enough to work on mute.",
+      "title": "TalkingHead",
+      "description": "Direct-to-camera monologue",
+      "styleDescription": "Big outlined per-word captions that survive a muted autoplay feed",
+      "aspect": "9:16",
+      "captions": "on",
+      "narration": "on camera",
+      "swatch": {
+        "bg": "#0f172a",
+        "fg": "#fde047",
+        "caption": "#ffffff",
+        "highlight": "#000000"
+      }
+    }
+  ]
+}

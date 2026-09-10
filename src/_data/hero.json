@@ -1,6 +1,6 @@
 {
   "index": {
-    "eyebrow": "Scrollmark · open source",
+    "eyebrow": "Scrollmark \u00b7 open source",
     "headline": {
       "before": "Open tools for",
       "marked": "social media",
@@ -9,22 +9,31 @@
     "sub": "Install Claude Code skills for reading social media, planning short-form video, and running a production workflow. Connect SocialGPT to any MCP client for analytics, creator research, and publishing workflows. Open-source infrastructure from the team building SocialGPT."
   },
   "skills": {
-    "eyebrow": "Claude Code skills · scrollmark/social-skills",
+    "eyebrow": "Claude Code skills \u00b7 scrollmark/social-skills",
     "headline": {
       "before": "Teach agents how",
       "marked": "social media",
       "after": " works."
     },
-    "sub": "Sixteen installable skills for Claude Code and other skill-aware agents: social-media judgement, short-form video planning, production handoffs, and toolchain checks. Eight need no dependencies. The video engine lives in the same repo and installs separately when you want execution, not just guidance — [what each layer gives you](#boundary)."
+    "sub": "Sixteen installable skills for Claude Code and other skill-aware agents: social-media judgement, short-form video planning, production handoffs, and toolchain checks. Eight need no dependencies. The video engine lives in the same repo and installs separately when you want execution, not just guidance \u2014 [what each layer gives you](#boundary)."
   },
   "mcp": {
-    "eyebrow": "Hosted MCP server · mcp.gpt.social",
+    "eyebrow": "Hosted MCP server \u00b7 mcp.gpt.social",
     "headline": {
       "before": "Your ",
       "marked": "social data",
       "after": ", inside every AI tool."
     },
     "sub": "Connect SocialGPT to Claude, ChatGPT, Cursor, VS Code, Codex, or any MCP client. Ask for content performance, competitor research, creator analysis, post analysis, and publishing workflows through one OAuth-backed server URL."
+  },
+  "gallery": {
+    "eyebrow": "Template gallery \u00b7 scrollmark/social-skills",
+    "headline": {
+      "before": "A shape, a look, and",
+      "marked": "one video",
+      "after": "."
+    },
+    "sub": "A template here is two halves that already exist in the skills repo: a **format** decides the shape \u2014 how many scenes, what frame, whether anyone speaks \u2014 and a **style** preset decides the look. Pick one of each and the pairing is a storyboard the engine can build. Six pairings below; ten formats and fourteen styles is a hundred and forty, so these are the ones worth starting from."
   },
   "404": {
     "eyebrow": "404",
