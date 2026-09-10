@@ -1,0 +1,135 @@
+---
+active: "gallery.html"
+footer: true
+title: "Template Gallery — Scrollmark Open Source"
+description: "Six starting templates for short-form video: a scene format from the video-formats skill paired with a caption and card style preset, both read straight out of scrollmark/social-skills."
+ogTitle: "Template Gallery — Scrollmark Open Source"
+ogDesc: "A format decides the shape, a style preset decides the look. Six pairings you can build today."
+canonical: "https://scrollmark.github.io/gallery.html"
+signals: "{theme: localStorage.getItem('theme') || 'system', copied: ''}"
+home: "index.html"
+about: "index.html#about"
+---
+  <main id="top">
+    <!-- ── Page hero ── -->
+    <header class="hero hero--page">
+      <div class="hero-washes" aria-hidden="true">
+        <span class="w1"></span><span class="w2"></span>
+      </div>
+      <div class="wrap" style="position: relative">
+        <p class="eyebrow rise rise-1" style="color: var(--se-violet-text)">{{ hero.gallery.eyebrow }}</p>
+        <h1 class="display rise rise-2" style="font-size: clamp(2.4rem, 5.5vw, 4.2rem)">
+          {% assign h = hero.gallery.headline %}{% include "headline.html" %}</h1>
+        <p class="sub rise rise-3" style="margin: 24px 0 28px; max-width: 62ch">{{ hero.gallery.sub | md }}</p>
+      </div>
+    </header>
+
+    <!-- ── The pairings ── -->
+    <section class="section" id="templates" style="padding-top: clamp(24px, 4vw, 48px)">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow" style="color: var(--se-violet-text)">Nine pairings</p>
+          <h2 class="heading-2">Start from one of these.</h2>
+          <p class="sub" style="max-width: 62ch">
+            Each preview paints the style's own colours: the title card as
+            the preset defines it, and a caption in its own colour on a band
+            of its own outline colour, which is what surrounds those letters
+            in a render.
+          </p>
+        </div>
+        <div class="gallery-grid">
+{%- for t in gallery.entries %}
+          <article class="card tpl-card">
+            <div class="tpl-preview tpl-preview--{{ t.aspect | replace: ":", "x" }}"
+                 style="--tpl-bg: {{ t.swatch.bg }}; --tpl-fg: {{ t.swatch.fg }}; --tpl-caption: {{ t.swatch.caption }}; --tpl-accent: {{ t.swatch.accent }}; --tpl-stroke: {{ t.swatch.stroke | default: "transparent" }}"
+                 role="img"
+                 aria-label="A {{ t.aspect }} preview: the {{ t.title }} title card, and a sample caption in the {{ t.style }} preset's own colours with one word in its highlight.">
+              <span class="tpl-preview-title" aria-hidden="true">{{ t.title }}</span>
+              <span class="tpl-preview-caption{% if t.uppercase %} tpl-preview-caption--upper{% endif %}" aria-hidden="true">
+                caption <em>word</em>
+              </span>
+            </div>
+            <p class="eyebrow">{{ t.format }} · {{ t.style }}</p>
+            <h2 class="heading-3">{{ t.description }}</h2>
+            <p>{{ t.why }}</p>
+            <dl class="tpl-specs">
+              <div><dt>Frame</dt><dd>{{ t.aspect }}{% if t.alsoWorks %} · also {{ t.alsoWorks }}{% endif %}</dd></div>
+{%- if t.scenes or t.sceneSeconds %}
+              <div><dt>{% if t.scenes %}Scenes{% else %}Scene length{% endif %}</dt><dd>{% if t.scenes %}{{ t.scenes }}{% endif %}{% if t.scenes and t.sceneSeconds %} × {% endif %}{% if t.sceneSeconds %}{{ t.sceneSeconds }}s{% endif %}</dd></div>
+{%- endif %}
+{%- if t.captions %}
+              <div><dt>Captions</dt><dd>{{ t.captions }}</dd></div>
+{%- endif %}
+{%- if t.narration %}
+              <div><dt>Narration</dt><dd>{{ t.narration }}</dd></div>
+{%- endif %}
+{%- if t.music %}
+              <div><dt>Music</dt><dd>{{ t.music }}</dd></div>
+{%- endif %}
+{%- if t.fontFamily %}
+              <div><dt>Type</dt><dd>{{ t.fontFamily | split: "," | first }}</dd></div>
+{%- endif %}
+{%- if t.needs %}
+              <div><dt>Needs</dt><dd><code>{{ t.needs }}</code></dd></div>
+{%- endif %}
+            </dl>
+            <div class="codebox codebox--row">
+              <button class="copy-btn" type="button" aria-label="Copy the command for {{ t.format }} with {{ t.style }}"
+                data-on:click="navigator.clipboard.writeText(document.getElementById('cmd-{{ t.format }}-{{ t.style }}').innerText); $copied = '{{ t.format }}-{{ t.style }}'; setTimeout(() => { $copied = '' }, 1500)">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-text="$copied === '{{ t.format }}-{{ t.style }}' ? 'Copied' : 'Copy'">Copy</span>
+              </button>
+              <pre><code id="cmd-{{ t.format }}-{{ t.style }}">video-studio formats --show {{ t.format }} --style {{ t.style }}</code></pre>
+            </div>
+          </article>
+{%- endfor %}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── How to grow it ── -->
+    <section class="section" id="how" style="padding-top: 0">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow" style="color: var(--se-lime-text)">Two halves</p>
+          <h2 class="heading-2">Neither half is fixed.</h2>
+          <p class="sub" style="max-width: 62ch">
+            Every hex value above is copied from
+            <a href="https://github.com/scrollmark/social-skills">scrollmark/social-skills</a>
+            rather than chosen here — a preset with no caption colour is an
+            error, not a default. A preview is still a preview: it stands the
+            colours next to each other at a card's size, where a render puts
+            the type over footage. Eleven formats and seventeen presets ship;
+            a project can add its own of either, and they take precedence over
+            the ones that ship.
+          </p>
+        </div>
+        <div class="projects-grid">
+          <article class="card card--violet" style="--tilt: -1deg">
+            <p class="eyebrow">The shape</p>
+            <h3 class="heading-3">A format is a scene grammar.</h3>
+            <p>
+              How many scenes, what each is for, what to ask before planning
+              one, and what the format refuses to do. Two videos in the same
+              format can look nothing alike.
+            </p>
+            <div class="codebox codebox--row">
+              <pre><code>video-studio formats --list --aspect 9:16</code></pre>
+            </div>
+          </article>
+          <article class="card card--lime" style="--tilt: 1deg">
+            <p class="eyebrow">The look</p>
+            <h3 class="heading-3">A style is a preset you can save.</h3>
+            <p>
+              Caption colour, outline, size and placement, plus the card roles
+              a storyboard names. Lift one out of a video you liked, then apply
+              it to the next.
+            </p>
+            <div class="codebox codebox--row">
+              <pre><code>video-studio styles --save mine --storyboard storyboard.json</code></pre>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>

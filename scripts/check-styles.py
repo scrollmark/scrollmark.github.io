@@ -51,8 +51,13 @@ def main() -> int:
         for name in re.findall(r"var\(\s*(--[\w-]+)", text):
             used_vars[name].add(f.name)
         # An inline `style="--tilt: 3deg"` defines that property for its element.
-        for name in re.findall(r'style="[^"]*?(--[\w-]+)\s*:', text):
-            defined_vars.add(name)
+        # Every declaration in the attribute counts, not just the first: the
+        # pattern used to anchor at `style="` and so saw one per attribute,
+        # which reported the second and third of `--a: x; --b: y; --c: z` as
+        # never defined. A checker that is wrong about correct markup is one
+        # people learn to work around.
+        for attr in re.findall(r'style="([^"]*)"', text):
+            defined_vars.update(re.findall(r'(--[\w-]+)\s*:', attr))
 
     problems: list[str] = []
     for c, files in sorted(used_classes.items()):

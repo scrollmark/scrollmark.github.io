@@ -26,6 +26,15 @@
     },
     "sub": "Connect SocialGPT to Claude, ChatGPT, Cursor, VS Code, Codex, or any MCP client. Ask for content performance, competitor research, creator analysis, post analysis, and publishing workflows through one OAuth-backed server URL."
   },
+  "gallery": {
+    "eyebrow": "Template gallery · scrollmark/social-skills",
+    "headline": {
+      "before": "A shape, a look, and",
+      "marked": "one video",
+      "after": "."
+    },
+    "sub": "A template here is two halves that already exist in the skills repo: a **format** decides the shape — how many scenes, what frame, whether anyone speaks — and a **style** preset decides the look. Pick one of each and the pairing is a storyboard the engine can build. Nine pairings below; eleven formats and seventeen styles is nearly two hundred, so these are the ones worth starting from."
+  },
   "404": {
     "eyebrow": "404",
     "headline": {

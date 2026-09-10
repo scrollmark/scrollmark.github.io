@@ -1,0 +1,197 @@
+{
+  "source": "scrollmark/social-skills@local checkout",
+  "entries": [
+    {
+      "format": "explainer",
+      "style": "clean-corporate",
+      "why": "A concept walked through end to end, in the flat palette a deck already uses.",
+      "title": "Explainer",
+      "description": "Narrated concept walkthrough",
+      "styleDescription": "White/blue, professional business presentations",
+      "aspect": "9:16",
+      "alsoWorks": "16:9",
+      "sceneSeconds": "3-8",
+      "captions": "on",
+      "narration": "one voice",
+      "swatch": {
+        "bg": "#ffffff",
+        "fg": "#1e293b",
+        "caption": "#1e293b",
+        "accent": "#059669",
+        "stroke": "#ffffff"
+      },
+      "fontFamily": "Inter"
+    },
+    {
+      "format": "cinematic",
+      "style": "documentary",
+      "why": "Cut to the track, captions off, colour left alone. The look is the footage.",
+      "title": "Cinematic",
+      "description": "Mood-driven montage",
+      "styleDescription": "Restrained ink-on-cream captions and quiet lower-thirds",
+      "aspect": "9:16",
+      "scenes": "4-8",
+      "sceneSeconds": "2-6",
+      "captions": "off",
+      "narration": "optional",
+      "music": "required",
+      "needs": "measure",
+      "swatch": {
+        "bg": "#0f172a",
+        "fg": "#f8fafc",
+        "caption": "#f8fafc",
+        "accent": "#fbbf24",
+        "stroke": "#0f172a"
+      }
+    },
+    {
+      "format": "timeline-explainer",
+      "style": "3b1b-dark",
+      "why": "Numbered beats on a dark ground, the way a maths lecture counts.",
+      "title": "TimelineExplainer",
+      "description": "Numbered walk through a history",
+      "styleDescription": "Navy/blue/gold, math education inspired by 3Blue1Brown",
+      "aspect": "16:9",
+      "alsoWorks": "9:16",
+      "scenes": "6-10",
+      "sceneSeconds": "5-7",
+      "captions": "on",
+      "narration": "one voice",
+      "swatch": {
+        "bg": "#1c1c2e",
+        "fg": "#ffffff",
+        "caption": "#ffffff",
+        "accent": "#facc15",
+        "stroke": "#1c1c2e"
+      },
+      "fontFamily": "Inter"
+    },
+    {
+      "format": "product-launch",
+      "style": "tech-startup",
+      "why": "Three capabilities and a name to land, in a palette built to look shipped.",
+      "title": "ProductLaunch",
+      "description": "30-40 second launch spot",
+      "styleDescription": "Dark/indigo/pink, modern SaaS aesthetic",
+      "aspect": "16:9",
+      "alsoWorks": "9:16",
+      "scenes": "5-7",
+      "sceneSeconds": "4-6",
+      "captions": "on",
+      "narration": "one voice",
+      "swatch": {
+        "bg": "#18181b",
+        "fg": "#fafafa",
+        "caption": "#fafafa",
+        "accent": "#ec4899",
+        "stroke": "#18181b"
+      },
+      "fontFamily": "Inter"
+    },
+    {
+      "format": "brand-origin",
+      "style": "warm-minimal",
+      "why": "One from-here-to-there story, told quietly enough to be believed.",
+      "title": "BrandOrigin",
+      "description": "30-second origin short",
+      "styleDescription": "Cream/brown, lifestyle and editorial",
+      "aspect": "9:16",
+      "scenes": "5-6",
+      "sceneSeconds": "4-6",
+      "captions": "on",
+      "narration": "one voice",
+      "swatch": {
+        "bg": "#faf5f0",
+        "fg": "#292524",
+        "caption": "#292524",
+        "accent": "#d97706",
+        "stroke": "#faf5f0"
+      },
+      "fontFamily": "Fraunces"
+    },
+    {
+      "format": "talking-head",
+      "style": "loud-social",
+      "why": "One person to camera, captions loud enough to work on mute.",
+      "title": "TalkingHead",
+      "description": "Direct-to-camera monologue",
+      "styleDescription": "Big outlined per-word captions that survive a muted autoplay feed",
+      "aspect": "9:16",
+      "captions": "on",
+      "narration": "on camera",
+      "swatch": {
+        "bg": "#0f172a",
+        "fg": "#fde047",
+        "caption": "#fde047",
+        "accent": "#f472b6",
+        "stroke": "#000000"
+      },
+      "uppercase": true
+    },
+    {
+      "format": "daily-recap",
+      "style": "vhs-90s",
+      "why": "A day as a run of short beats, cut on the track, stamped like a camcorder.",
+      "title": "DailyRecap",
+      "description": "Photo-dump recap cut to the track",
+      "styleDescription": "Tape-deck monospace, cyan and magenta on near-black",
+      "aspect": "9:16",
+      "scenes": "8-14",
+      "sceneSeconds": "1.5-3",
+      "captions": "optional",
+      "narration": "none",
+      "music": "required",
+      "needs": "measure",
+      "swatch": {
+        "bg": "#0b0b0f",
+        "fg": "#ff3ea5",
+        "caption": "#f8fafc",
+        "accent": "#22d3ee",
+        "stroke": "#0b0b0f"
+      },
+      "fontFamily": "Courier New, ui-monospace, Menlo, monospace",
+      "uppercase": true
+    },
+    {
+      "format": "titled-video",
+      "style": "analog-editorial",
+      "why": "A clip you already have, titled as though it were printed on paper.",
+      "title": "TitledVideo",
+      "description": "Clip plus a typography package",
+      "styleDescription": "Warm film stock under fashion-magazine serifs",
+      "aspect": "source",
+      "captions": "optional",
+      "needs": "measure",
+      "swatch": {
+        "bg": "#f4ece1",
+        "fg": "#2b2118",
+        "caption": "#f4ece1",
+        "accent": "#e0a34a",
+        "stroke": "#2b2118"
+      },
+      "fontFamily": "Fraunces, Georgia, serif"
+    },
+    {
+      "format": "brand-origin",
+      "style": "magazine-cover",
+      "why": "One claim, one masthead, one red. Nothing else on screen.",
+      "title": "BrandOrigin",
+      "description": "30-second origin short",
+      "styleDescription": "Cover-line serif, black and white with one red",
+      "aspect": "9:16",
+      "scenes": "5-6",
+      "sceneSeconds": "4-6",
+      "captions": "on",
+      "narration": "one voice",
+      "swatch": {
+        "bg": "#ffffff",
+        "fg": "#111111",
+        "caption": "#ffffff",
+        "accent": "#e11d48",
+        "stroke": "#111111"
+      },
+      "fontFamily": "Fraunces, Didot, Georgia, serif",
+      "uppercase": true
+    }
+  ]
+}

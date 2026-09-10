@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import argparse
 import functools
+import importlib.util
 import json
 import os
 import re
@@ -72,6 +73,7 @@ def fetch(path: str) -> str:
         return r.read().decode()
 
 
+
 @functools.lru_cache(maxsize=1)
 def tree() -> list[str]:
     """Every path in the repo, in a single request."""
@@ -101,6 +103,16 @@ def list_files(path: str) -> list[str]:
     prefix = path.rstrip("/") + "/"
     return sorted(e[len(prefix):] for e in tree()
                   if e.startswith(prefix) and "/" not in e[len(prefix):])
+
+
+def _load_sibling(name: str, filename: str):
+    """Import a script next to this one. Named with a hyphen, so `import` alone
+    cannot reach it — and renaming it would break every documented command."""
+    spec = importlib.util.spec_from_file_location(
+        name, Path(__file__).resolve().parent / filename)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 def site_text() -> dict[str, str]:
@@ -195,6 +207,7 @@ def main() -> int:
         "index.html": "https://scrollmark.github.io/",
         "skills.html": "https://scrollmark.github.io/skills.html",
         "mcp.html": "https://scrollmark.github.io/mcp.html",
+        "gallery.html": "https://scrollmark.github.io/gallery.html",
     }
     for page, url in CANONICAL.items():
         text = pages.get(page, "")
@@ -278,6 +291,65 @@ def main() -> int:
     stated = re.search(r"All (\d+) tools", mcp_html)
     expect("stated tool count", stated and int(stated.group(1)) == len(SERVER_TOOLS),
            f"the page says {len(SERVER_TOOLS)}")
+
+    # 9. The template gallery, against the two halves it was generated from.
+    #
+    # gallery.json is committed, because Pages builds this site with no network
+    # and no checkout of the skills repo. So it is a copy, and a copy is a
+    # claim: these are the colours that preset has and this is the frame that
+    # format is composed for.
+    #
+    # The comparison regenerates with sync-gallery.py's own functions rather
+    # than re-deriving the values here. Re-deriving is what this check did
+    # first, and it certified a colour the preset does not define -- the two
+    # copies of the fallback agreed with each other, which is not evidence of
+    # anything. Regenerating also covers the fields a hand-written comparison
+    # kept forgetting: the description rendered as the card's heading, the
+    # title, the typeface, and whether a pairing is in the file at all.
+    sync_gallery = _load_sibling("sync_gallery", "sync-gallery.py")
+
+    committed = json.loads((SITE.parent / "src" / "_data" / "gallery.json").read_text())
+    live, gallery_problems = sync_gallery.build(sync_gallery.read_live)
+    for gp in gallery_problems:
+        problems.append(f"gallery source: {gp}")
+    # A source that could not be read says nothing about the committed file, so
+    # the comparison is skipped rather than reporting every pairing as orphaned
+    # — a cascade of wrong diagnoses hides the one true line above it.
+    if gallery_problems:
+        live = []
+
+    by_pair = ({(e["format"], e["style"]): e for e in committed["entries"]}
+               if live else {})
+    for entry in live:
+        key = (entry["format"], entry["style"])
+        have = by_pair.pop(key, None)
+        stale = sorted(k for k in set(entry) | set(have or {})
+                       if entry.get(k) != (have or {}).get(k))
+        expect("gallery entry", have is not None and not stale,
+               f"{key[0]} + {key[1]} matches the repo"
+               + (" — MISSING from gallery.json" if have is None
+                  else f" — STALE {stale}: {[(k, (have or {}).get(k), entry.get(k)) for k in stale]}"
+                  if stale else "")
+               + (" — regenerate with scripts/sync-gallery.py" if have is None or stale else ""))
+    # Only meaningful when the source could be read. Reporting `ok` for a
+    # comparison that ran against nothing is the failure this file exists to
+    # prevent, one level up: a check that looks like it passed.
+    if live:
+        expect("gallery extras", not by_pair,
+               "gallery.json holds no pairing sync-gallery.py does not make"
+               + (f" — ORPHANED: {sorted(by_pair)}" if by_pair else ""))
+
+    # Every pairing must reach the built page, or the data is a file nobody sees.
+    gallery_html = pages.get("gallery.html", "")
+    # This one still means something with no source: it compares the committed
+    # data against the built page, and both are in the tree.
+    shown = live or committed["entries"]
+    unshown = [e["format"] for e in shown
+               if f">{e['format']} · {e['style']}<" not in gallery_html]
+    expect("gallery rendered", not unshown,
+           f"all {len(shown)} pairings in {'the repo' if live else 'gallery.json'}"
+           f" appear on the page"
+           + (f" — MISSING: {unshown}" if unshown else ""))
 
     if args.json:
         print(json.dumps({"ok": not problems, "checked": checked, "problems": problems}, indent=2))
