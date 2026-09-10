@@ -168,9 +168,16 @@ def main() -> int:
            + (f" — MISSING: {missing}" if missing else ""))
 
     # 3. Program count.
+    #
+    # Reported as "the site says X, the repo has Y" rather than interpolating the
+    # repo's count into both halves. It used to do the latter, so a genuine
+    # failure printed "site states 35 programs (repo has 35)" -- which reads as a
+    # bug in the checker, and a checker that looks broken when it is right is one
+    # people learn to skip.
     p = len(programs)
-    expect("program count", re.search(rf"\b{p} programs\b", joined) is not None,
-           f"site states {p} programs (repo has {p})")
+    said = re.search(r"\b(\d+) programs\b", joined)
+    expect("program count", said is not None and int(said.group(1)) == p,
+           f"the site says {said.group(1) if said else 'no'} programs, the repo has {p}")
 
     # 4. Retired phrases must not come back.
     for phrase, why in RETIRED_PHRASES:
