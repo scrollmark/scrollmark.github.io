@@ -72,6 +72,15 @@ def fetch(path: str) -> str:
         return r.read().decode()
 
 
+def _frontmatter(text: str) -> dict[str, str]:
+    """The `---` block at the top of a skills-repo document, as a dict."""
+    fm = re.match(r"^---\n(.*?)\n---\n", text, re.S)
+    if not fm:
+        return {}
+    return {k.strip(): v.strip()
+            for k, _, v in (line.partition(":") for line in fm.group(1).splitlines())
+            if k.strip() and v.strip()}
+
 @functools.lru_cache(maxsize=1)
 def tree() -> list[str]:
     """Every path in the repo, in a single request."""
@@ -195,6 +204,7 @@ def main() -> int:
         "index.html": "https://scrollmark.github.io/",
         "skills.html": "https://scrollmark.github.io/skills.html",
         "mcp.html": "https://scrollmark.github.io/mcp.html",
+        "gallery.html": "https://scrollmark.github.io/gallery.html",
     }
     for page, url in CANONICAL.items():
         text = pages.get(page, "")
@@ -278,6 +288,42 @@ def main() -> int:
     stated = re.search(r"All (\d+) tools", mcp_html)
     expect("stated tool count", stated and int(stated.group(1)) == len(SERVER_TOOLS),
            f"the page says {len(SERVER_TOOLS)}")
+
+    # 9. The template gallery, against the two halves it was generated from.
+    #
+    # gallery.json is committed, because Pages builds this site with no network
+    # and no checkout of the skills repo. So it is a copy, and a copy is a
+    # claim: these are the colours that preset has and this is the frame that
+    # format is composed for. Regenerate with scripts/sync-gallery.py rather
+    # than editing it to match.
+    gallery = json.loads((SITE.parent / "src" / "_data" / "gallery.json").read_text())
+    for entry in gallery["entries"]:
+        fmt = _frontmatter(fetch(f"skills/video-formats/references/formats/{entry['format']}.md"))
+        drift = [k for k in ("aspect", "alsoWorks", "scenes", "sceneSeconds",
+                             "captions", "narration", "music", "needs")
+                 if entry.get(k, "") != fmt.get(k, "")]
+        expect("gallery format", not drift,
+               f"{entry['format']} matches its format document"
+               + (f" — STALE: {drift}" if drift else ""))
+        style_text = fetch(f"src/video_studio/styles/{entry['style']}.md")
+        block = re.search(r"```json\n(.*?)```", style_text, re.S)
+        values = json.loads(block.group(1)) if block else {}
+        captions = values.get("captions", {})
+        title = values.get("cards", {}).get("title", {})
+        live = {"bg": title.get("bg", "#0a0a0a"), "fg": title.get("fg", "#ffffff"),
+                "caption": captions.get("color", "#ffffff"),
+                "highlight": captions.get("highlight", captions.get("stroke", "#0a0a0a"))}
+        expect("gallery swatch", entry["swatch"] == live,
+               f"{entry['style']} swatch is the preset's own colours"
+               + (f" — STALE: {entry['swatch']} vs {live}" if entry["swatch"] != live else ""))
+
+    # Every pairing must reach the built page, or the data is a file nobody sees.
+    gallery_html = pages.get("gallery.html", "")
+    unshown = [e["format"] for e in gallery["entries"]
+               if f">{e['format']} · {e['style']}<" not in gallery_html]
+    expect("gallery rendered", not unshown,
+           f"all {len(gallery['entries'])} pairings appear on the page"
+           + (f" — MISSING: {unshown}" if unshown else ""))
 
     if args.json:
         print(json.dumps({"ok": not problems, "checked": checked, "problems": problems}, indent=2))
