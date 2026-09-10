@@ -10,13 +10,15 @@
       "styleDescription": "White/blue, professional business presentations",
       "aspect": "9:16",
       "alsoWorks": "16:9",
+      "sceneSeconds": "4-8",
       "captions": "on",
       "narration": "one voice",
       "swatch": {
         "bg": "#ffffff",
         "fg": "#1e293b",
         "caption": "#1e293b",
-        "highlight": "#059669"
+        "accent": "#059669",
+        "stroke": "#ffffff"
       },
       "fontFamily": "Inter"
     },
@@ -28,6 +30,8 @@
       "description": "Mood-driven montage",
       "styleDescription": "Restrained ink-on-cream captions and quiet lower-thirds",
       "aspect": "9:16",
+      "scenes": "4-8",
+      "sceneSeconds": "2-6",
       "captions": "off",
       "narration": "optional",
       "music": "required",
@@ -35,7 +39,8 @@
         "bg": "#0f172a",
         "fg": "#f8fafc",
         "caption": "#f8fafc",
-        "highlight": "#fbbf24"
+        "accent": "#fbbf24",
+        "stroke": "#0f172a"
       }
     },
     {
@@ -55,7 +60,8 @@
         "bg": "#1c1c2e",
         "fg": "#ffffff",
         "caption": "#ffffff",
-        "highlight": "#facc15"
+        "accent": "#facc15",
+        "stroke": "#1c1c2e"
       },
       "fontFamily": "Inter"
     },
@@ -69,13 +75,15 @@
       "aspect": "16:9",
       "alsoWorks": "9:16",
       "scenes": "5-7",
+      "sceneSeconds": "4-6",
       "captions": "on",
       "narration": "one voice",
       "swatch": {
         "bg": "#18181b",
         "fg": "#fafafa",
         "caption": "#fafafa",
-        "highlight": "#ec4899"
+        "accent": "#ec4899",
+        "stroke": "#18181b"
       },
       "fontFamily": "Inter"
     },
@@ -95,7 +103,8 @@
         "bg": "#faf5f0",
         "fg": "#292524",
         "caption": "#292524",
-        "highlight": "#d97706"
+        "accent": "#d97706",
+        "stroke": "#faf5f0"
       },
       "fontFamily": "Fraunces"
     },
@@ -112,9 +121,11 @@
       "swatch": {
         "bg": "#0f172a",
         "fg": "#fde047",
-        "caption": "#ffffff",
-        "highlight": "#000000"
-      }
+        "caption": "#fde047",
+        "accent": "#f472b6",
+        "stroke": "#000000"
+      },
+      "uppercase": true
     }
   ]
 }

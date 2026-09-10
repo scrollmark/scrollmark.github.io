@@ -83,38 +83,54 @@ def json_block(text: str) -> dict:
     return json.loads(block.group(1)) if block else {}
 
 
-def swatch(style_values: dict) -> dict:
-    """The three colours a card previews with, taken from the preset itself.
+def swatch(style_values: dict) -> tuple[dict, list[str]]:
+    """The colours a card previews with, taken from the preset itself.
 
     A preview whose colours were picked here would be a drawing of a style
     rather than the style, and would stay pretty while the preset changed
-    underneath it.
+    underneath it. So nothing is invented: a preset that does not say what
+    colour its captions are produces a problem, not a default.
+
+    Two things this got wrong before, both of which published a colour the
+    preset does not have. `captions.color` defaulted to white -- `loud-social`
+    has no `color` at all, it has a four-colour `palette`, and the card claimed
+    white. And `stroke` stood in for `highlight` when there was none, which
+    paints an OUTLINE as a FILL: `loud-social`'s black 14px stroke became a
+    black caption word on a navy card.
     """
     captions = style_values.get("captions", {})
     title = style_values.get("cards", {}).get("title", {})
-    return {
-        "bg": title.get("bg", "#0a0a0a"),
-        "fg": title.get("fg", "#ffffff"),
-        "caption": captions.get("color", "#ffffff"),
-        "highlight": captions.get("highlight", captions.get("stroke", "#0a0a0a")),
-    }
-
-
-def main() -> int:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--skills", type=Path,
-                    help="a local social-skills checkout to read instead of the live repo")
-    ap.add_argument("--check", action="store_true",
-                    help="report drift and change nothing")
-    args = ap.parse_args()
-
-    read = (lambda p: read_local(args.skills, p)) if args.skills else read_live
-    # Deliberately not the checkout path: it names somebody's laptop, and
-    # what the file is claiming is which repo the values came from.
-    source = f"{REPO}@master" if not args.skills else f"{REPO}@local checkout"
-
-    entries = []
     problems = []
+    if not ("bg" in title and "fg" in title):
+        problems.append("cards.title has no bg/fg — nothing to paint a card with")
+    palette = captions.get("palette") or []
+    caption = captions.get("color") or (palette[0] if palette else None)
+    if caption is None:
+        problems.append("captions has neither a color nor a palette")
+    # The emphasised word: the preset's own highlight, or the second colour of
+    # a palette that cycles per word, which is what that word would be.
+    accent = captions.get("highlight") or (palette[1] if len(palette) > 1 else caption)
+    out = {"bg": title.get("bg"), "fg": title.get("fg"),
+           "caption": caption, "accent": accent}
+    # The outline is a real caption property and the reason these colours are
+    # legible over footage at all, so the preview draws it rather than leaving
+    # the type to fend for itself against a card background it never sits on.
+    if captions.get("stroke"):
+        out["stroke"] = captions["stroke"]
+    return ({k: v for k, v in out.items() if v is not None}, problems)
+
+
+def build(read) -> tuple[list[dict], list[str]]:
+    """Every pairing, resolved through *read*, plus whatever went wrong.
+
+    Split out from main() so `check-accuracy.py` compares the committed file
+    against THIS code rather than against a second implementation of it. A
+    second implementation agreeing with the first is not evidence: the first
+    version of that check re-derived the swatch and duly certified a colour
+    the preset does not define, because both copies invented the same default.
+    """
+    entries: list[dict] = []
+    problems: list[str] = []
     for fmt_name, style_name, why in PAIRINGS:
         try:
             fmt = frontmatter(read(f"{FORMATS_DIR}/{fmt_name}.md"))
@@ -133,6 +149,11 @@ def main() -> int:
         if not style_values:
             problems.append(f"style {style_name}: no json block")
             continue
+        colours, colour_problems = swatch(style_values)
+        if colour_problems:
+            problems += [f"style {style_name}: {c}" for c in colour_problems]
+            continue
+        captions = style_values.get("captions", {})
         # Empty strings are dropped rather than carried: Liquid treats "" as
         # truthy, so a key present-but-empty renders its label and no value —
         # a spec row reading "Music" with nothing after it. Absent is absent.
@@ -151,24 +172,41 @@ def main() -> int:
             "narration": fmt.get("narration", ""),
             "music": fmt.get("music", ""),
             "needs": fmt.get("needs", ""),
-            "swatch": swatch(style_values),
-            "fontFamily": style_values.get("captions", {}).get("fontFamily", ""),
+            "swatch": colours,
+            "fontFamily": captions.get("fontFamily", ""),
+            "uppercase": captions.get("uppercase", False),
         }
-        entries.append({k: v for k, v in entry.items() if v != ""})
+        entries.append({k: v for k, v in entry.items() if v != "" and v is not False})
+    return entries, problems
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--skills", type=Path,
+                    help="a local social-skills checkout to read instead of the live repo")
+    ap.add_argument("--check", action="store_true",
+                    help="report drift and change nothing")
+    args = ap.parse_args()
+
+    read = (lambda p: read_local(args.skills, p)) if args.skills else read_live
+    # Deliberately not the checkout path: it names somebody's laptop, and what
+    # the file is claiming is which repo the values came from.
+    source = f"{REPO}@master" if not args.skills else f"{REPO}@local checkout"
+    entries, problems = build(read)
 
     if problems:
         print("\n".join(problems), file=sys.stderr)
         return 1
 
-    data = {"source": source, "entries": entries}
-    rendered = json.dumps(data, indent=2) + "\n"
+    rendered = json.dumps({"source": source, "entries": entries}, indent=2) + "\n"
 
     if args.check:
-        current = OUT.read_text() if OUT.is_file() else ""
+        current = json.loads(OUT.read_text()) if OUT.is_file() else {}
         # `source` records where the data was last read from and is expected to
         # differ between a checkout and the live repo, so it is not drift.
-        same = json.loads(current or "{}").get("entries") == entries
-        print("gallery.json matches the repo" if same else "gallery.json is stale — re-run without --check")
+        same = current.get("entries") == entries
+        print("gallery.json matches the repo" if same
+              else "gallery.json is stale — re-run without --check")
         return 0 if same else 1
 
     OUT.write_text(rendered)
