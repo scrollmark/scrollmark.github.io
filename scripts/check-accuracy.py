@@ -329,6 +329,32 @@ def main() -> int:
         fresh = sync_gallery.counts(None)
         expect("gallery counts", committed.get("counts") == fresh,
                f"the data says {committed.get('counts')} formats/presets, the repo has {fresh}")
+
+    # Every template the pack publishes reaches the page.
+    #
+    # `build()` orders by ORDER and then falls through to pack order, so a
+    # newly published template appears on its own -- but only if this site is
+    # regenerated. Without this check a template released upstream is invisible
+    # here and nothing says so, which is the failure mode the whole migration
+    # introduced: curation moved to a repo whose releases this site does not
+    # watch.
+    #
+    # Read from the pack directly rather than from `build()`'s output, so a
+    # template dropped ANYWHERE in that function -- an unresolvable ref, a bad
+    # swatch, a silent `continue` -- is counted as missing rather than agreeing
+    # with itself.
+    if live:
+        pack, pack_problems = sync_gallery.load_pack(sync_gallery.read_live)
+        for pp in pack_problems:
+            problems.append(f"pack: {pp}")
+        published = {a["id"] for a in (pack or {}).get("assets", [])
+                     if a.get("kind") == "template"}
+        shown = {f"template/{e['format']}-{e['style']}" for e in committed["entries"]}
+        absent = sorted(published - shown)
+        expect("every published template is on the page",
+               bool(published) and not absent,
+               f"all {len(published)} templates in the pack have a card"
+               + (f" — MISSING: {absent}" if absent else ""))
     for entry in live:
         key = (entry["format"], entry["style"])
         have = by_pair.pop(key, None)

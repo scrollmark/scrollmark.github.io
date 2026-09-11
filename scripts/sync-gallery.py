@@ -1,17 +1,27 @@
 #!/usr/bin/env python3
-"""Build the gallery's data from scrollmark/social-skills.
+"""Build the gallery's data from the pack scrollmark/social-skills publishes.
 
-A template on this site is two halves that already exist in that repo: a
-*format* (the shape — how many scenes, what frame, whether it speaks) and a
-*style* preset (the look — caption colour, card colours, type). Ten formats and
-fourteen styles is a hundred and forty pairings, and a page listing all of them
-would be a page nobody reads. So the pairings are curated, by hand, below —
-this file is where the gallery grows.
+A template on this site is two halves: a *format* (the shape — how many
+scenes, what frame, whether it speaks) and a *style* preset (the look —
+caption colour, card colours, type). Which pairs are worth showing is
+curation, and it used to live HERE, as two hand-kept Python literals. It does
+not any more: the pairings are `template` assets in the published pack, and
+this file enumerates them.
 
-Everything else is read rather than written: the format frontmatter and the
-style JSON come out of the skills repo, so a colour on this site is the colour
-that repo would actually render. Nothing here invents a value; a pairing that
-names a format or a style the repo does not have is an error, not a blank card.
+That is the whole point of the move. The editor cannot see a commit to this
+site, so a pairing curated here could never reach the product. Now both are
+consumers of one published index, and this script is a renderer.
+
+One file is read instead of thirty-two: the pack carries every style's JSON
+and every format's frontmatter verbatim, so a colour on this site is still the
+colour that repo would actually render. Nothing here invents a value; a
+template naming a format or style the pack does not have is an error there,
+before it ever reaches this script.
+
+What stays site-owned is presentation: the ORDER the cards appear in, and the
+lossy projection below — `titleScale`, `captionBottom`, the five-colour swatch
+— which are instructions for drawing a thumbnail in CSS and have no business
+in the source of truth.
 
   python3 scripts/sync-gallery.py                       # read the live repo
   python3 scripts/sync-gallery.py --skills ../social-skills   # read a checkout
@@ -25,7 +35,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import re
 import sys
 import urllib.request
@@ -35,81 +44,47 @@ REPO = "scrollmark/social-skills"
 RAW = f"https://raw.githubusercontent.com/{REPO}/master"
 FORMATS_DIR = "skills/video-formats/references/formats"
 STYLES_DIR = "src/video_studio/styles"
+PACK_INDEX = "packs/index.json"
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "src" / "_data" / "gallery.json"
 
-#: What the five reference templates actually say, for the cards that recreate
-#: them. A preview that shows the FORMAT's name tells you what shape it is; one
-#: that shows the template's own line tells you what it is for, which is the
-#: thing somebody browsing is looking for. Absent, a card shows its format name
-#: and a stand-in caption, which is what every other card does.
-PREVIEW_COPY = {
-    "daily-recap+summer-scrapbook": {
-        "title": "Summer Vibes", "caption": "let the sun melt the stress"},
-    "cinematic+weekend-gothic": {
-        "title": "Weekend", "caption": "added to the list"},
-    "brand-origin+editorial-sage": {
-        "title": "THE everything you need", "caption": "01 / 12"},
-    "titled-video+postcard-serif": {
-        "title": "New York", "caption": "travel · vacation"},
-    "daily-recap+pov-serif": {
-        # The whole line, not the opener. "pov:" alone at this preset's size is
-        # two unreadable characters where the reference has a sentence.
-        "title": "pov: capturing everything so you can rewatch it later",
-        "caption": "three panels, one afternoon"},
-}
-
-#: The gallery, as a list, in the order it is read. The five recreations of the
-#: reference templates come first: they are the ones with a moving preview and
-#: the ones somebody arriving is most likely to be looking for, and a visitor
-#: who reads three cards should have read those.
+#: The order the cards are read in, by template id. Presentation, and the one
+#: piece of curation that stays on this site: which cards a visitor reads first
+#: says nothing about what the templates ARE, and the editor has its own idea
+#: of what to show first.
 #:
-#: Each entry is a format, a style, and one line saying why the two belong
-#: together — the only sentence on the card that is written
-#: here rather than read from the repo.
-PAIRINGS = [
-    ("daily-recap", "summer-scrapbook",
-     "A season of phone footage, with one sentence worth keeping."),
-    ("cinematic", "weekend-gothic",
-     "One blackletter word over neon, and nothing else competing."),
-    ("brand-origin", "editorial-sage",
-     "A Didone line and one script word, cream on a flat colour field."),    ("titled-video", "postcard-serif",
-     "A place name across the top, tracked until it is almost a line."),
-    ("daily-recap", "pov-serif",
-     "Three panels of an afternoon, captioned like a thought rather than a title."),
-    ("explainer", "clean-corporate",
-     "A concept walked through end to end, in the flat palette a deck already uses."),
-    ("cinematic", "documentary",
-     "Cut to the track, captions off, colour left alone. The look is the footage."),
-    ("timeline-explainer", "3b1b-dark",
-     "Numbered beats on a dark ground, the way a maths lecture counts."),
-    ("product-launch", "tech-startup",
-     "Three capabilities and a name to land, in a palette built to look shipped."),
-    ("brand-origin", "warm-minimal",
-     "One from-here-to-there story, told quietly enough to be believed."),
-    ("talking-head", "loud-social",
-     "One person to camera, captions loud enough to work on mute."),
-    ("daily-recap", "vhs-90s",
-     "A day as a run of short beats, cut on the track, stamped like a camcorder."),
-    ("titled-video", "analog-editorial",
-     "A clip you already have, titled as though it were printed on paper."),
-    ("brand-origin", "magazine-cover",
-     "One claim, one masthead, one red. Nothing else on screen."),
-    ("timeline-explainer", "lookbook-sage",
-     "A collection that counts itself, in cream on sage."),
-    ("talking-head", "pov-quiet",
-     "A held moment, captioned mid-frame in a voice that does not raise."),
-    ("cinematic", "neon-sign",
-     "One word in struck neon tube, over a street that is already lit."),
-    ("daily-recap", "wet-paint",
-     "Letters that drip, lime on black, for a day with no sincerity in it."),
-    ("titled-video", "chrome-y2k",
-     "A colour font that paints its own bevelled chrome, on a dark frame."),
-    ("brand-origin", "zine-glitch",
-     "Type photocopied until it breaks, and exactly one red."),
-    ("timeline-explainer", "arcade-crt",
-     "Phosphor green pixels counting up, the way a score does."),
+#: The five recreations of the reference templates lead, because they are the
+#: ones with a moving preview and the ones somebody arriving is most likely to
+#: be looking for. The rest is a hand-made sequence that alternates formats so
+#: no two neighbours are the same shape, which pack order -- alphabetical by
+#: filename -- would quietly undo.
+#:
+#: Anything not named here follows, in pack order, so a newly published
+#: template appears rather than vanishing. An id here that no longer exists is
+#: an error: losing a card is exactly what a migration does quietly.
+ORDER = [
+    "template/daily-recap-summer-scrapbook",
+    "template/cinematic-weekend-gothic",
+    "template/brand-origin-editorial-sage",
+    "template/titled-video-postcard-serif",
+    "template/daily-recap-pov-serif",
+    "template/explainer-clean-corporate",
+    "template/cinematic-documentary",
+    "template/timeline-explainer-3b1b-dark",
+    "template/product-launch-tech-startup",
+    "template/brand-origin-warm-minimal",
+    "template/talking-head-loud-social",
+    "template/daily-recap-vhs-90s",
+    "template/titled-video-analog-editorial",
+    "template/brand-origin-magazine-cover",
+    "template/timeline-explainer-lookbook-sage",
+    "template/talking-head-pov-quiet",
+    "template/cinematic-neon-sign",
+    "template/daily-recap-wet-paint",
+    "template/titled-video-chrome-y2k",
+    "template/brand-origin-zine-glitch",
+    "template/timeline-explainer-arcade-crt",
 ]
 
 
@@ -235,28 +210,19 @@ def counts(skills: Path | None) -> dict[str, int]:
     Read rather than written down. The page quotes both numbers, and a number
     a person maintains on a page about a repository is the drift this site has
     already shipped six times.
+
+    From the pack index, which states them, rather than from the GitHub
+    contents API. That API is a 60-an-hour-per-IP budget CI shares with every
+    other runner, and the accuracy job duly started failing with "rate limit
+    exceeded" on a change that touched no counts at all. The index is a few KB
+    on raw.githubusercontent.com with no such budget, and it is the same file
+    the rest of this script already reads.
     """
-    if skills:
-        return {"formats": len(list((skills / FORMATS_DIR).glob("*.md"))),
-                "styles": len(list((skills / STYLES_DIR).glob("*.md")))}
-    out = {}
-    for key, path in (("formats", FORMATS_DIR), ("styles", STYLES_DIR)):
-        url = f"https://api.github.com/repos/{REPO}/contents/{path}?ref=master"
-        headers = {"Accept": "application/vnd.github+json",
-                   "User-Agent": "scrollmark-gallery/1.0"}
-        # The token when there is one. Without it these are anonymous calls
-        # against a 60-an-hour-per-IP budget that CI shares with every other
-        # runner, and a busy afternoon spends it -- the accuracy job started
-        # failing with "rate limit exceeded" on a change that touched no
-        # counts at all. `check-accuracy.py` has always sent it; this call was
-        # added later and did not.
-        token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
-        if token:
-            headers["Authorization"] = f"Bearer {token}"
-        request = urllib.request.Request(url, headers=headers)
-        with urllib.request.urlopen(request, timeout=40) as response:
-            out[key] = sum(1 for e in json.load(response) if e["name"].endswith(".md"))
-    return out
+    read = (lambda path: read_local(skills, path)) if skills else read_live
+    index = json.loads(read(PACK_INDEX))
+    packs = index.get("packs") or []
+    available = (packs[0].get("assetCounts") if packs else {}) or {}
+    return {"formats": available.get("format", 0), "styles": available.get("style", 0)}
 
 
 def title_placement(title: dict) -> dict:
@@ -288,6 +254,42 @@ def title_placement(title: dict) -> dict:
     }
 
 
+def load_pack(read) -> tuple[dict | None, list[str]]:
+    """The index, then the one pack it names.
+
+    Two reads rather than a hardcoded filename: the index is the thing that
+    knows the current version, and pinning a version here would leave this site
+    rendering an old pack for as long as nobody noticed.
+    """
+    try:
+        index = json.loads(read(PACK_INDEX))
+    except Exception as e:  # noqa: BLE001 — the reason belongs in the report
+        return None, [f"{PACK_INDEX}: {e}"]
+    packs = index.get("packs") or []
+    if not packs:
+        return None, [f"{PACK_INDEX}: no packs listed"]
+    entry = packs[0]
+    try:
+        return json.loads(read(f"packs/{entry['url']}")), []
+    except Exception as e:  # noqa: BLE001
+        return None, [f"packs/{entry.get('url')}: {e}"]
+
+
+def in_order(templates: list[dict]) -> tuple[list[dict], list[str]]:
+    """ORDER first, then everything else in pack order.
+
+    Ordering is the one piece of curation that stays on this site, because it
+    is presentation: which cards a visitor reads first says nothing about what
+    the templates are.
+    """
+    by_id = {template["id"]: template for template in templates}
+    problems = [f"ORDER names {i}, which is not in the pack"
+                for i in ORDER if i not in by_id]
+    first = [by_id[i] for i in ORDER if i in by_id]
+    rest = [t for t in templates if t["id"] not in set(ORDER)]
+    return first + rest, problems
+
+
 def build(read) -> tuple[list[dict], list[str]]:
     """Every pairing, resolved through *read*, plus whatever went wrong.
 
@@ -299,25 +301,43 @@ def build(read) -> tuple[list[dict], list[str]]:
     """
     entries: list[dict] = []
     problems: list[str] = []
-    for fmt_name, style_name, why in PAIRINGS:
-        pairing = f"{fmt_name}+{style_name}"
-        try:
-            fmt = frontmatter(read(f"{FORMATS_DIR}/{fmt_name}.md"))
-        except Exception as e:  # noqa: BLE001 — the reason belongs in the report
-            problems.append(f"format {fmt_name}: {e}")
+
+    pack, pack_problems = load_pack(read)
+    problems += pack_problems
+    if pack is None:
+        return entries, problems
+
+    by_id = {asset["id"]: asset for asset in pack.get("assets", [])}
+    templates = [a for a in pack.get("assets", []) if a.get("kind") == "template"]
+    ordered, order_problems = in_order(templates)
+    problems += order_problems
+
+    for template in ordered:
+        values = template.get("values", {})
+        why = values.get("why", "")
+        format_ref, style_ref = values.get("formatRef"), values.get("styleRef")
+        fmt_asset, style_asset = by_id.get(format_ref), by_id.get(style_ref)
+        # Named rather than skipped. The pack refuses an unresolvable ref at
+        # build time, so reaching here means the pack and this script disagree
+        # about what a ref is -- which is worth a failure, not a shorter page.
+        if fmt_asset is None or fmt_asset.get("kind") != "format":
+            problems.append(f"{template['id']}: {format_ref} is not a format in the pack")
             continue
-        if not fmt:
-            problems.append(f"format {fmt_name}: no frontmatter to read")
+        if style_asset is None or style_asset.get("kind") != "style":
+            problems.append(f"{template['id']}: {style_ref} is not a style in the pack")
             continue
-        try:
-            style_text = read(f"{STYLES_DIR}/{style_name}.md")
-        except Exception as e:  # noqa: BLE001
-            problems.append(f"style {style_name}: {e}")
-            continue
-        style_meta, style_values = frontmatter(style_text), json_block(style_text)
-        if not style_values:
-            problems.append(f"style {style_name}: no json block")
-            continue
+
+        fmt_name = format_ref.split("/", 1)[1]
+        style_name = style_ref.split("/", 1)[1]
+        # The format's frontmatter and the style's JSON block, carried through
+        # the pack unchanged. Reading them here rather than from markdown is
+        # what makes this a renderer: one fetch, and the same bytes the editor
+        # applies.
+        fmt = fmt_asset.get("values", {})
+        style_values = style_asset.get("values", {})
+        style_meta = {"description": style_asset.get("description", "")}
+        preview = values.get("previewCopy") or {}
+
         colours, colour_problems = swatch(style_values)
         if colour_problems:
             problems += [f"style {style_name}: {c}" for c in colour_problems]
@@ -333,8 +353,8 @@ def build(read) -> tuple[list[dict], list[str]]:
             "style": style_name,
             "why": why,
             "title": fmt.get("title", fmt_name),
-            "previewTitle": PREVIEW_COPY.get(pairing, {}).get("title", ""),
-            "previewCaption": PREVIEW_COPY.get(pairing, {}).get("caption", ""),
+            "previewTitle": preview.get("title", ""),
+            "previewCaption": preview.get("caption", ""),
             "description": fmt.get("description", ""),
             "styleDescription": style_meta.get("description", ""),
             "aspect": fmt.get("aspect", ""),
