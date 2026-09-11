@@ -53,7 +53,10 @@ PREVIEW_COPY = {
     "titled-video+postcard-serif": {
         "title": "New York", "caption": "travel · vacation"},
     "daily-recap+pov-serif": {
-        "title": "pov:", "caption": "capturing everything so you can rewatch it"},
+        # The whole line, not the opener. "pov:" alone at this preset's size is
+        # two unreadable characters where the reference has a sentence.
+        "title": "pov: capturing everything so you can rewatch it later",
+        "caption": "three panels, one afternoon"},
 }
 
 #: The gallery, as a list. Each entry is a format, a style, and one line saying
@@ -139,6 +142,21 @@ FRAME_HEIGHTS = {"9:16": 1920, "16:9": 1080, "1:1": 1080, "4:5": 1350, "source":
 
 def frame_height(aspect: str) -> int:
     return FRAME_HEIGHTS.get(aspect, 1920)
+
+
+def named_face(stack: str) -> str:
+    """The first family the preset actually names, system faces included.
+
+    Different from `face` on purpose. `face` answers "which webfont should the
+    page load", and a system family is not one -- but it IS what a render uses,
+    so a card that prints `face`'s answer says EB Garamond about a preset whose
+    first choice is Georgia.
+    """
+    for name in stack.split(","):
+        cleaned = name.strip().strip("\"'")
+        if cleaned and cleaned.lower() not in GENERIC_FAMILIES:
+            return cleaned
+    return ""
 
 
 def face(stack: str) -> str:
@@ -297,9 +315,14 @@ def build(read) -> tuple[list[dict], list[str]]:
                 / frame_height(fmt.get("aspect", "9:16")), 4),
             "captionScale": round(
                 captions.get("fontSize", 56) / frame_height(fmt.get("aspect", "9:16")), 4),
+            # What to load, and what to say. They differ whenever a preset
+            # names a system face first.
             "titleFace": face(style_values.get("cards", {}).get("title", {})
                               .get("fontFamily", "")),
             "captionFace": face(captions.get("fontFamily", "")),
+            "titleFaceNamed": named_face(style_values.get("cards", {}).get("title", {})
+                                         .get("fontFamily", "")),
+            "captionFaceNamed": named_face(captions.get("fontFamily", "")),
             "uppercase": captions.get("uppercase", False),
         }
         entries.append({k: v for k, v in entry.items() if v != "" and v is not False})
