@@ -317,6 +317,11 @@ def build(read) -> tuple[list[dict], list[str]]:
             "titleScale": round(
                 style_values.get("cards", {}).get("title", {}).get("fontSize", 84)
                 / frame_height(fmt.get("aspect", "9:16")), 4),
+            # The outline, relative to the type it outlines -- the same ratio
+            # the editor stores, so it survives a change of frame the way the
+            # size does.
+            "captionStrokeEm": round(
+                captions.get("strokeWidth", 0) / max(1, captions.get("fontSize", 56)), 4),
             "captionScale": round(
                 captions.get("fontSize", 56) / frame_height(fmt.get("aspect", "9:16")), 4),
             # What to load, and what to say. They differ whenever a preset

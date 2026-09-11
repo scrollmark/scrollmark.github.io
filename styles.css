@@ -1491,37 +1491,38 @@ footer {
   text-align: left;
 }
 
-/* The band is the preset's own `stroke`, and the type on it is the preset's
-   own caption colour.
-   Captions sit over footage rather than over a title card, so painting them
-   on the card's background asked colours to work where they never appear.
-   A neutral grey band was the first answer and was worse: measured at the
-   drawn size, nine of twelve caption/accent pairs fell below 4.5:1 against
-   it, because a mid grey is close in luminance to half a palette.
-   A stroke is not neutral, and it is not arbitrary either -- it is the colour
-   the preset itself puts immediately around every letter, at 3 to 14px, so
-   the fill was designed to be legible against exactly this. Measured: every
-   caption is 7:1 or better against its own band -- AAA for text this size,
-   with most well above it; `lookbook-sage`'s cream on a dark sage stroke is
-   the floor at 7.64.
-   That number is checked rather than remembered -- see `check-accuracy.py`.
-   It said 14:1, then 13:1, and each time it was true on the day and false one
-   preset later. It is now the check that moves it, not a person.
-   The emphasised word is a different matter. It is the preset's `highlight`,
-   and two presets pair a mid-tone highlight with a near-white stroke --
-   `clean-corporate` 3.8:1, `warm-minimal` 2.9:1 -- because in a render that
-   word sits over footage, not over its own outline. Those two are reported
-   here rather than corrected: correcting them would mean showing a colour the
-   preset does not have, which is the whole thing this page refuses to do. The
-   swatch is decorative (`aria-hidden`, inside a `role="img"`), and the label
-   carries what it shows. */
+/* A caption is outlined type over a picture, so that is what this draws.
+   It used to sit on a band of its own stroke colour, which solved the contrast
+   problem by inventing a pill no renderer draws. The outline is the real
+   answer and the preset already states it: `strokeWidth / fontSize`, the same
+   ratio the editor stores, so it holds at any size.
+   `paint-order: stroke fill` puts the stroke behind the letter instead of
+   through it -- without it a 0.13em stroke eats a third of the letterform.
+   The contrast is unchanged by dropping the band: what surrounds a glyph is
+   still the stroke colour, which is what it was always measured against.
+   Measured: every caption is 7:1 or better against its own outline, and that
+   number is checked rather than remembered -- see `check-accuracy.py`. */
 .tpl-preview-caption {
   font-family: var(--tpl-caption-face, var(--font-mono));
-  font-size: calc(var(--tpl-caption-scale, 0.0292) * var(--tpl-tall) * 100cqw);
-  padding: 3px 7px;
-  border-radius: 4px;
-  background: var(--tpl-stroke);
+  /* True scale, with a floor. A caption is about 3% of a frame's height --
+     56px on a 1920 frame, right in a video and 7px in a thumbnail this size,
+     which is a grey smudge rather than a caption. The floor is the one place
+     this preview knowingly departs from the proportion, and it departs only
+     where the card is small: at full width the honest size wins. */
+  font-size: max(
+    calc(var(--tpl-caption-scale, 0.0292) * var(--tpl-tall) * 100cqw),
+    11px
+  );
+  font-weight: 700;
+  letter-spacing: 0.01em;
   color: var(--tpl-caption);
+  -webkit-text-stroke: calc(var(--tpl-caption-stroke-em, 0.09) * 1em) var(--tpl-stroke);
+  paint-order: stroke fill;
+  /* A little lift off the picture, which the composer gets from the shadow it
+     draws under a caption. */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.32);
+  text-align: center;
+  max-width: 92%;
 }
 
 .tpl-preview-caption--upper { text-transform: uppercase; letter-spacing: 0.04em; }
