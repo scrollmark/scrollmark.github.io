@@ -247,6 +247,28 @@ def main() -> int:
     STOCK_DIR.mkdir(exist_ok=True)
     credits = json.loads(OUT.read_text()) if OUT.is_file() else {}
 
+    # Stills we made ourselves. They are not fetched, so `--rebalance` leaves
+    # them alone and `--measure` records them like any other -- but their
+    # provenance is "ours", not a licence somebody else granted.
+    OURS = {
+        "daily-recap+summer-scrapbook",
+        "daily-recap+pov-serif",
+        "cinematic+weekend-gothic",
+        "brand-origin+editorial-sage",
+        "titled-video+postcard-serif",
+    }
+    for pairing in OURS:
+        name = pairing.replace("+", "--") + ".jpg"
+        if (STOCK_DIR / name).is_file():
+            credits[pairing] = {
+                **credits.get(pairing, {}),
+                "file": f"stock/{name}",
+                "title": "Scrollmark template still",
+                "creator": "Scrollmark",
+                "source": "in-house",
+                "license": "OWN",
+            }
+
     if args.measure:
         if not args.aspects or not args.aspects.is_file():
             raise SystemExit("--measure needs --aspects gallery.json for the swatches")

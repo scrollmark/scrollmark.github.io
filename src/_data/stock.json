@@ -1,4 +1,14 @@
 {
+  "brand-origin+editorial-sage": {
+    "bandLuminance": 0.174972,
+    "creator": "Scrollmark",
+    "file": "stock/brand-origin--editorial-sage.jpg",
+    "license": "OWN",
+    "sha256": "f2315d1d0fd196e885e7ddbb8007db1ee6ceefc9b65d96dddca6409d9c342873",
+    "source": "in-house",
+    "title": "Scrollmark template still",
+    "titleContrast": 3.76
+  },
   "brand-origin+magazine-cover": {
     "bandLuminance": 0.111378,
     "creator": "Wonderlane",
@@ -52,26 +62,36 @@
     "titleContrast": 5.26
   },
   "cinematic+weekend-gothic": {
-    "bandLuminance": 0.00504,
-    "creator": "dr-scott",
+    "bandLuminance": 0.027372,
+    "creator": "Scrollmark",
     "file": "stock/cinematic--weekend-gothic.jpg",
-    "license": "CC0",
+    "license": "OWN",
     "query": "night sky black",
-    "sha256": "6a2a709d644eab578d505c1cd55a430c73c4980b3e6c8798eb50eb16c4eb7ffc",
-    "source": "https://www.flickr.com/photos/60174743@N02/14411447439",
-    "title": "Nighttime Traffic",
-    "titleContrast": 4.41
+    "sha256": "cf43a731af12f8dde346b942e448be07afc0aed4e3b4044f7a7aae854025f617",
+    "source": "in-house",
+    "title": "Scrollmark template still",
+    "titleContrast": 3.14
+  },
+  "daily-recap+pov-serif": {
+    "bandLuminance": 0.056281,
+    "creator": "Scrollmark",
+    "file": "stock/daily-recap--pov-serif.jpg",
+    "license": "OWN",
+    "sha256": "cc7a581e6713088211b43a83fc0e35fc625f4303e599c5d8eca0d13bd9e52f85",
+    "source": "in-house",
+    "title": "Scrollmark template still",
+    "titleContrast": 9.08
   },
   "daily-recap+summer-scrapbook": {
-    "bandLuminance": 0.174204,
-    "creator": "Childe Hassam, born Dorchester, MA 1859-died East Hampton, NY 1935",
+    "bandLuminance": 0.033724,
+    "creator": "Scrollmark",
     "file": "stock/daily-recap--summer-scrapbook.jpg",
-    "license": "CC0",
+    "license": "OWN",
     "query": "friends summer beach sun",
-    "sha256": "c126dae1d58f950d1fb34d314e1be2f40f9dab8de5c1a094483a36f153ede60b",
-    "source": "https://americanart.si.edu/collections/search/artwork/?id=10086",
-    "title": "The South Ledges, Appledore",
-    "titleContrast": 4.0
+    "sha256": "13fc7d46ba3a21ccbb4f0fc1211cd9d676b05373782c4831eced731d265d23e0",
+    "source": "in-house",
+    "title": "Scrollmark template still",
+    "titleContrast": 10.72
   },
   "daily-recap+vhs-90s": {
     "bandLuminance": 0.116968,
@@ -189,14 +209,14 @@
     "titleContrast": 18.2
   },
   "titled-video+postcard-serif": {
-    "bandLuminance": 0.121469,
-    "creator": "Amsterdam free photos & pictures of the Dutch city",
+    "bandLuminance": 0.048549,
+    "creator": "Scrollmark",
     "file": "stock/titled-video--postcard-serif.jpg",
-    "license": "CC0",
+    "license": "OWN",
     "query": "city street autumn buildings",
-    "sha256": "1c360a6fefbf288912b1ffb9718abd5f6c70d3ee0f9a08cc40b209869fd7a08b",
-    "source": "https://www.flickr.com/photos/104736837@N03/10905565774",
-    "title": "Autumn in the city Amsterdam with fallen leaves from plane trees; school-building facade near the canal Kostverlorenvaart, on the corner of Postjesweg and Baarsjesweg, in Amsterdam city; urban photography in the Netherlands, Fons Heijnsbroek 2013",
-    "titleContrast": 6.01
+    "sha256": "cf3f710313516ca02c6d5563b4e1299f2f2a8d5578af5e7c5e5bb410ff52509c",
+    "source": "in-house",
+    "title": "Scrollmark template still",
+    "titleContrast": 10.46
   }
 }
