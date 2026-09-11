@@ -44,7 +44,7 @@ about: "index.html#about"
 {%- assign shot = stock[key] %}
           <article class="card tpl-card{% if shot.clip %} tpl-card--moves{% endif %}">
             <div class="tpl-preview tpl-preview--{{ t.aspect | replace: ":", "x" }}"
-                 style="--tpl-bg: {{ t.swatch.bg }}; --tpl-fg: {{ t.swatch.fg }}; --tpl-caption: {{ t.swatch.caption }}; --tpl-accent: {{ t.swatch.accent }}; --tpl-stroke: {{ t.swatch.stroke | default: "transparent" }}{% if shot %}; --tpl-shot: url('{{ shot.file }}'){% endif %}{% if t.titleFaceNamed or t.titleFace %}; --tpl-title-face: '{{ t.titleFaceNamed | default: t.titleFace }}'{% endif %}{% if t.titleScale %}; --tpl-title-scale: {{ t.titleScale }}{% endif %}{% if t.captionScale %}; --tpl-caption-scale: {{ t.captionScale }}{% endif %}{% if t.captionStrokeEm %}; --tpl-caption-stroke-em: {{ t.captionStrokeEm }}{% endif %}{% if t.captionFaceNamed or t.captionFace %}; --tpl-caption-face: '{{ t.captionFaceNamed | default: t.captionFace }}'{% endif %}{% if t.titleTop %}; --tpl-title-top: {{ t.titleTop }}; --tpl-title-left: {{ t.titleLeft }}; --tpl-title-width: {{ t.titleWidth }}; --tpl-title-align: {{ t.titleAlign }}{% endif %}"
+                 style="--tpl-bg: {{ t.swatch.bg }}; --tpl-fg: {{ t.swatch.fg }}; --tpl-caption: {{ t.swatch.caption }}; --tpl-accent: {{ t.swatch.accent }}; --tpl-stroke: {{ t.swatch.stroke | default: "transparent" }}{% if shot %}; --tpl-shot: url('{{ shot.file }}'){% endif %}{% if t.titleFaceNamed or t.titleFace %}; --tpl-title-face: '{{ t.titleFaceNamed | default: t.titleFace }}'{% endif %}{% if t.titleScale %}; --tpl-title-scale: {{ t.titleScale }}{% endif %}{% if t.captionScale %}; --tpl-caption-scale: {{ t.captionScale }}{% endif %}{% if t.captionStrokeEm %}; --tpl-caption-stroke-em: {{ t.captionStrokeEm }}{% endif %}{% if t.captionFaceNamed or t.captionFace %}; --tpl-caption-face: '{{ t.captionFaceNamed | default: t.captionFace }}'{% endif %}{% if t.titleTop %}; --tpl-title-top: {{ t.titleTop }}; --tpl-title-left: {{ t.titleLeft }}; --tpl-title-width: {{ t.titleWidth }}; --tpl-title-align: {{ t.titleAlign }}{% endif %}{% if t.captionBottom %}; --tpl-caption-bottom: {{ t.captionBottom }}{% endif %}"
                  role="img"
                  aria-label="A {{ t.aspect }} preview of {{ t.style }}: {% if t.previewTitle %}the words &ldquo;{{ t.previewTitle }}&rdquo;{% else %}the {{ t.title }} title card{% endif %} over a photograph, with a caption in the preset's own colours and one word in its highlight.">
 {%- if shot.clip %}
@@ -57,7 +57,7 @@ about: "index.html#about"
               </video>
 {%- endif %}
               <span class="tpl-preview-title{% if t.titleTop %} tpl-preview-title--placed{% endif %}" aria-hidden="true">{% if t.previewTitle %}{{ t.previewTitle }}{% else %}{{ t.title }}{% endif %}</span>
-              <span class="tpl-preview-caption{% if t.uppercase %} tpl-preview-caption--upper{% endif %}" aria-hidden="true">
+              <span class="tpl-preview-caption{% if t.uppercase %} tpl-preview-caption--upper{% endif %}{% if t.captionBottom %} tpl-preview-caption--placed{% endif %}" aria-hidden="true">
 {%- if t.previewCaption %}
 {%- assign words = t.previewCaption | split: " " -%}
 {%- for word in words %}{% if forloop.last %}<em>{{ word }}</em>{% else %}{{ word }} {% endif %}{% endfor %}

@@ -372,6 +372,14 @@ def build(read) -> tuple[list[dict], list[str]]:
             "titleFaceNamed": named_face(title_card.get("fontFamily", "")),
             "captionFaceNamed": named_face(captions.get("fontFamily", "")),
             "uppercase": captions.get("uppercase", False),
+            # How far up from the bottom edge the caption sits, as a fraction
+            # of the frame. Every preset states one and the preview honoured
+            # none of them, holding all 21 against the bottom -- which is
+            # roughly right for the eighteen that ask for 0.10-0.16 and wrong
+            # by a third of a frame for the two `pov` presets, whose captions
+            # sit near the middle.
+            "captionBottom": round(captions["bottom"], 4)
+            if isinstance(captions.get("bottom"), (int, float)) else "",
             **placement,
         }
         entries.append({k: v for k, v in entry.items() if v != "" and v is not False})
