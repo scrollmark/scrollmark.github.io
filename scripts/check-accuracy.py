@@ -411,6 +411,38 @@ def main() -> int:
            "every photographer is named on the page"
            + (f" — MISSING: {sorted(set(uncredited))}" if uncredited else ""))
 
+    # 9d. The webfont request the gallery makes.
+    #
+    # One system face in a css2 request 400s the whole thing, and then none of
+    # the real faces load -- the page falls back to its own typeface and looks
+    # deliberate. So the URL is fetched, and every face a preset names must be
+    # in it.
+    font_link = re.search(r"https://fonts\.googleapis\.com/css2\?display=swap[^\"]*",
+                          pages.get("gallery.html", ""))
+    expect("gallery font request", font_link is not None,
+           "the gallery asks for the faces its presets name")
+    if font_link:
+        try:
+            request = urllib.request.Request(
+                font_link.group(0).replace("&amp;", "&"),
+                headers={"User-Agent": "Mozilla/5.0 (scrollmark-accuracy)"})
+            with urllib.request.urlopen(request, timeout=30) as response:
+                served = response.status == 200
+        except urllib.error.HTTPError as error:
+            served = False
+            print(f"  font request said {error.code}", file=sys.stderr)
+        expect("gallery fonts load", served,
+               "Google Fonts serves every face the page asks for")
+        asked = font_link.group(0)
+        missing = sorted({
+            face for entry in committed["entries"]
+            for face in (entry.get("titleFace"), entry.get("captionFace"))
+            if face and face.replace(" ", "+") not in asked
+        })
+        expect("gallery faces requested", not missing,
+               "every face a preset names is in the request"
+               + (f" — MISSING: {missing}" if missing else ""))
+
     # Every pairing must reach the built page, or the data is a file nobody sees.
     gallery_html = pages.get("gallery.html", "")
     # This one still means something with no source: it compares the committed

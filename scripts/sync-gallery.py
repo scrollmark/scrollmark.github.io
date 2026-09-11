@@ -70,6 +70,16 @@ PAIRINGS = [
      "A place name across the top, tracked until it is almost a line."),
     ("talking-head", "pov-quiet",
      "A held moment, captioned mid-frame in a voice that does not raise."),
+    ("cinematic", "neon-sign",
+     "One word in struck neon tube, over a street that is already lit."),
+    ("daily-recap", "wet-paint",
+     "Letters that drip, lime on black, for a day with no sincerity in it."),
+    ("titled-video", "chrome-y2k",
+     "A colour font that paints its own bevelled chrome, on a dark frame."),
+    ("brand-origin", "zine-glitch",
+     "Type photocopied until it breaks, and exactly one red."),
+    ("timeline-explainer", "arcade-crt",
+     "Phosphor green pixels counting up, the way a score does."),
 ]
 
 
@@ -97,6 +107,34 @@ def frontmatter(text: str) -> dict[str, str]:
 def json_block(text: str) -> dict:
     block = re.search(r"```json\n(.*?)```", text, re.S)
     return json.loads(block.group(1)) if block else {}
+
+
+def face(stack: str) -> str:
+    """The first real family in a CSS stack.
+
+    The preset names a stack so it degrades well in a render. A web page
+    loading a webfont needs the family on its own, and only the first one is
+    the face the preset means -- the rest are what to do when it is missing.
+    """
+    for name in stack.split(","):
+        cleaned = name.strip().strip("\"'")
+        lowered = cleaned.lower()
+        if cleaned and lowered not in GENERIC_FAMILIES and lowered not in SYSTEM_FACES:
+            return cleaned
+    return ""
+
+
+#: CSS keywords, which are not faces anyone can load.
+GENERIC_FAMILIES = {"serif", "sans-serif", "monospace", "cursive", "fantasy",
+                    "system-ui", "ui-serif", "ui-sans-serif", "ui-monospace",
+                    "ui-rounded", "math", "emoji", "fangsong"}
+
+#: Faces that exist on a device rather than on Google Fonts. Naming one in the
+#: stylesheet request is not a harmless miss: the whole css2 request 400s, so
+#: ONE system face means NONE of the real ones load.
+SYSTEM_FACES = {"courier new", "georgia", "impact", "helvetica", "arial",
+                "didot", "menlo", "sfmono-regular", "times new roman",
+                "palatino", "verdana", "tahoma", "inter"}
 
 
 def swatch(style_values: dict) -> tuple[dict, list[str]]:
@@ -211,6 +249,9 @@ def build(read) -> tuple[list[dict], list[str]]:
             "needs": fmt.get("needs", ""),
             "swatch": colours,
             "fontFamily": captions.get("fontFamily", ""),
+            "titleFace": face(style_values.get("cards", {}).get("title", {})
+                              .get("fontFamily", "")),
+            "captionFace": face(captions.get("fontFamily", "")),
             "uppercase": captions.get("uppercase", False),
         }
         entries.append({k: v for k, v in entry.items() if v != "" and v is not False})

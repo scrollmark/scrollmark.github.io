@@ -2,7 +2,7 @@
   "source": "scrollmark/social-skills@master",
   "counts": {
     "formats": 11,
-    "styles": 22
+    "styles": 27
   },
   "entries": [
     {
@@ -111,7 +111,8 @@
         "accent": "#d97706",
         "stroke": "#faf5f0"
       },
-      "fontFamily": "Fraunces"
+      "fontFamily": "Fraunces",
+      "captionFace": "Fraunces"
     },
     {
       "format": "talking-head",
@@ -173,7 +174,8 @@
         "accent": "#e0a34a",
         "stroke": "#2b2118"
       },
-      "fontFamily": "Fraunces, Georgia, serif"
+      "fontFamily": "Fraunces, Georgia, serif",
+      "captionFace": "Fraunces"
     },
     {
       "format": "brand-origin",
@@ -195,6 +197,7 @@
         "stroke": "#111111"
       },
       "fontFamily": "Fraunces, Didot, Georgia, serif",
+      "captionFace": "Fraunces",
       "uppercase": true
     },
     {
@@ -218,7 +221,9 @@
         "accent": "#e8b55c",
         "stroke": "#3a2c1b"
       },
-      "fontFamily": "Cormorant Garamond, Georgia, serif"
+      "fontFamily": "Cormorant Garamond, Georgia, serif",
+      "titleFace": "Playfair Display",
+      "captionFace": "Cormorant Garamond"
     },
     {
       "format": "cinematic",
@@ -242,6 +247,7 @@
         "stroke": "#0a0a0a"
       },
       "fontFamily": "Inter, Helvetica, sans-serif",
+      "titleFace": "Pirata One",
       "uppercase": true
     },
     {
@@ -264,7 +270,9 @@
         "accent": "#c9a227",
         "stroke": "#2f4a42"
       },
-      "fontFamily": "Cormorant Garamond, Georgia, serif"
+      "fontFamily": "Cormorant Garamond, Georgia, serif",
+      "titleFace": "Playfair Display",
+      "captionFace": "Cormorant Garamond"
     },
     {
       "format": "titled-video",
@@ -284,6 +292,7 @@
         "stroke": "#1a1a18"
       },
       "fontFamily": "Inter, Helvetica, sans-serif",
+      "titleFace": "Prata",
       "uppercase": true
     },
     {
@@ -303,7 +312,129 @@
         "accent": "#e7d7bd",
         "stroke": "#141210"
       },
-      "fontFamily": "EB Garamond, Cormorant Garamond, Georgia, serif"
+      "fontFamily": "EB Garamond, Cormorant Garamond, Georgia, serif",
+      "titleFace": "EB Garamond",
+      "captionFace": "EB Garamond"
+    },
+    {
+      "format": "cinematic",
+      "style": "neon-sign",
+      "why": "One word in struck neon tube, over a street that is already lit.",
+      "title": "Cinematic",
+      "description": "Mood-driven montage",
+      "styleDescription": "Monoton tube lettering in hot pink over night",
+      "aspect": "9:16",
+      "scenes": "4-8",
+      "sceneSeconds": "2-6",
+      "captions": "off",
+      "narration": "optional",
+      "music": "required",
+      "needs": "measure",
+      "swatch": {
+        "bg": "transparent",
+        "fg": "#ff2fa8",
+        "caption": "#fdf4ff",
+        "accent": "#22d3ee",
+        "stroke": "#160b1a"
+      },
+      "fontFamily": "Inter, Helvetica, sans-serif",
+      "titleFace": "Monoton",
+      "uppercase": true
+    },
+    {
+      "format": "daily-recap",
+      "style": "wet-paint",
+      "why": "Letters that drip, lime on black, for a day with no sincerity in it.",
+      "title": "DailyRecap",
+      "description": "Photo-dump recap cut to the track",
+      "styleDescription": "Dripping letters, lime on black, loud on purpose",
+      "aspect": "9:16",
+      "scenes": "8-14",
+      "sceneSeconds": "1.5-3",
+      "captions": "optional",
+      "narration": "none",
+      "music": "required",
+      "needs": "measure",
+      "swatch": {
+        "bg": "transparent",
+        "fg": "#eaff00",
+        "caption": "#eaff00",
+        "accent": "#ffffff",
+        "stroke": "#0b0b0b"
+      },
+      "fontFamily": "Inter, Helvetica, sans-serif",
+      "titleFace": "Rubik Wet Paint",
+      "uppercase": true
+    },
+    {
+      "format": "titled-video",
+      "style": "chrome-y2k",
+      "why": "A colour font that paints its own bevelled chrome, on a dark frame.",
+      "title": "TitledVideo",
+      "description": "Clip plus a typography package",
+      "styleDescription": "Nabla's colour chrome, which paints its own palette",
+      "aspect": "source",
+      "captions": "optional",
+      "needs": "measure",
+      "swatch": {
+        "bg": "transparent",
+        "fg": "#ffffff",
+        "caption": "#f8fafc",
+        "accent": "#a5f3fc",
+        "stroke": "#09090b"
+      },
+      "fontFamily": "Inter, Helvetica, sans-serif",
+      "titleFace": "Nabla",
+      "uppercase": true
+    },
+    {
+      "format": "brand-origin",
+      "style": "zine-glitch",
+      "why": "Type photocopied until it breaks, and exactly one red.",
+      "title": "BrandOrigin",
+      "description": "30-second origin short",
+      "styleDescription": "Photocopied glitch type, black and white and one red",
+      "aspect": "9:16",
+      "scenes": "5-6",
+      "sceneSeconds": "4-6",
+      "captions": "on",
+      "narration": "one voice",
+      "swatch": {
+        "bg": "transparent",
+        "fg": "#fafafa",
+        "caption": "#fafafa",
+        "accent": "#ff2d20",
+        "stroke": "#0a0a0a"
+      },
+      "fontFamily": "Archivo Black, Impact, sans-serif",
+      "titleFace": "Rubik Glitch",
+      "captionFace": "Archivo Black",
+      "uppercase": true
+    },
+    {
+      "format": "timeline-explainer",
+      "style": "arcade-crt",
+      "why": "Phosphor green pixels counting up, the way a score does.",
+      "title": "TimelineExplainer",
+      "description": "Numbered walk through a history",
+      "styleDescription": "Phosphor green pixels, Press Start over VT323",
+      "aspect": "16:9",
+      "alsoWorks": "9:16",
+      "scenes": "6-10",
+      "sceneSeconds": "5-7",
+      "captions": "on",
+      "narration": "one voice",
+      "swatch": {
+        "bg": "transparent",
+        "fg": "#39ff14",
+        "caption": "#39ff14",
+        "accent": "#ffffff",
+        "stroke": "#03170a"
+      },
+      "fontFamily": "VT323, ui-monospace, monospace",
+      "titleFace": "Press Start 2P",
+      "captionFace": "VT323",
+      "uppercase": true
     }
   ]
 }
