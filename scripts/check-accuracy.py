@@ -540,6 +540,15 @@ def main() -> int:
            + (f" — UNREADABLE: {unreadable} (scripts/fetch-stock.py --rebalance)"
               if unreadable else ""))
 
+    # The moving cards lead. They are the ones somebody arriving is looking
+    # for, and an order that drifts is the kind of thing nobody notices until
+    # the showcase is buried on row four.
+    leading = [f"{e['format']}+{e['style']}" for e in committed["entries"][:5]]
+    with_clips = {p for p, s in stock.items() if s.get("clip")}
+    expect("moving cards lead", set(leading) == with_clips,
+           "the five templates with clips are the first five cards"
+           + (f" — LEADING: {leading}" if set(leading) != with_clips else ""))
+
     # Every pairing must reach the built page, or the data is a file nobody sees.
     gallery_html = pages.get("gallery.html", "")
     # This one still means something with no source: it compares the committed
