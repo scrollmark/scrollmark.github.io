@@ -22,6 +22,7 @@ draws: a 9:16 format gets a 9:16 still. Uses `sips`, which ships with macOS.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import shutil
 import subprocess
@@ -196,9 +197,43 @@ def rebalance(pairing: str, query: str, title_hex: str, size: tuple[int, int],
     return best
 
 
+def measure_into(credits: dict, gallery: dict) -> int:
+    """Record what each still measures, and which bytes it measured.
+
+    The measurement needs ffmpeg; CI does not have it and a site that checks
+    its own copy should not need a media toolchain to do it. So the number is
+    recorded here, next to a hash of the exact file it came from -- change the
+    picture without re-running this and the hash stops matching, which is the
+    failure that matters. A number with no bytes attached would rot silently.
+    """
+    written = 0
+    for entry in gallery["entries"]:
+        pairing = f"{entry['format']}+{entry['style']}"
+        shot = credits.get(pairing)
+        if not shot:
+            continue
+        path = ROOT / shot["file"]
+        if not path.is_file():
+            continue
+        shot["sha256"] = hashlib.sha256(path.read_bytes()).hexdigest()
+        band = band_luminance(path)
+        if band is None:
+            continue
+        shot["bandLuminance"] = round(band, 6)
+        if entry["swatch"].get("bg") == "transparent":
+            shot["titleContrast"] = round(
+                contrast(hex_luminance(entry["swatch"]["fg"]), band), 2)
+        else:
+            shot.pop("titleContrast", None)
+        written += 1
+    return written
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--refetch", action="store_true")
+    ap.add_argument("--measure", action="store_true",
+                    help="record each still's hash and what it measures")
     ap.add_argument("--rebalance", action="store_true",
                     help="replace stills whose title cannot be read against them")
     ap.add_argument("--aspects", type=Path, help="gallery.json, for each pairing's frame")
@@ -211,6 +246,14 @@ def main() -> int:
 
     STOCK_DIR.mkdir(exist_ok=True)
     credits = json.loads(OUT.read_text()) if OUT.is_file() else {}
+
+    if args.measure:
+        if not args.aspects or not args.aspects.is_file():
+            raise SystemExit("--measure needs --aspects gallery.json for the swatches")
+        n = measure_into(credits, json.loads(args.aspects.read_text()))
+        OUT.write_text(json.dumps(credits, indent=2, sort_keys=True) + "\n")
+        print(f"measured {n} still(s)")
+        return 0
 
     if args.rebalance:
         if not args.aspects or not args.aspects.is_file():

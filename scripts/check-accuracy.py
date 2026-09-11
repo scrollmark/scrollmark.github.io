@@ -22,11 +22,11 @@ from __future__ import annotations
 
 import argparse
 import functools
+import hashlib
 import importlib.util
 import json
 import os
 import re
-import subprocess
 import sys
 import urllib.error
 import urllib.request
@@ -455,39 +455,56 @@ def main() -> int:
     # Where a preset's title card is transparent, the type sits straight on the
     # photograph, so the photograph is part of whether it can be read. Seven of
     # the ten such pairings failed when the stills were picked for subject
-    # alone -- one at 1.24:1, which is a caption you cannot see.
+    # alone -- one at 1.24:1, which is a title you cannot see.
+    #
+    # Measuring needs a decoder, and this runner has no ffmpeg -- a site that
+    # checks its own copy should not need a media toolchain to do it. So
+    # `fetch-stock.py --measure` records the number beside a hash of the exact
+    # bytes it measured, and this checks BOTH: the hash still matches the file
+    # (so the number belongs to the picture that is shipping) and the number
+    # clears the floor. A recorded number with no bytes attached would rot in
+    # silence, which is the failure this file exists to prevent.
     #
     # 3:1 because these are large text, which is the threshold WCAG sets for
     # it, and because some titles cannot do better against ANY photograph:
-    # weekend-gothic's vermilion sits mid-range, so it needs a near-black band
-    # and can never reach 4.5 over a picture.
-    def _band_luminance(path):
-        result = subprocess.run(
-            ["ffmpeg", "-v", "error", "-i", str(path),
-             "-vf", "crop=iw:ih/5:0:ih*0.28,scale=1:1",
-             "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], capture_output=True)
-        if len(result.stdout) < 3:
-            return None
-        channels = [b / 255 for b in result.stdout[:3]]
-        channels = [c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4
-                    for c in channels]
-        return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2]
-
-    unreadable = []
+    # weekend-gothic's vermilion sits mid-range, so it needs a near-black band.
+    stale, unreadable, unmeasured = [], [], []
     for entry in committed["entries"]:
-        swatch = entry["swatch"]
-        if swatch.get("bg") != "transparent":
-            continue
-        shot = stock.get(f"{entry['format']}+{entry['style']}")
+        pairing = f"{entry['format']}+{entry['style']}"
+        shot = stock.get(pairing)
         if not shot:
             continue
-        band = _band_luminance(SITE.parent / shot["file"])
-        if band is None:
+        path = SITE.parent / shot["file"]
+        if path.is_file() and shot.get("sha256"):
+            digest = hashlib.sha256(path.read_bytes()).hexdigest()
+            if digest != shot["sha256"]:
+                stale.append(pairing)
+        if entry["swatch"].get("bg") != "transparent":
             continue
-        title = _luminance_of(swatch["fg"])
-        ratio = (max(title, band) + 0.05) / (min(title, band) + 0.05)
-        if ratio < 3.0:
-            unreadable.append(f"{entry['format']}+{entry['style']} at {ratio:.2f}:1")
+        measured = shot.get("titleContrast")
+        band = shot.get("bandLuminance")
+        if measured is None or band is None:
+            unmeasured.append(pairing)
+            continue
+        # Recomputed from the recorded band and the preset's own colour, so a
+        # contrast edited by hand fails even though the picture is untouched.
+        # What is NOT verifiable here is the band itself: checking that would
+        # mean decoding the JPEG, which is the toolchain this avoids. The hash
+        # ties it to bytes nobody has changed; that is the guarantee on offer.
+        title = _luminance_of(entry["swatch"]["fg"])
+        recomputed = round((max(title, band) + 0.05) / (min(title, band) + 0.05), 2)
+        if abs(recomputed - measured) > 0.02:
+            stale.append(f"{pairing} records {measured}:1, its band gives {recomputed}:1")
+        elif measured < 3.0:
+            unreadable.append(f"{pairing} at {measured}:1")
+
+    expect("still measurements are current", not stale,
+           "every recorded measurement matches the file it describes"
+           + (f" — CHANGED SINCE MEASURING: {stale} (scripts/fetch-stock.py --measure)"
+              if stale else ""))
+    expect("titles are measured", not unmeasured,
+           "every transparent title has a recorded contrast"
+           + (f" — MISSING: {unmeasured}" if unmeasured else ""))
     expect("title on its still", not unreadable,
            "every transparent title clears 3:1 against its photograph"
            + (f" — UNREADABLE: {unreadable} (scripts/fetch-stock.py --rebalance)"
