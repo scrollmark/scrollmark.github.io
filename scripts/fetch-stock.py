@@ -51,6 +51,11 @@ SUBJECTS = {
     "timeline-explainer+lookbook-sage": "green plant leaves wall",
     "titled-video+postcard-serif": "city street autumn buildings",
     "talking-head+pov-quiet": "window light quiet room",
+    "cinematic+neon-sign": "neon bar sign night",
+    "daily-recap+wet-paint": "graffiti wall paint colourful",
+    "titled-video+chrome-y2k": "computer keyboard dark tech",
+    "brand-origin+zine-glitch": "concrete wall texture grey",
+    "timeline-explainer+arcade-crt": "arcade machine screen retro",
 }
 
 #: The frame each pairing is composed for. Kept here rather than read from

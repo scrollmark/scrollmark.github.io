@@ -43,7 +43,7 @@ about: "index.html#about"
 {%- assign key = t.format | append: "+" | append: t.style %}
 {%- assign shot = stock[key] %}
             <div class="tpl-preview tpl-preview--{{ t.aspect | replace: ":", "x" }}"
-                 style="--tpl-bg: {{ t.swatch.bg }}; --tpl-fg: {{ t.swatch.fg }}; --tpl-caption: {{ t.swatch.caption }}; --tpl-accent: {{ t.swatch.accent }}; --tpl-stroke: {{ t.swatch.stroke | default: "transparent" }}{% if shot %}; --tpl-shot: url('{{ shot.file }}'){% endif %}"
+                 style="--tpl-bg: {{ t.swatch.bg }}; --tpl-fg: {{ t.swatch.fg }}; --tpl-caption: {{ t.swatch.caption }}; --tpl-accent: {{ t.swatch.accent }}; --tpl-stroke: {{ t.swatch.stroke | default: "transparent" }}{% if shot %}; --tpl-shot: url('{{ shot.file }}'){% endif %}{% if t.titleFace %}; --tpl-title-face: '{{ t.titleFace }}'{% endif %}{% if t.captionFace %}; --tpl-caption-face: '{{ t.captionFace }}'{% endif %}"
                  role="img"
                  aria-label="A {{ t.aspect }} preview: the {{ t.title }} title card over a photograph, and a sample caption in the {{ t.style }} preset's own colours with one word in its highlight.">
               <span class="tpl-preview-title" aria-hidden="true">{{ t.title }}</span>
@@ -69,7 +69,7 @@ about: "index.html#about"
               <div><dt>Music</dt><dd>{{ t.music }}</dd></div>
 {%- endif %}
 {%- if t.fontFamily %}
-              <div><dt>Type</dt><dd>{{ t.fontFamily | split: "," | first }}</dd></div>
+              <div><dt>Type</dt><dd>{% if t.titleFace %}{{ t.titleFace }}{% if t.captionFace and t.captionFace != t.titleFace %} · {{ t.captionFace }}{% endif %}{% else %}{{ t.fontFamily | split: "," | first }}{% endif %}</dd></div>
 {%- endif %}
 {%- if t.needs %}
               <div><dt>Needs</dt><dd><code>{{ t.needs }}</code></dd></div>

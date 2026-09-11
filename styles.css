@@ -1463,7 +1463,10 @@ footer {
 .tpl-preview--source { aspect-ratio: 3 / 2; max-width: 100%; }
 
 .tpl-preview-title {
-  font-family: var(--font-display);
+  /* The preset's own face, falling back to this site's display face for a
+     preset that names none. A preview set in the site's typeface shows the
+     palette and hides the thing being sold. */
+  font-family: var(--tpl-title-face, var(--font-display));
   font-weight: 800;
   font-size: 1.15rem;
   line-height: 1.1;
@@ -1497,7 +1500,7 @@ footer {
    swatch is decorative (`aria-hidden`, inside a `role="img"`), and the label
    carries what it shows. */
 .tpl-preview-caption {
-  font-family: var(--font-mono);
+  font-family: var(--tpl-caption-face, var(--font-mono));
   font-size: 0.72rem;
   padding: 3px 7px;
   border-radius: 4px;
