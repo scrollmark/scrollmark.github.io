@@ -408,12 +408,22 @@ def main() -> int:
         expect("gallery still credited", not missing,
                f"{pairing} names its photographer and licence"
                + (f" — MISSING {missing}" if missing else ""))
-        expect("gallery still is public domain", shot.get("license", "").upper() == "CC0",
-               f"{pairing} is CC0 (it is {shot.get('license')})")
+        # Either somebody else's, in the public domain, or ours. What is not
+        # allowed is a third thing: a still with a licence nobody can name.
+        licence = shot.get("license", "").upper()
+        expect("gallery still provenance", licence in {"CC0", "OWN"},
+               f"{pairing} is public domain or ours (it says {shot.get('license')})")
+        if licence == "OWN":
+            expect("our stills say so", shot.get("creator") == "Scrollmark"
+                   and shot.get("source") == "in-house",
+                   f"{pairing} names itself as ours rather than borrowing a credit")
 
     # Every credited photographer must actually appear on the page.
+    # Ours are credited on the page by the line that says which are ours, not
+    # by a photographer's name, so they are not in this sweep.
     uncredited = [s["creator"] for s in stock.values()
-                  if s["creator"] not in pages.get("gallery.html", "")]
+                  if s.get("license", "").upper() != "OWN"
+                  and s["creator"] not in pages.get("gallery.html", "")]
     expect("gallery credits rendered", not uncredited,
            "every photographer is named on the page"
            + (f" — MISSING: {sorted(set(uncredited))}" if uncredited else ""))

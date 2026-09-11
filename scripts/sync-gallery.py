@@ -80,6 +80,10 @@ PAIRINGS = [
      "Type photocopied until it breaks, and exactly one red."),
     ("timeline-explainer", "arcade-crt",
      "Phosphor green pixels counting up, the way a score does."),
+    ("daily-recap", "pov-serif",
+     "Three panels of an afternoon, captioned like a thought rather than a title."),
+    ("brand-origin", "editorial-sage",
+     "A Didone line and one script word, cream on a flat colour field."),
 ]
 
 

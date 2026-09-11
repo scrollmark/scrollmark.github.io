@@ -437,6 +437,54 @@
       "titleFace": "Press Start 2P",
       "captionFace": "VT323",
       "uppercase": true
+    },
+    {
+      "format": "daily-recap",
+      "style": "pov-serif",
+      "why": "Three panels of an afternoon, captioned like a thought rather than a title.",
+      "title": "DailyRecap",
+      "description": "Photo-dump recap cut to the track",
+      "styleDescription": "A workhorse serif set mid-frame, said quietly",
+      "aspect": "9:16",
+      "scenes": "8-14",
+      "sceneSeconds": "1.5-3",
+      "captions": "optional",
+      "narration": "none",
+      "music": "required",
+      "needs": "measure",
+      "swatch": {
+        "bg": "transparent",
+        "fg": "#f7f5f2",
+        "caption": "#f7f5f2",
+        "accent": "#e4d9c6",
+        "stroke": "#14120f"
+      },
+      "fontFamily": "Georgia, EB Garamond, serif",
+      "titleFace": "EB Garamond",
+      "captionFace": "EB Garamond"
+    },
+    {
+      "format": "brand-origin",
+      "style": "editorial-sage",
+      "why": "A Didone line and one script word, cream on a flat colour field.",
+      "title": "BrandOrigin",
+      "description": "30-second origin short",
+      "styleDescription": "Cream Didone on sage, with one script line",
+      "aspect": "9:16",
+      "scenes": "5-6",
+      "sceneSeconds": "4-6",
+      "captions": "on",
+      "narration": "one voice",
+      "swatch": {
+        "bg": "transparent",
+        "fg": "#efe6d2",
+        "caption": "#efe6d2",
+        "accent": "#c9a227",
+        "stroke": "#2c4038"
+      },
+      "fontFamily": "Cormorant Garamond, Georgia, serif",
+      "titleFace": "Bodoni Moda",
+      "captionFace": "Cormorant Garamond"
     }
   ]
 }
