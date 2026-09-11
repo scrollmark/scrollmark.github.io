@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import sys
 import urllib.request
@@ -241,9 +242,18 @@ def counts(skills: Path | None) -> dict[str, int]:
     out = {}
     for key, path in (("formats", FORMATS_DIR), ("styles", STYLES_DIR)):
         url = f"https://api.github.com/repos/{REPO}/contents/{path}?ref=master"
-        request = urllib.request.Request(
-            url, headers={"Accept": "application/vnd.github+json",
-                          "User-Agent": "scrollmark-gallery/1.0"})
+        headers = {"Accept": "application/vnd.github+json",
+                   "User-Agent": "scrollmark-gallery/1.0"}
+        # The token when there is one. Without it these are anonymous calls
+        # against a 60-an-hour-per-IP budget that CI shares with every other
+        # runner, and a busy afternoon spends it -- the accuracy job started
+        # failing with "rate limit exceeded" on a change that touched no
+        # counts at all. `check-accuracy.py` has always sent it; this call was
+        # added later and did not.
+        token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
+        if token:
+            headers["Authorization"] = f"Bearer {token}"
+        request = urllib.request.Request(url, headers=headers)
         with urllib.request.urlopen(request, timeout=40) as response:
             out[key] = sum(1 for e in json.load(response) if e["name"].endswith(".md"))
     return out
@@ -317,6 +327,11 @@ def build(read) -> tuple[list[dict], list[str]]:
             "titleScale": round(
                 style_values.get("cards", {}).get("title", {}).get("fontSize", 84)
                 / frame_height(fmt.get("aspect", "9:16")), 4),
+            # The outline, relative to the type it outlines -- the same ratio
+            # the editor stores, so it survives a change of frame the way the
+            # size does.
+            "captionStrokeEm": round(
+                captions.get("strokeWidth", 0) / max(1, captions.get("fontSize", 56)), 4),
             "captionScale": round(
                 captions.get("fontSize", 56) / frame_height(fmt.get("aspect", "9:16")), 4),
             # What to load, and what to say. They differ whenever a preset
