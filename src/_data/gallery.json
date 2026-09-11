@@ -35,7 +35,11 @@
       "titleFace": "Gwendolyn",
       "captionFace": "Cormorant Garamond",
       "titleFaceNamed": "Gwendolyn",
-      "captionFaceNamed": "Cormorant Garamond"
+      "captionFaceNamed": "Cormorant Garamond",
+      "titleLeft": 0.08,
+      "titleWidth": 0.84,
+      "titleTop": 0.47,
+      "titleAlign": "center"
     },
     {
       "format": "cinematic",
@@ -67,7 +71,11 @@
       "titleFace": "UnifrakturMaguntia",
       "titleFaceNamed": "UnifrakturMaguntia",
       "captionFaceNamed": "Inter",
-      "uppercase": true
+      "uppercase": true,
+      "titleLeft": 0.05,
+      "titleWidth": 0.9,
+      "titleTop": 0.5,
+      "titleAlign": "center"
     },
     {
       "format": "brand-origin",
@@ -97,7 +105,11 @@
       "titleFace": "Bodoni Moda",
       "captionFace": "Cormorant Garamond",
       "titleFaceNamed": "Bodoni Moda",
-      "captionFaceNamed": "Cormorant Garamond"
+      "captionFaceNamed": "Cormorant Garamond",
+      "titleLeft": 0.06,
+      "titleWidth": 0.88,
+      "titleTop": 0.38,
+      "titleAlign": "center"
     },
     {
       "format": "titled-video",
@@ -125,7 +137,11 @@
       "titleFace": "Prata",
       "titleFaceNamed": "Prata",
       "captionFaceNamed": "Inter",
-      "uppercase": true
+      "uppercase": true,
+      "titleLeft": 0.06,
+      "titleWidth": 0.88,
+      "titleTop": 0.17,
+      "titleAlign": "center"
     },
     {
       "format": "daily-recap",
@@ -157,7 +173,11 @@
       "titleFace": "EB Garamond",
       "captionFace": "EB Garamond",
       "titleFaceNamed": "Georgia",
-      "captionFaceNamed": "Georgia"
+      "captionFaceNamed": "Georgia",
+      "titleLeft": 0.1,
+      "titleWidth": 0.8,
+      "titleTop": 0.5,
+      "titleAlign": "center"
     },
     {
       "format": "explainer",
@@ -207,7 +227,11 @@
       },
       "titleScale": 0.0437,
       "captionStrokeEm": 0.0926,
-      "captionScale": 0.0281
+      "captionScale": 0.0281,
+      "titleLeft": 0.1,
+      "titleWidth": 0.8,
+      "titleTop": 0.5,
+      "titleAlign": "left"
     },
     {
       "format": "timeline-explainer",
@@ -307,7 +331,11 @@
       "titleScale": 0.0437,
       "captionStrokeEm": 0.1591,
       "captionScale": 0.0458,
-      "uppercase": true
+      "uppercase": true,
+      "titleLeft": 0.08,
+      "titleWidth": 0.84,
+      "titleTop": 0.48,
+      "titleAlign": "left"
     },
     {
       "format": "daily-recap",
@@ -336,7 +364,11 @@
       "captionScale": 0.0323,
       "titleFaceNamed": "Courier New",
       "captionFaceNamed": "Courier New",
-      "uppercase": true
+      "uppercase": true,
+      "titleLeft": 0.06,
+      "titleWidth": 0.88,
+      "titleTop": 0.49,
+      "titleAlign": "left"
     },
     {
       "format": "titled-video",
@@ -362,7 +394,11 @@
       "titleFace": "Fraunces",
       "captionFace": "Fraunces",
       "titleFaceNamed": "Fraunces",
-      "captionFaceNamed": "Fraunces"
+      "captionFaceNamed": "Fraunces",
+      "titleLeft": 0.08,
+      "titleWidth": 0.84,
+      "titleTop": 0.46,
+      "titleAlign": "left"
     },
     {
       "format": "brand-origin",
@@ -391,7 +427,11 @@
       "captionFace": "Fraunces",
       "titleFaceNamed": "Bodoni Moda",
       "captionFaceNamed": "Fraunces",
-      "uppercase": true
+      "uppercase": true,
+      "titleLeft": 0.06,
+      "titleWidth": 0.88,
+      "titleTop": 0.45,
+      "titleAlign": "center"
     },
     {
       "format": "timeline-explainer",
@@ -420,7 +460,11 @@
       "titleFace": "Bodoni Moda",
       "captionFace": "Cormorant Garamond",
       "titleFaceNamed": "Bodoni Moda",
-      "captionFaceNamed": "Cormorant Garamond"
+      "captionFaceNamed": "Cormorant Garamond",
+      "titleLeft": 0.06,
+      "titleWidth": 0.88,
+      "titleTop": 0.45,
+      "titleAlign": "center"
     },
     {
       "format": "talking-head",
@@ -446,7 +490,11 @@
       "titleFace": "EB Garamond",
       "captionFace": "EB Garamond",
       "titleFaceNamed": "EB Garamond",
-      "captionFaceNamed": "EB Garamond"
+      "captionFaceNamed": "EB Garamond",
+      "titleLeft": 0.12,
+      "titleWidth": 0.76,
+      "titleTop": 0.5,
+      "titleAlign": "center"
     },
     {
       "format": "cinematic",
@@ -476,7 +524,11 @@
       "titleFace": "Monoton",
       "titleFaceNamed": "Monoton",
       "captionFaceNamed": "Inter",
-      "uppercase": true
+      "uppercase": true,
+      "titleLeft": 0.05,
+      "titleWidth": 0.9,
+      "titleTop": 0.47,
+      "titleAlign": "center"
     },
     {
       "format": "daily-recap",
@@ -506,7 +558,11 @@
       "titleFace": "Rubik Wet Paint",
       "titleFaceNamed": "Rubik Wet Paint",
       "captionFaceNamed": "Inter",
-      "uppercase": true
+      "uppercase": true,
+      "titleLeft": 0.05,
+      "titleWidth": 0.9,
+      "titleTop": 0.36,
+      "titleAlign": "center"
     },
     {
       "format": "titled-video",
@@ -532,7 +588,11 @@
       "titleFace": "Nabla",
       "titleFaceNamed": "Nabla",
       "captionFaceNamed": "Inter",
-      "uppercase": true
+      "uppercase": true,
+      "titleLeft": 0.04,
+      "titleWidth": 0.92,
+      "titleTop": 0.47,
+      "titleAlign": "center"
     },
     {
       "format": "brand-origin",
@@ -561,7 +621,11 @@
       "captionFace": "Archivo Black",
       "titleFaceNamed": "Rubik Glitch",
       "captionFaceNamed": "Archivo Black",
-      "uppercase": true
+      "uppercase": true,
+      "titleLeft": 0.04,
+      "titleWidth": 0.92,
+      "titleTop": 0.48,
+      "titleAlign": "center"
     },
     {
       "format": "timeline-explainer",
@@ -591,7 +655,11 @@
       "captionFace": "VT323",
       "titleFaceNamed": "Press Start 2P",
       "captionFaceNamed": "VT323",
-      "uppercase": true
+      "uppercase": true,
+      "titleLeft": 0.04,
+      "titleWidth": 0.92,
+      "titleTop": 0.5,
+      "titleAlign": "center"
     }
   ]
 }

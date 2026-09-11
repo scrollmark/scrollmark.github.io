@@ -259,6 +259,35 @@ def counts(skills: Path | None) -> dict[str, int]:
     return out
 
 
+def title_placement(title: dict) -> dict:
+    """Where the preset puts its title, as fractions of the frame.
+
+    The preset has always said this -- `rect` is `[x, y, w, h]` and `align`
+    names the horizontal one -- and the preview threw all of it away, pinning
+    every title to the top left corner. That is wrong for most of the
+    collection and conspicuously wrong for the five recreations: four of them
+    centre the title on both axes and one (`postcard-serif`) sits it near the
+    top, and the preview drew all five identically.
+
+    Reported as the rect's CENTRE rather than its top edge, because a card is
+    a box its type is centred in: a rect from 0.38 to 0.56 puts type at 0.47,
+    not at 0.38. A preset that states no rect gets nothing back and keeps the
+    flow position -- the rect comes from its storyboard in that case, and
+    inventing one here would be the preview claiming to know a number the
+    preset does not state.
+    """
+    rect = title.get("rect")
+    if not (isinstance(rect, list) and len(rect) == 4):
+        return {}
+    x, y, w, h = rect
+    return {
+        "titleLeft": round(x, 4),
+        "titleWidth": round(w, 4),
+        "titleTop": round(y + h / 2, 4),
+        "titleAlign": title.get("align", "left"),
+    }
+
+
 def build(read) -> tuple[list[dict], list[str]]:
     """Every pairing, resolved through *read*, plus whatever went wrong.
 
@@ -294,6 +323,8 @@ def build(read) -> tuple[list[dict], list[str]]:
             problems += [f"style {style_name}: {c}" for c in colour_problems]
             continue
         captions = style_values.get("captions", {})
+        title_card = style_values.get("cards", {}).get("title", {})
+        placement = title_placement(title_card)
         # Empty strings are dropped rather than carried: Liquid treats "" as
         # truthy, so a key present-but-empty renders its label and no value —
         # a spec row reading "Music" with nothing after it. Absent is absent.
@@ -325,7 +356,7 @@ def build(read) -> tuple[list[dict], list[str]]:
             # frame and a sixth of a landscape one. Dividing everything by 1920
             # drew every landscape card a third too small.
             "titleScale": round(
-                style_values.get("cards", {}).get("title", {}).get("fontSize", 84)
+                title_card.get("fontSize", 84)
                 / frame_height(fmt.get("aspect", "9:16")), 4),
             # The outline, relative to the type it outlines -- the same ratio
             # the editor stores, so it survives a change of frame the way the
@@ -336,13 +367,12 @@ def build(read) -> tuple[list[dict], list[str]]:
                 captions.get("fontSize", 56) / frame_height(fmt.get("aspect", "9:16")), 4),
             # What to load, and what to say. They differ whenever a preset
             # names a system face first.
-            "titleFace": face(style_values.get("cards", {}).get("title", {})
-                              .get("fontFamily", "")),
+            "titleFace": face(title_card.get("fontFamily", "")),
             "captionFace": face(captions.get("fontFamily", "")),
-            "titleFaceNamed": named_face(style_values.get("cards", {}).get("title", {})
-                                         .get("fontFamily", "")),
+            "titleFaceNamed": named_face(title_card.get("fontFamily", "")),
             "captionFaceNamed": named_face(captions.get("fontFamily", "")),
             "uppercase": captions.get("uppercase", False),
+            **placement,
         }
         entries.append({k: v for k, v in entry.items() if v != "" and v is not False})
     return entries, problems
