@@ -1441,6 +1441,14 @@ footer {
      with them. The title card is painted as a band over the picture rather
      than as a full bleed, which is also what the engine draws -- a card has a
      `rect` and occupies a fifth of the frame, not all of it. */
+  /* So type can be sized against the frame rather than against the page: the
+     preset states a size in pixels of a 1920-tall frame, and this element is
+     that frame. `inline-size` rather than `size` -- a size container takes its
+     height from nothing but itself, which collapses a box whose height comes
+     from `aspect-ratio`, and the grid below it went with it. So the height is
+     derived instead: `--tpl-tall` is the frame's height over its width. */
+  container-type: inline-size;
+  --tpl-tall: 1.7778;
   background-color: #1b1b1f;
   background-image: var(--tpl-shot, none);
   background-size: cover;
@@ -1456,11 +1464,11 @@ footer {
 }
 
 /* The frame the format is composed for, drawn at that ratio. */
-.tpl-preview--9x16 { aspect-ratio: 9 / 16; max-width: 168px; }
-.tpl-preview--16x9 { aspect-ratio: 16 / 9; max-width: 100%; }
+.tpl-preview--9x16 { aspect-ratio: 9 / 16; max-width: 168px; --tpl-tall: 1.7778; }
+.tpl-preview--16x9 { aspect-ratio: 16 / 9; max-width: 100%; --tpl-tall: 0.5625; }
 /* `source` means the format keeps the footage's own frame, so there is no
    ratio to draw. A neutral 3:2 stands in, and the spec row says `source`. */
-.tpl-preview--source { aspect-ratio: 3 / 2; max-width: 100%; }
+.tpl-preview--source { aspect-ratio: 3 / 2; max-width: 100%; --tpl-tall: 0.6667; }
 
 .tpl-preview-title {
   /* The preset's own face, falling back to this site's display face for a
@@ -1468,8 +1476,16 @@ footer {
      palette and hides the thing being sold. */
   font-family: var(--tpl-title-face, var(--font-display));
   font-weight: 800;
-  font-size: 1.15rem;
-  line-height: 1.1;
+  /* The preset's own fraction of frame height, not one size for every card.
+     A fixed size drew a 232px swash title and a 58px quiet one at the same
+     scale, which is the loudest thing most of these presets do and it was
+     invisible. `--tpl-tall` converts the frame's height into its width, since
+     this is an inline-size container. */
+  font-size: calc(var(--tpl-title-scale, 0.0437) * var(--tpl-tall) * 100cqw);
+  line-height: 1.02;
+  white-space: normal;
+  text-wrap: balance;
+  max-width: 100%;
   color: var(--tpl-fg);
   align-self: flex-start;
   text-align: left;
@@ -1501,7 +1517,7 @@ footer {
    carries what it shows. */
 .tpl-preview-caption {
   font-family: var(--tpl-caption-face, var(--font-mono));
-  font-size: 0.72rem;
+  font-size: calc(var(--tpl-caption-scale, 0.0292) * var(--tpl-tall) * 100cqw);
   padding: 3px 7px;
   border-radius: 4px;
   background: var(--tpl-stroke);

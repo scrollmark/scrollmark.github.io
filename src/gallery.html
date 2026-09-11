@@ -43,7 +43,7 @@ about: "index.html#about"
 {%- assign key = t.format | append: "+" | append: t.style %}
 {%- assign shot = stock[key] %}
             <div class="tpl-preview tpl-preview--{{ t.aspect | replace: ":", "x" }}"
-                 style="--tpl-bg: {{ t.swatch.bg }}; --tpl-fg: {{ t.swatch.fg }}; --tpl-caption: {{ t.swatch.caption }}; --tpl-accent: {{ t.swatch.accent }}; --tpl-stroke: {{ t.swatch.stroke | default: "transparent" }}{% if shot %}; --tpl-shot: url('{{ shot.file }}'){% endif %}{% if t.titleFace %}; --tpl-title-face: '{{ t.titleFace }}'{% endif %}{% if t.captionFace %}; --tpl-caption-face: '{{ t.captionFace }}'{% endif %}"
+                 style="--tpl-bg: {{ t.swatch.bg }}; --tpl-fg: {{ t.swatch.fg }}; --tpl-caption: {{ t.swatch.caption }}; --tpl-accent: {{ t.swatch.accent }}; --tpl-stroke: {{ t.swatch.stroke | default: "transparent" }}{% if shot %}; --tpl-shot: url('{{ shot.file }}'){% endif %}{% if t.titleFace %}; --tpl-title-face: '{{ t.titleFace }}'{% endif %}{% if t.titleScale %}; --tpl-title-scale: {{ t.titleScale }}{% endif %}{% if t.captionScale %}; --tpl-caption-scale: {{ t.captionScale }}{% endif %}{% if t.captionFace %}; --tpl-caption-face: '{{ t.captionFace }}'{% endif %}"
                  role="img"
                  aria-label="A {{ t.aspect }} preview: the {{ t.title }} title card over a photograph, and a sample caption in the {{ t.style }} preset's own colours with one word in its highlight.">
               <span class="tpl-preview-title" aria-hidden="true">{{ t.title }}</span>
