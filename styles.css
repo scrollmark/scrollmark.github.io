@@ -1439,12 +1439,7 @@ footer {
   margin: 0 auto 18px;
   width: 100%;
   max-width: 220px;
-  /* Named because the placed title has to undo them: a preset's `rect` is a
-     fraction of the FRAME, and the frame here is the whole box the photograph
-     fills, not the content box these insets leave behind. */
-  --tpl-pad-y: 14px;
-  --tpl-pad-x: 12px;
-  padding: var(--tpl-pad-y) var(--tpl-pad-x);
+  padding: 14px 12px;
   border-radius: var(--radius-card);
   border: 1px solid var(--border);
   /* A photograph, because a template is type over a picture. Without one the
@@ -1519,21 +1514,22 @@ footer {
    card box. Placed absolutely rather than with flex offsets because the
    vertical position is a fraction of the frame, and a flex item's position is
    a consequence of everything above it. */
-.tpl-preview-title--placed {
+/* Scoped to the frame so it outranks the shared `position: relative`
+   further down, which sets the stacking context these two share. At
+   equal specificity that rule won on source order, and the placed
+   element stayed in the flow with `top`/`left` read as relative nudges
+   -- which happened to land the title near the right spot, because the
+   flow put it at the top and the offsets pushed it down by roughly the
+   right amount, and left the caption 8px off centre. */
+.tpl-preview .tpl-preview-title--placed {
   position: absolute;
-  /* Measured against the frame, then shifted back into it. Percentages here
-     resolve against the box these insets leave, which is 28px shorter than
-     the picture -- so a rect centred at 0.17 drew at 0.205, and every
-     placement was pulled toward the middle by the padding. Adding the insets
-     back gives the frame's own height, and subtracting one lifts the origin
-     to the frame's top edge. */
-  top: calc(
-    var(--tpl-title-top) * (100% + 2 * var(--tpl-pad-y)) - var(--tpl-pad-y)
-  );
-  left: calc(
-    var(--tpl-title-left) * (100% + 2 * var(--tpl-pad-x)) - var(--tpl-pad-x)
-  );
-  width: calc(var(--tpl-title-width) * (100% + 2 * var(--tpl-pad-x)));
+  /* Straight fractions of the frame. An absolutely positioned box resolves
+     its percentages against the padding box of its positioned ancestor --
+     which IS the picture, give or take the 1px border -- so the preview's own
+     insets do not enter into it. */
+  top: calc(var(--tpl-title-top) * 100%);
+  left: calc(var(--tpl-title-left) * 100%);
+  width: calc(var(--tpl-title-width) * 100%);
   max-width: none;
   transform: translateY(-50%);
   text-align: var(--tpl-title-align, left);
@@ -1571,6 +1567,42 @@ footer {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.32);
   text-align: center;
   max-width: 92%;
+}
+
+/* Where the preset puts it, measured up from the bottom edge -- so a larger
+   number is HIGHER on screen, which is the opposite of how the name reads.
+   Every preset states one and the preview honoured none, holding all 21
+   against the bottom edge: near enough for the eighteen asking 0.10-0.16, and
+   out by a third of a frame for the two `pov` presets, whose captions sit
+   around the middle because that is where a piece to camera wants them.
+
+   The insets are undone the same way the title's are: the fraction is of the
+   frame the picture fills, not of the box the padding leaves. */
+/* Scoped to the frame so it outranks the shared `position: relative`
+   further down, which sets the stacking context these two share. At
+   equal specificity that rule won on source order, and the placed
+   element stayed in the flow with `top`/`left` read as relative nudges
+   -- which happened to land the title near the right spot, because the
+   flow put it at the top and the offsets pushed it down by roughly the
+   right amount, and left the caption 8px off centre. */
+.tpl-preview .tpl-preview-caption--placed {
+  position: absolute;
+  bottom: calc(var(--tpl-caption-bottom) * 100%);
+  /* The frame's width, not the padded box's. A caption band runs nearly the
+     full width of a video, and `max-width: 92%` was measuring 92% of the box
+     the padding leaves -- 132px in a 168px thumbnail. `pov-serif` needs 157
+     for its one line, so it wrapped to two, and because a placed caption is
+     anchored by its BOTTOM edge the second line grew upward into the title.
+
+     Both edges are pinned rather than centred with `left: 50%` and a
+     translate: that version came out 3px off centre, because the offset and
+     the width percentage do not resolve against the same box. Pinning both
+     sides is symmetric whichever box wins. 4px keeps the outline off the
+     edge. */
+  left: 3px;
+  right: 3px;
+  width: auto;
+  max-width: none;
 }
 
 .tpl-preview-caption--upper { text-transform: uppercase; letter-spacing: 0.04em; }

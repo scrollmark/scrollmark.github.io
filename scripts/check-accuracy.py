@@ -603,6 +603,40 @@ def main() -> int:
                f"all {len(placed)} placed titles sit at their rect's centre"
                + (f" — DRIFT: {drifted}" if drifted else ""))
 
+    # The caption goes where the preset says too, measured up from the bottom
+    # edge. Same independent recomputation as the title: read `bottom` from the
+    # preset rather than asking the code that emitted it.
+    if live:
+        cap_drift = []
+        overlaps = []
+        for e in shown:
+            values = sync_gallery.json_block(
+                sync_gallery.read_live(f"{sync_gallery.STYLES_DIR}/{e['style']}.md"))
+            captions = values.get("captions", {})
+            want = captions.get("bottom")
+            if not isinstance(want, (int, float)):
+                continue
+            if round(want, 4) != e.get("captionBottom"):
+                cap_drift.append(
+                    f"{e['style']}: page {e.get('captionBottom')}, preset {want}")
+            # And the two placements must not collide. They did: `pov-serif`
+            # and `pov-quiet` each put their caption band inside their own
+            # title box, which nothing noticed until the preview drew both
+            # where the preset asks. Fixed upstream; checked here because this
+            # page is where it became visible.
+            rect = values.get("cards", {}).get("title", {}).get("rect")
+            if isinstance(rect, list) and len(rect) == 4:
+                band_bottom = 1 - want
+                band_top = band_bottom - captions.get("fontSize", 56) / 1920
+                if band_top < rect[1] + rect[3] and band_bottom > rect[1]:
+                    overlaps.append(e["style"])
+        expect("caption placement matches the preset", not cap_drift,
+               "every caption sits where its preset puts it"
+               + (f" — DRIFT: {cap_drift}" if cap_drift else ""))
+        expect("title and caption do not collide", not overlaps,
+               "no preset puts its caption band inside its own title box"
+               + (f" — COLLIDING: {overlaps}" if overlaps else ""))
+
     if args.json:
         print(json.dumps({"ok": not problems, "checked": checked, "problems": problems}, indent=2))
     else:
