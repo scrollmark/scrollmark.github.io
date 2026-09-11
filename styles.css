@@ -1436,8 +1436,23 @@ footer {
   padding: 14px 12px;
   border-radius: var(--radius-card);
   border: 1px solid var(--border);
-  background: var(--tpl-bg);
+  /* A photograph, because a template is type over a picture. Without one the
+     card is a swatch: the colours are right and it shows nothing being done
+     with them. The title card is painted as a band over the picture rather
+     than as a full bleed, which is also what the engine draws -- a card has a
+     `rect` and occupies a fifth of the frame, not all of it. */
+  background-color: #1b1b1f;
+  background-image: var(--tpl-shot, none);
+  background-size: cover;
+  background-position: center;
   overflow: hidden;
+}
+
+.tpl-preview-title {
+  background: var(--tpl-bg);
+  padding: 6px 10px;
+  border-radius: 3px;
+  align-self: stretch;
 }
 
 /* The frame the format is composed for, drawn at that ratio. */
@@ -1467,11 +1482,12 @@ footer {
    A stroke is not neutral, and it is not arbitrary either -- it is the colour
    the preset itself puts immediately around every letter, at 3 to 14px, so
    the fill was designed to be legible against exactly this. Measured: every
-   caption is 13:1 or better against its own band.
+   caption is 7:1 or better against its own band -- AAA for text this size,
+   with most well above it; `lookbook-sage`'s cream on a dark sage stroke is
+   the floor at 7.64.
    That number is checked rather than remembered -- see `check-accuracy.py`.
-   It said 14:1 for exactly as long as it took to add a preset that measured
-   13.45, which is what every hand-maintained number on this site has always
-   done.
+   It said 14:1, then 13:1, and each time it was true on the day and false one
+   preset later. It is now the check that moves it, not a person.
    The emphasised word is a different matter. It is the preset's `highlight`,
    and two presets pair a mid-tone highlight with a near-white stroke --
    `clean-corporate` 3.8:1, `warm-minimal` 2.9:1 -- because in a render that

@@ -320,6 +320,14 @@ def main() -> int:
 
     by_pair = ({(e["format"], e["style"]): e for e in committed["entries"]}
                if live else {})
+
+    # The two numbers the page quotes about the repo, checked against it. The
+    # page renders them from this file rather than stating them, so this is the
+    # only place they can go stale.
+    if live:
+        fresh = sync_gallery.counts(None)
+        expect("gallery counts", committed.get("counts") == fresh,
+               f"the data says {committed.get('counts')} formats/presets, the repo has {fresh}")
     for entry in live:
         key = (entry["format"], entry["style"])
         have = by_pair.pop(key, None)
@@ -371,6 +379,37 @@ def main() -> int:
     expect("stated contrast floor", stated is not None and float(stated.group(1)) <= measured,
            f"the stylesheet says {stated.group(1) if stated else 'no'}:1, "
            f"the worst measured is {measured:.2f}:1")
+
+    # 9c. The photographs behind the previews.
+    #
+    # They are CC0, so no notice is legally required -- which is exactly why a
+    # check is worth having: nothing external forces the credit to stay correct
+    # or the file to stay present. A missing file is an invisible failure, too;
+    # the card still draws, in flat colour, looking like a design decision.
+    stock = json.loads((SITE.parent / "src" / "_data" / "stock.json").read_text())
+    for entry in committed["entries"]:
+        pairing = f"{entry['format']}+{entry['style']}"
+        shot = stock.get(pairing)
+        expect("gallery still", shot is not None,
+               f"{pairing} has a photograph"
+               + ("" if shot else " — run scripts/fetch-stock.py"))
+        if not shot:
+            continue
+        expect("gallery still shipped", (SITE / shot["file"]).is_file(),
+               f"{shot['file']} is in the built site")
+        missing = [k for k in ("creator", "source", "license") if not shot.get(k)]
+        expect("gallery still credited", not missing,
+               f"{pairing} names its photographer and licence"
+               + (f" — MISSING {missing}" if missing else ""))
+        expect("gallery still is public domain", shot.get("license", "").upper() == "CC0",
+               f"{pairing} is CC0 (it is {shot.get('license')})")
+
+    # Every credited photographer must actually appear on the page.
+    uncredited = [s["creator"] for s in stock.values()
+                  if s["creator"] not in pages.get("gallery.html", "")]
+    expect("gallery credits rendered", not uncredited,
+           "every photographer is named on the page"
+           + (f" — MISSING: {sorted(set(uncredited))}" if uncredited else ""))
 
     # Every pairing must reach the built page, or the data is a file nobody sees.
     gallery_html = pages.get("gallery.html", "")

@@ -60,6 +60,16 @@ PAIRINGS = [
      "A clip you already have, titled as though it were printed on paper."),
     ("brand-origin", "magazine-cover",
      "One claim, one masthead, one red. Nothing else on screen."),
+    ("daily-recap", "summer-scrapbook",
+     "A season of phone footage, with one sentence worth keeping."),
+    ("cinematic", "weekend-gothic",
+     "One blackletter word over neon, and nothing else competing."),
+    ("timeline-explainer", "lookbook-sage",
+     "A collection that counts itself, in cream on sage."),
+    ("titled-video", "postcard-serif",
+     "A place name across the top, tracked until it is almost a line."),
+    ("talking-head", "pov-quiet",
+     "A held moment, captioned mid-frame in a voice that does not raise."),
 ]
 
 
@@ -124,6 +134,27 @@ def swatch(style_values: dict) -> tuple[dict, list[str]]:
     if captions.get("stroke"):
         out["stroke"] = captions["stroke"]
     return ({k: v for k, v in out.items() if v is not None}, problems)
+
+
+def counts(skills: Path | None) -> dict[str, int]:
+    """How many formats and presets exist, not how many are paired here.
+
+    Read rather than written down. The page quotes both numbers, and a number
+    a person maintains on a page about a repository is the drift this site has
+    already shipped six times.
+    """
+    if skills:
+        return {"formats": len(list((skills / FORMATS_DIR).glob("*.md"))),
+                "styles": len(list((skills / STYLES_DIR).glob("*.md")))}
+    out = {}
+    for key, path in (("formats", FORMATS_DIR), ("styles", STYLES_DIR)):
+        url = f"https://api.github.com/repos/{REPO}/contents/{path}?ref=master"
+        request = urllib.request.Request(
+            url, headers={"Accept": "application/vnd.github+json",
+                          "User-Agent": "scrollmark-gallery/1.0"})
+        with urllib.request.urlopen(request, timeout=40) as response:
+            out[key] = sum(1 for e in json.load(response) if e["name"].endswith(".md"))
+    return out
 
 
 def build(read) -> tuple[list[dict], list[str]]:
@@ -204,13 +235,16 @@ def main() -> int:
         print("\n".join(problems), file=sys.stderr)
         return 1
 
-    rendered = json.dumps({"source": source, "entries": entries}, indent=2) + "\n"
+    available = counts(args.skills)
+    rendered = json.dumps(
+        {"source": source, "counts": available, "entries": entries}, indent=2) + "\n"
 
     if args.check:
         current = json.loads(OUT.read_text()) if OUT.is_file() else {}
         # `source` records where the data was last read from and is expected to
         # differ between a checkout and the live repo, so it is not drift.
-        same = current.get("entries") == entries
+        same = (current.get("entries") == entries
+                and current.get("counts") == counts(args.skills))
         print("gallery.json matches the repo" if same
               else "gallery.json is stale — re-run without --check")
         return 0 if same else 1
