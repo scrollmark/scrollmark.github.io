@@ -2,7 +2,7 @@
   "source": "scrollmark/social-skills@master",
   "counts": {
     "formats": 11,
-    "styles": 27
+    "styles": 29
   },
   "entries": [
     {
@@ -224,7 +224,7 @@
         "stroke": "#3a2c1b"
       },
       "fontFamily": "Cormorant Garamond, Georgia, serif",
-      "titleFace": "Playfair Display",
+      "titleFace": "Gwendolyn",
       "captionFace": "Cormorant Garamond"
     },
     {
@@ -249,7 +249,7 @@
         "stroke": "#0a0a0a"
       },
       "fontFamily": "Inter, Helvetica, sans-serif",
-      "titleFace": "Pirata One",
+      "titleFace": "UnifrakturMaguntia",
       "uppercase": true
     },
     {
@@ -273,7 +273,7 @@
         "stroke": "#2f4a42"
       },
       "fontFamily": "Cormorant Garamond, Georgia, serif",
-      "titleFace": "Playfair Display",
+      "titleFace": "Bodoni Moda",
       "captionFace": "Cormorant Garamond"
     },
     {
