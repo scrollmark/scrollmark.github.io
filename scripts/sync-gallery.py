@@ -59,10 +59,24 @@ PREVIEW_COPY = {
         "caption": "three panels, one afternoon"},
 }
 
-#: The gallery, as a list. Each entry is a format, a style, and one line saying
-#: why the two belong together — the only sentence on the card that is written
+#: The gallery, as a list, in the order it is read. The five recreations of the
+#: reference templates come first: they are the ones with a moving preview and
+#: the ones somebody arriving is most likely to be looking for, and a visitor
+#: who reads three cards should have read those.
+#:
+#: Each entry is a format, a style, and one line saying why the two belong
+#: together — the only sentence on the card that is written
 #: here rather than read from the repo.
 PAIRINGS = [
+    ("daily-recap", "summer-scrapbook",
+     "A season of phone footage, with one sentence worth keeping."),
+    ("cinematic", "weekend-gothic",
+     "One blackletter word over neon, and nothing else competing."),
+    ("brand-origin", "editorial-sage",
+     "A Didone line and one script word, cream on a flat colour field."),    ("titled-video", "postcard-serif",
+     "A place name across the top, tracked until it is almost a line."),
+    ("daily-recap", "pov-serif",
+     "Three panels of an afternoon, captioned like a thought rather than a title."),
     ("explainer", "clean-corporate",
      "A concept walked through end to end, in the flat palette a deck already uses."),
     ("cinematic", "documentary",
@@ -81,14 +95,8 @@ PAIRINGS = [
      "A clip you already have, titled as though it were printed on paper."),
     ("brand-origin", "magazine-cover",
      "One claim, one masthead, one red. Nothing else on screen."),
-    ("daily-recap", "summer-scrapbook",
-     "A season of phone footage, with one sentence worth keeping."),
-    ("cinematic", "weekend-gothic",
-     "One blackletter word over neon, and nothing else competing."),
     ("timeline-explainer", "lookbook-sage",
      "A collection that counts itself, in cream on sage."),
-    ("titled-video", "postcard-serif",
-     "A place name across the top, tracked until it is almost a line."),
     ("talking-head", "pov-quiet",
      "A held moment, captioned mid-frame in a voice that does not raise."),
     ("cinematic", "neon-sign",
@@ -101,10 +109,6 @@ PAIRINGS = [
      "Type photocopied until it breaks, and exactly one red."),
     ("timeline-explainer", "arcade-crt",
      "Phosphor green pixels counting up, the way a score does."),
-    ("daily-recap", "pov-serif",
-     "Three panels of an afternoon, captioned like a thought rather than a title."),
-    ("brand-origin", "editorial-sage",
-     "A Didone line and one script word, cream on a flat colour field."),
 ]
 
 
