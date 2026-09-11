@@ -175,6 +175,7 @@
         "stroke": "#2b2118"
       },
       "fontFamily": "Fraunces, Georgia, serif",
+      "titleFace": "Fraunces",
       "captionFace": "Fraunces"
     },
     {
@@ -197,6 +198,7 @@
         "stroke": "#111111"
       },
       "fontFamily": "Fraunces, Didot, Georgia, serif",
+      "titleFace": "Bodoni Moda",
       "captionFace": "Fraunces",
       "uppercase": true
     },
