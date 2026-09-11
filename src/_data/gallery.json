@@ -1,5 +1,9 @@
 {
-  "source": "scrollmark/social-skills@local checkout",
+  "source": "scrollmark/social-skills@master",
+  "counts": {
+    "formats": 11,
+    "styles": 22
+  },
   "entries": [
     {
       "format": "explainer",
@@ -192,6 +196,114 @@
       },
       "fontFamily": "Fraunces, Didot, Georgia, serif",
       "uppercase": true
+    },
+    {
+      "format": "daily-recap",
+      "style": "summer-scrapbook",
+      "why": "A season of phone footage, with one sentence worth keeping.",
+      "title": "DailyRecap",
+      "description": "Photo-dump recap cut to the track",
+      "styleDescription": "Swash serif over sun, with a month-and-year masthead",
+      "aspect": "9:16",
+      "scenes": "8-14",
+      "sceneSeconds": "1.5-3",
+      "captions": "optional",
+      "narration": "none",
+      "music": "required",
+      "needs": "measure",
+      "swatch": {
+        "bg": "transparent",
+        "fg": "#f7ecd8",
+        "caption": "#f7ecd8",
+        "accent": "#e8b55c",
+        "stroke": "#3a2c1b"
+      },
+      "fontFamily": "Cormorant Garamond, Georgia, serif"
+    },
+    {
+      "format": "cinematic",
+      "style": "weekend-gothic",
+      "why": "One blackletter word over neon, and nothing else competing.",
+      "title": "Cinematic",
+      "description": "Mood-driven montage",
+      "styleDescription": "Blackletter vermilion over neon, with a caps kicker",
+      "aspect": "9:16",
+      "scenes": "4-8",
+      "sceneSeconds": "2-6",
+      "captions": "off",
+      "narration": "optional",
+      "music": "required",
+      "needs": "measure",
+      "swatch": {
+        "bg": "transparent",
+        "fg": "#e5342a",
+        "caption": "#f6efe3",
+        "accent": "#e5342a",
+        "stroke": "#0a0a0a"
+      },
+      "fontFamily": "Inter, Helvetica, sans-serif",
+      "uppercase": true
+    },
+    {
+      "format": "timeline-explainer",
+      "style": "lookbook-sage",
+      "why": "A collection that counts itself, in cream on sage.",
+      "title": "TimelineExplainer",
+      "description": "Numbered walk through a history",
+      "styleDescription": "Sage and cream editorial, numbered like a lookbook",
+      "aspect": "16:9",
+      "alsoWorks": "9:16",
+      "scenes": "6-10",
+      "sceneSeconds": "5-7",
+      "captions": "on",
+      "narration": "one voice",
+      "swatch": {
+        "bg": "transparent",
+        "fg": "#efe4cd",
+        "caption": "#efe4cd",
+        "accent": "#c9a227",
+        "stroke": "#2f4a42"
+      },
+      "fontFamily": "Cormorant Garamond, Georgia, serif"
+    },
+    {
+      "format": "titled-video",
+      "style": "postcard-serif",
+      "why": "A place name across the top, tracked until it is almost a line.",
+      "title": "TitledVideo",
+      "description": "Clip plus a typography package",
+      "styleDescription": "Didone masthead with a hairline-tracked strapline",
+      "aspect": "source",
+      "captions": "optional",
+      "needs": "measure",
+      "swatch": {
+        "bg": "transparent",
+        "fg": "#fdfdfb",
+        "caption": "#fdfdfb",
+        "accent": "#d9b26a",
+        "stroke": "#1a1a18"
+      },
+      "fontFamily": "Inter, Helvetica, sans-serif",
+      "uppercase": true
+    },
+    {
+      "format": "talking-head",
+      "style": "pov-quiet",
+      "why": "A held moment, captioned mid-frame in a voice that does not raise.",
+      "title": "TalkingHead",
+      "description": "Direct-to-camera monologue",
+      "styleDescription": "Small italic serif set mid-frame, almost whispered",
+      "aspect": "9:16",
+      "captions": "on",
+      "narration": "on camera",
+      "swatch": {
+        "bg": "transparent",
+        "fg": "#fbfaf7",
+        "caption": "#fbfaf7",
+        "accent": "#e7d7bd",
+        "stroke": "#141210"
+      },
+      "fontFamily": "EB Garamond, Cormorant Garamond, Georgia, serif"
     }
   ]
 }

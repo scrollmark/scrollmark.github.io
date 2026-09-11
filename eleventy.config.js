@@ -19,6 +19,7 @@ export default function (eleventyConfig) {
     "brand-socialgpt.svg",
     "og-card.png",
     "robots.txt",
+    "stock",
     "sitemap.xml",
   ]) {
     eleventyConfig.addPassthroughCopy(file);

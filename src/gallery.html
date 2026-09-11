@@ -28,7 +28,7 @@ about: "index.html#about"
     <section class="section" id="templates" style="padding-top: clamp(24px, 4vw, 48px)">
       <div class="wrap">
         <div class="section-head">
-          <p class="eyebrow" style="color: var(--se-violet-text)">Nine pairings</p>
+          <p class="eyebrow" style="color: var(--se-violet-text)">{{ gallery.entries | size }} pairings</p>
           <h2 class="heading-2">Start from one of these.</h2>
           <p class="sub" style="max-width: 62ch">
             Each preview paints the style's own colours: the title card as
@@ -40,10 +40,12 @@ about: "index.html#about"
         <div class="gallery-grid">
 {%- for t in gallery.entries %}
           <article class="card tpl-card">
+{%- assign key = t.format | append: "+" | append: t.style %}
+{%- assign shot = stock[key] %}
             <div class="tpl-preview tpl-preview--{{ t.aspect | replace: ":", "x" }}"
-                 style="--tpl-bg: {{ t.swatch.bg }}; --tpl-fg: {{ t.swatch.fg }}; --tpl-caption: {{ t.swatch.caption }}; --tpl-accent: {{ t.swatch.accent }}; --tpl-stroke: {{ t.swatch.stroke | default: "transparent" }}"
+                 style="--tpl-bg: {{ t.swatch.bg }}; --tpl-fg: {{ t.swatch.fg }}; --tpl-caption: {{ t.swatch.caption }}; --tpl-accent: {{ t.swatch.accent }}; --tpl-stroke: {{ t.swatch.stroke | default: "transparent" }}{% if shot %}; --tpl-shot: url('{{ shot.file }}'){% endif %}"
                  role="img"
-                 aria-label="A {{ t.aspect }} preview: the {{ t.title }} title card, and a sample caption in the {{ t.style }} preset's own colours with one word in its highlight.">
+                 aria-label="A {{ t.aspect }} preview: the {{ t.title }} title card over a photograph, and a sample caption in the {{ t.style }} preset's own colours with one word in its highlight.">
               <span class="tpl-preview-title" aria-hidden="true">{{ t.title }}</span>
               <span class="tpl-preview-caption{% if t.uppercase %} tpl-preview-caption--upper{% endif %}" aria-hidden="true">
                 caption <em>word</em>
@@ -87,6 +89,21 @@ about: "index.html#about"
       </div>
     </section>
 
+    <!-- ── Where the photographs came from ── -->
+    <section class="section" id="credits" style="padding: 0 0 clamp(24px, 4vw, 48px)">
+      <div class="wrap">
+        <p class="sub" style="max-width: 68ch; font-size: 0.92rem">
+          The stills behind these previews are public-domain photographs from
+          <a href="https://openverse.org">Openverse</a>, all CC0 — no notice is
+          required, and they are credited anyway:
+{%- for pairing in stock %}
+          <a href="{{ pairing[1].source }}">{{ pairing[1].creator }}</a>{% unless forloop.last %}, {% endunless %}
+{%- endfor %}.
+          The footage in a real render is yours; these stand in for it.
+        </p>
+      </div>
+    </section>
+
     <!-- ── How to grow it ── -->
     <section class="section" id="how" style="padding-top: 0">
       <div class="wrap">
@@ -99,9 +116,11 @@ about: "index.html#about"
             rather than chosen here — a preset with no caption colour is an
             error, not a default. A preview is still a preview: it stands the
             colours next to each other at a card's size, where a render puts
-            the type over footage. Eleven formats and seventeen presets ship;
-            a project can add its own of either, and they take precedence over
-            the ones that ship.
+            the type over footage. {{ gallery.counts.formats }} formats and
+            {{ gallery.counts.styles }} presets ship, which is
+            {{ gallery.counts.formats | times: gallery.counts.styles }}
+            pairings before anyone writes a new one; a project can add its own
+            of either, and they take precedence over the ones that ship.
           </p>
         </div>
         <div class="projects-grid">
