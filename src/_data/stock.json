@@ -1,6 +1,8 @@
 {
   "brand-origin+editorial-sage": {
     "bandLuminance": 0.174972,
+    "clip": "stock/brand-origin--editorial-sage.mp4",
+    "clipBytes": 217790,
     "creator": "Scrollmark",
     "file": "stock/brand-origin--editorial-sage.jpg",
     "license": "OWN",
@@ -63,6 +65,8 @@
   },
   "cinematic+weekend-gothic": {
     "bandLuminance": 0.027372,
+    "clip": "stock/cinematic--weekend-gothic.mp4",
+    "clipBytes": 220229,
     "creator": "Scrollmark",
     "file": "stock/cinematic--weekend-gothic.jpg",
     "license": "OWN",
@@ -74,6 +78,8 @@
   },
   "daily-recap+pov-serif": {
     "bandLuminance": 0.056281,
+    "clip": "stock/daily-recap--pov-serif.mp4",
+    "clipBytes": 236539,
     "creator": "Scrollmark",
     "file": "stock/daily-recap--pov-serif.jpg",
     "license": "OWN",
@@ -84,6 +90,8 @@
   },
   "daily-recap+summer-scrapbook": {
     "bandLuminance": 0.033724,
+    "clip": "stock/daily-recap--summer-scrapbook.mp4",
+    "clipBytes": 206626,
     "creator": "Scrollmark",
     "file": "stock/daily-recap--summer-scrapbook.jpg",
     "license": "OWN",
@@ -210,6 +218,8 @@
   },
   "titled-video+postcard-serif": {
     "bandLuminance": 0.048549,
+    "clip": "stock/titled-video--postcard-serif.mp4",
+    "clipBytes": 218880,
     "creator": "Scrollmark",
     "file": "stock/titled-video--postcard-serif.jpg",
     "license": "OWN",

@@ -39,16 +39,30 @@ about: "index.html#about"
         </div>
         <div class="gallery-grid">
 {%- for t in gallery.entries %}
-          <article class="card tpl-card">
 {%- assign key = t.format | append: "+" | append: t.style %}
 {%- assign shot = stock[key] %}
+          <article class="card tpl-card{% if shot.clip %} tpl-card--moves{% endif %}">
             <div class="tpl-preview tpl-preview--{{ t.aspect | replace: ":", "x" }}"
                  style="--tpl-bg: {{ t.swatch.bg }}; --tpl-fg: {{ t.swatch.fg }}; --tpl-caption: {{ t.swatch.caption }}; --tpl-accent: {{ t.swatch.accent }}; --tpl-stroke: {{ t.swatch.stroke | default: "transparent" }}{% if shot %}; --tpl-shot: url('{{ shot.file }}'){% endif %}{% if t.titleFace %}; --tpl-title-face: '{{ t.titleFace }}'{% endif %}{% if t.titleScale %}; --tpl-title-scale: {{ t.titleScale }}{% endif %}{% if t.captionScale %}; --tpl-caption-scale: {{ t.captionScale }}{% endif %}{% if t.captionFace %}; --tpl-caption-face: '{{ t.captionFace }}'{% endif %}"
                  role="img"
-                 aria-label="A {{ t.aspect }} preview: the {{ t.title }} title card over a photograph, and a sample caption in the {{ t.style }} preset's own colours with one word in its highlight.">
-              <span class="tpl-preview-title" aria-hidden="true">{{ t.title }}</span>
+                 aria-label="A {{ t.aspect }} preview of {{ t.style }}: {% if t.previewTitle %}the words &ldquo;{{ t.previewTitle }}&rdquo;{% else %}the {{ t.title }} title card{% endif %} over a photograph, with a caption in the preset's own colours and one word in its highlight.">
+{%- if shot.clip %}
+              <span class="tpl-moves" title="Plays on hover">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9 6.5v11l9-5.5z"/></svg>
+              </span>
+              <video class="tpl-clip" muted loop playsinline preload="none"
+                     poster="{{ shot.file }}" aria-hidden="true" tabindex="-1">
+                <source src="{{ shot.clip }}" type="video/mp4" />
+              </video>
+{%- endif %}
+              <span class="tpl-preview-title" aria-hidden="true">{% if t.previewTitle %}{{ t.previewTitle }}{% else %}{{ t.title }}{% endif %}</span>
               <span class="tpl-preview-caption{% if t.uppercase %} tpl-preview-caption--upper{% endif %}" aria-hidden="true">
+{%- if t.previewCaption %}
+{%- assign words = t.previewCaption | split: " " -%}
+{%- for word in words %}{% if forloop.last %}<em>{{ word }}</em>{% else %}{{ word }} {% endif %}{% endfor %}
+{%- else %}
                 caption <em>word</em>
+{%- endif %}
               </span>
             </div>
             <p class="eyebrow">{{ t.format }} · {{ t.style }}</p>
@@ -88,6 +102,32 @@ about: "index.html#about"
         </div>
       </div>
     </section>
+
+    <script>
+      // Clips play on hover and on keyboard focus, and never on their own: five
+      // autoplaying videos is a page that drains a battery to show what a still
+      // already shows. `preload="none"` means a visitor who never hovers never
+      // downloads them, and a visitor who asked for less motion never does either.
+      (() => {
+        const still = matchMedia("(prefers-reduced-motion: reduce)");
+        for (const card of document.querySelectorAll(".tpl-card")) {
+          const clip = card.querySelector(".tpl-clip");
+          if (!clip) continue;
+          const play = () => {
+            if (still.matches) return;
+            clip.play().catch(() => {});
+          };
+          const stop = () => {
+            clip.pause();
+            clip.currentTime = 0;
+          };
+          card.addEventListener("pointerenter", play);
+          card.addEventListener("pointerleave", stop);
+          card.addEventListener("focusin", play);
+          card.addEventListener("focusout", stop);
+        }
+      })();
+    </script>
 
     <!-- ── Where the photographs came from ── -->
     <section class="section" id="credits" style="padding: 0 0 clamp(24px, 4vw, 48px)">

@@ -1575,3 +1575,96 @@ footer {
   word-break: break-word;
   min-width: 0;
 }
+
+/* ── Previews that move ──
+   The clip sits under the type and over the still, which is its own poster, so
+   the first frame is the picture the card already showed and nothing jumps
+   when it starts. It plays on hover and on keyboard focus and never on its
+   own: five autoplaying videos is a page that drains a battery to show what a
+   still already shows. */
+.tpl-clip {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.25s ease-out;
+}
+
+.tpl-card:hover .tpl-clip,
+.tpl-card:focus-within .tpl-clip {
+  opacity: 1;
+}
+
+/* Asked for less motion: the still stays, and the script never calls play(). */
+@media (prefers-reduced-motion: reduce) {
+  .tpl-card:hover .tpl-clip,
+  .tpl-card:focus-within .tpl-clip {
+    opacity: 0;
+  }
+}
+
+.tpl-preview-title,
+.tpl-preview-caption {
+  position: relative;
+  z-index: 1;
+}
+
+/* A card that moves sits on a slightly different ground.
+   The hue does the grouping -- you see which ones are alive before you read
+   anything -- so the marker on the frame can shrink to a play glyph. Built
+   from the same tint token the project cards use, so it follows the theme
+   into dark mode instead of being a colour that only works in one. */
+.tpl-card--moves {
+  background: linear-gradient(var(--violet-tint), var(--violet-tint)), var(--card);
+}
+
+/* The cards that move say so, quietly.
+   Inside the frame's own padding rather than straddling its edge: the preview
+   clips its overflow to keep the picture in its rounded corners, so a sticker
+   hung off the top was cut in half and unreadable. And no sticker colour --
+   a lime badge shouts louder than the thing it is pointing at. */
+.tpl-moves {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px;
+  border-radius: 999px;
+  background: rgba(12, 12, 16, 0.5);
+  color: rgba(255, 255, 255, 0.82);
+  pointer-events: none;
+  animation: tpl-breathe 3.4s ease-in-out infinite;
+}
+
+.tpl-moves svg {
+  width: 10px;
+  height: 10px;
+  opacity: 0.9;
+}
+
+/* Out of the way once it is actually playing -- the label has done its job by
+   then, and the point of the card is the picture. */
+.tpl-card:hover .tpl-moves,
+.tpl-card:focus-within .tpl-moves {
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+
+/* A breath, not a blink: it should read as alive when you notice it and be
+   invisible when you are reading the card next to it. */
+@keyframes tpl-breathe {
+  0%, 100% { opacity: 0.62; }
+  50% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tpl-moves {
+    animation: none;
+    opacity: 0.8;
+  }
+}
