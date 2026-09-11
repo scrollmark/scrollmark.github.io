@@ -561,6 +561,48 @@ def main() -> int:
            f" appear on the page"
            + (f" — MISSING: {unshown}" if unshown else ""))
 
+    # The title goes where the PRESET says, on both axes. The preview used to
+    # pin every title to the top left corner whatever the preset's `rect` said,
+    # which is a look the engine never draws and was visibly wrong against the
+    # five reference recreations -- four centre the title in the frame and
+    # `postcard-serif` sits it near the top, and all five drew identically.
+    # Checked against the rect rather than against a remembered list of which
+    # ones are centred: the preset is the only thing that knows.
+    placed = [e for e in shown if e.get("titleTop")]
+    misplaced = []
+    for e in placed:
+        key = f"{e['format']} · {e['style']}"
+        want = f"--tpl-title-top: {e['titleTop']}"
+        if want not in gallery_html:
+            misplaced.append(f"{key} wants {want}")
+    expect("title placement rendered", not misplaced,
+           f"every placed title carries its preset's own vertical centre"
+           + (f" — MISSING: {misplaced}" if misplaced else ""))
+
+    # And that centre is the rect's MIDDLE, not its top edge: a card is a box
+    # its type sits in the middle of, so a rect running 0.38 to 0.56 places
+    # type at 0.47.
+    #
+    # The arithmetic is repeated here on purpose. The obvious version calls
+    # `sync_gallery.title_placement` and compares its answer to the number
+    # that function produced, which certifies anything at all: changing the
+    # centre to the rect's top edge moved all seventeen titles and the check
+    # still reported ok, because both sides moved together. Reading the rect
+    # and halving it here is the only version that can disagree.
+    if live:
+        drifted = []
+        for e in placed:
+            rect = (sync_gallery.json_block(
+                sync_gallery.read_live(f"{sync_gallery.STYLES_DIR}/{e['style']}.md")
+            ).get("cards", {}).get("title", {}).get("rect") or [0, 0, 0, 0])
+            want = round(rect[1] + rect[3] / 2, 4)
+            if want != e.get("titleTop"):
+                drifted.append(
+                    f"{e['style']}: page {e.get('titleTop')}, preset {want}")
+        expect("title placement matches the preset", not drifted,
+               f"all {len(placed)} placed titles sit at their rect's centre"
+               + (f" — DRIFT: {drifted}" if drifted else ""))
+
     if args.json:
         print(json.dumps({"ok": not problems, "checked": checked, "problems": problems}, indent=2))
     else:

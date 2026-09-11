@@ -1428,12 +1428,23 @@ footer {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* `space-between` put the title at the top and the caption at the bottom.
+     A placed title leaves the flow entirely, and a lone flex child under
+     `space-between` sits at the START -- which floated every caption to the
+     top of its frame. `flex-end` holds the caption at the bottom whether or
+     not the title is still in the flow, and an unplaced title is pinned to
+     the top by the rule below. */
+  justify-content: flex-end;
   align-items: center;
   margin: 0 auto 18px;
   width: 100%;
   max-width: 220px;
-  padding: 14px 12px;
+  /* Named because the placed title has to undo them: a preset's `rect` is a
+     fraction of the FRAME, and the frame here is the whole box the photograph
+     fills, not the content box these insets leave behind. */
+  --tpl-pad-y: 14px;
+  --tpl-pad-x: 12px;
+  padding: var(--tpl-pad-y) var(--tpl-pad-x);
   border-radius: var(--radius-card);
   border: 1px solid var(--border);
   /* A photograph, because a template is type over a picture. Without one the
@@ -1461,6 +1472,9 @@ footer {
   padding: 6px 10px;
   border-radius: 3px;
   align-self: stretch;
+  /* Hold the top, since the container now packs its flow children to the
+     bottom for the caption's sake. A placed title overrides this. */
+  margin-bottom: auto;
 }
 
 /* The frame the format is composed for, drawn at that ratio. */
@@ -1489,6 +1503,40 @@ footer {
   color: var(--tpl-fg);
   align-self: flex-start;
   text-align: left;
+}
+
+/* Where the preset actually puts it. A preset states `rect` as
+   `[x, y, w, h]` fractions of the frame and `align` for the horizontal, and
+   the rule above pinned every title to the top left corner regardless --
+   which is wrong for two thirds of the collection and wrong for four of the
+   five recreations, whose reference images centre the title on both axes.
+   (`postcard-serif` is the exception and stays high, because its own rect
+   puts it there: 0.10 to 0.24, centre 0.17.)
+
+   `top` is the rect's CENTRE and the transform lifts the type back by half
+   its own height, so a one-line and a two-line title sit on the same
+   centreline -- the same thing the renderer does when it centres type in a
+   card box. Placed absolutely rather than with flex offsets because the
+   vertical position is a fraction of the frame, and a flex item's position is
+   a consequence of everything above it. */
+.tpl-preview-title--placed {
+  position: absolute;
+  /* Measured against the frame, then shifted back into it. Percentages here
+     resolve against the box these insets leave, which is 28px shorter than
+     the picture -- so a rect centred at 0.17 drew at 0.205, and every
+     placement was pulled toward the middle by the padding. Adding the insets
+     back gives the frame's own height, and subtracting one lifts the origin
+     to the frame's top edge. */
+  top: calc(
+    var(--tpl-title-top) * (100% + 2 * var(--tpl-pad-y)) - var(--tpl-pad-y)
+  );
+  left: calc(
+    var(--tpl-title-left) * (100% + 2 * var(--tpl-pad-x)) - var(--tpl-pad-x)
+  );
+  width: calc(var(--tpl-title-width) * (100% + 2 * var(--tpl-pad-x)));
+  max-width: none;
+  transform: translateY(-50%);
+  text-align: var(--tpl-title-align, left);
 }
 
 /* A caption is outlined type over a picture, so that is what this draws.
