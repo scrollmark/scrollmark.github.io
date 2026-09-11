@@ -113,6 +113,16 @@ def json_block(text: str) -> dict:
     return json.loads(block.group(1)) if block else {}
 
 
+#: How tall each frame is, in the pixels a composer fontSize is stated in.
+#: `source` keeps the footage's own frame, and 1280 is the 3:2 the gallery
+#: stands in for it with.
+FRAME_HEIGHTS = {"9:16": 1920, "16:9": 1080, "1:1": 1080, "4:5": 1350, "source": 1280}
+
+
+def frame_height(aspect: str) -> int:
+    return FRAME_HEIGHTS.get(aspect, 1920)
+
+
 def face(stack: str) -> str:
     """The first real family in a CSS stack.
 
@@ -253,6 +263,19 @@ def build(read) -> tuple[list[dict], list[str]]:
             "needs": fmt.get("needs", ""),
             "swatch": colours,
             "fontFamily": captions.get("fontFamily", ""),
+            # The preset's own size as a fraction of the frame it is drawn in,
+            # so a preview shows the proportion the preset asks for rather than
+            # one size for every card.
+            #
+            # Divided by the frame's OWN height, not always 1920: a composer
+            # fontSize is pixels, and the same 196px is a tenth of a portrait
+            # frame and a sixth of a landscape one. Dividing everything by 1920
+            # drew every landscape card a third too small.
+            "titleScale": round(
+                style_values.get("cards", {}).get("title", {}).get("fontSize", 84)
+                / frame_height(fmt.get("aspect", "9:16")), 4),
+            "captionScale": round(
+                captions.get("fontSize", 56) / frame_height(fmt.get("aspect", "9:16")), 4),
             "titleFace": face(style_values.get("cards", {}).get("title", {})
                               .get("fontFamily", "")),
             "captionFace": face(captions.get("fontFamily", "")),
