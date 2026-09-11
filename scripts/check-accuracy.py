@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import argparse
 import functools
+import hashlib
 import importlib.util
 import json
 import os
@@ -354,6 +355,12 @@ def main() -> int:
     # produces, and a stated floor is a claim like any other here: it said
     # 14:1 until a preset measured 13.45. So the claim is parsed out of the CSS
     # and checked against the data it describes.
+    def _luminance_of(value: str) -> float:
+        h = value.lstrip("#")
+        ch = [int(h[i:i + 2], 16) / 255 for i in (0, 2, 4)]
+        ch = [x / 12.92 if x <= 0.03928 else ((x + 0.055) / 1.055) ** 2.4 for x in ch]
+        return 0.2126 * ch[0] + 0.7152 * ch[1] + 0.0722 * ch[2]
+
     def _contrast(a: str, b: str) -> float:
         def lum(h):
             h = h.lstrip("#")
@@ -442,6 +449,66 @@ def main() -> int:
         expect("gallery faces requested", not missing,
                "every face a preset names is in the request"
                + (f" — MISSING: {missing}" if missing else ""))
+
+    # 9e. A title has to be readable against the picture chosen for it.
+    #
+    # Where a preset's title card is transparent, the type sits straight on the
+    # photograph, so the photograph is part of whether it can be read. Seven of
+    # the ten such pairings failed when the stills were picked for subject
+    # alone -- one at 1.24:1, which is a title you cannot see.
+    #
+    # Measuring needs a decoder, and this runner has no ffmpeg -- a site that
+    # checks its own copy should not need a media toolchain to do it. So
+    # `fetch-stock.py --measure` records the number beside a hash of the exact
+    # bytes it measured, and this checks BOTH: the hash still matches the file
+    # (so the number belongs to the picture that is shipping) and the number
+    # clears the floor. A recorded number with no bytes attached would rot in
+    # silence, which is the failure this file exists to prevent.
+    #
+    # 3:1 because these are large text, which is the threshold WCAG sets for
+    # it, and because some titles cannot do better against ANY photograph:
+    # weekend-gothic's vermilion sits mid-range, so it needs a near-black band.
+    stale, unreadable, unmeasured = [], [], []
+    for entry in committed["entries"]:
+        pairing = f"{entry['format']}+{entry['style']}"
+        shot = stock.get(pairing)
+        if not shot:
+            continue
+        path = SITE.parent / shot["file"]
+        if path.is_file() and shot.get("sha256"):
+            digest = hashlib.sha256(path.read_bytes()).hexdigest()
+            if digest != shot["sha256"]:
+                stale.append(pairing)
+        if entry["swatch"].get("bg") != "transparent":
+            continue
+        measured = shot.get("titleContrast")
+        band = shot.get("bandLuminance")
+        if measured is None or band is None:
+            unmeasured.append(pairing)
+            continue
+        # Recomputed from the recorded band and the preset's own colour, so a
+        # contrast edited by hand fails even though the picture is untouched.
+        # What is NOT verifiable here is the band itself: checking that would
+        # mean decoding the JPEG, which is the toolchain this avoids. The hash
+        # ties it to bytes nobody has changed; that is the guarantee on offer.
+        title = _luminance_of(entry["swatch"]["fg"])
+        recomputed = round((max(title, band) + 0.05) / (min(title, band) + 0.05), 2)
+        if abs(recomputed - measured) > 0.02:
+            stale.append(f"{pairing} records {measured}:1, its band gives {recomputed}:1")
+        elif measured < 3.0:
+            unreadable.append(f"{pairing} at {measured}:1")
+
+    expect("still measurements are current", not stale,
+           "every recorded measurement matches the file it describes"
+           + (f" — CHANGED SINCE MEASURING: {stale} (scripts/fetch-stock.py --measure)"
+              if stale else ""))
+    expect("titles are measured", not unmeasured,
+           "every transparent title has a recorded contrast"
+           + (f" — MISSING: {unmeasured}" if unmeasured else ""))
+    expect("title on its still", not unreadable,
+           "every transparent title clears 3:1 against its photograph"
+           + (f" — UNREADABLE: {unreadable} (scripts/fetch-stock.py --rebalance)"
+              if unreadable else ""))
 
     # Every pairing must reach the built page, or the data is a file nobody sees.
     gallery_html = pages.get("gallery.html", "")

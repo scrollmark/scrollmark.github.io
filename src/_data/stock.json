@@ -1,154 +1,202 @@
 {
   "brand-origin+magazine-cover": {
+    "bandLuminance": 0.111378,
     "creator": "Wonderlane",
     "file": "stock/brand-origin--magazine-cover.jpg",
     "license": "CC0",
     "query": "textile fabric fashion detail",
+    "sha256": "78b677ba8a5285afd552580fdee78bc8a3c41c19351aeea29b8881598a00ad28",
     "source": "https://www.flickr.com/photos/71401718@N00/4634426240",
     "title": "Close up beads, beaming onto Enterprise, Star Trek, sculpture by Devorah Sperber, Spock, Kirk and McCoy: Beaming-In (In-Between), Microsoft, Studio D, Redmond, Washington, USA"
   },
   "brand-origin+warm-minimal": {
+    "bandLuminance": 0.308531,
     "creator": "AdilElouarti",
     "file": "stock/brand-origin--warm-minimal.jpg",
     "license": "CC0",
     "query": "hands pottery workshop craft",
+    "sha256": "48732e31734f4d9c510b660dec5a47bc451d664274ad2d1a549e659c4ebd4a03",
     "source": "https://commons.wikimedia.org/w/index.php?curid=190833833",
     "title": "Intricately decorated Moroccan ceramics and Zellige pottery in Fes Medina"
   },
   "brand-origin+zine-glitch": {
-    "creator": "mnsc",
+    "bandLuminance": 0.276556,
+    "creator": "unknown",
     "file": "stock/brand-origin--zine-glitch.jpg",
     "license": "CC0",
     "query": "concrete wall texture grey",
-    "source": "https://www.flickr.com/photos/49976053@N00/5094083421",
-    "title": "Texture Dump 12"
+    "sha256": "28aadf58c33d0cb53500651e11dadcca90b63673f652f26f356e50a8e1428644",
+    "source": "https://www.rawpixel.com/image/5906396/cement-wall-texture-free-public-domain-cc0-photo",
+    "title": "Cement wall texture",
+    "titleContrast": 3.08
   },
   "cinematic+documentary": {
+    "bandLuminance": 0.496082,
     "creator": "Burst",
     "file": "stock/cinematic--documentary.jpg",
     "license": "CC0",
     "query": "mountain fog landscape moody",
+    "sha256": "5c4b29d71efc3c7c93a9dfd0d8cbf6d6ec7eab3b38b9250f80c0351d574d2747",
     "source": "https://stocksnap.io/photo/fog-trees-F0Q7LBX1VP",
     "title": "Fog Trees"
   },
   "cinematic+neon-sign": {
-    "creator": "wwward0",
+    "bandLuminance": 0.009142,
+    "creator": "unknown",
     "file": "stock/cinematic--neon-sign.jpg",
     "license": "CC0",
     "query": "neon bar sign night",
-    "source": "https://www.flickr.com/photos/15802578@N00/51707917256",
-    "title": "BAR, Monbijou Hotel"
+    "sha256": "55c2e398a1cec1162cad386f12507f32f5a7fd845a23b2361e10b141743c0e62",
+    "source": "https://www.rawpixel.com/image/5924612/photo-image-background-light-public-domain",
+    "title": "Free open neon sign image",
+    "titleContrast": 5.26
   },
   "cinematic+weekend-gothic": {
-    "creator": "Burst",
+    "bandLuminance": 0.00504,
+    "creator": "dr-scott",
     "file": "stock/cinematic--weekend-gothic.jpg",
     "license": "CC0",
-    "query": "neon sign night rain street",
-    "source": "https://stocksnap.io/photo/neon-tokyo-VWWBOFQBGZ",
-    "title": "Neon Tokyo"
+    "query": "night sky black",
+    "sha256": "6a2a709d644eab578d505c1cd55a430c73c4980b3e6c8798eb50eb16c4eb7ffc",
+    "source": "https://www.flickr.com/photos/60174743@N02/14411447439",
+    "title": "Nighttime Traffic",
+    "titleContrast": 4.41
   },
   "daily-recap+summer-scrapbook": {
-    "creator": "Wonderlane",
+    "bandLuminance": 0.174204,
+    "creator": "Childe Hassam, born Dorchester, MA 1859-died East Hampton, NY 1935",
     "file": "stock/daily-recap--summer-scrapbook.jpg",
     "license": "CC0",
     "query": "friends summer beach sun",
-    "source": "https://www.flickr.com/photos/71401718@N00/3514833396",
-    "title": "The wave at the little Arch, and friends, Mazatlan, Sinaloa, Mexico"
+    "sha256": "c126dae1d58f950d1fb34d314e1be2f40f9dab8de5c1a094483a36f153ede60b",
+    "source": "https://americanart.si.edu/collections/search/artwork/?id=10086",
+    "title": "The South Ledges, Appledore",
+    "titleContrast": 4.0
   },
   "daily-recap+vhs-90s": {
+    "bandLuminance": 0.116968,
     "creator": "Alex Wong",
     "file": "stock/daily-recap--vhs-90s.jpg",
     "license": "CC0",
     "query": "skateboard street night city",
+    "sha256": "48967c8997603d3a91e5fa79170de7668740e07818280ec1e5755885347dc0f6",
     "source": "https://stocksnap.io/photo/skateboard-skateboarding-0UR6B61LVN",
     "title": "Skateboard Skateboarding"
   },
   "daily-recap+wet-paint": {
-    "creator": "JOHN19701970",
+    "bandLuminance": 0.126695,
+    "creator": "mpardo.photo",
     "file": "stock/daily-recap--wet-paint.jpg",
     "license": "CC0",
     "query": "graffiti wall paint colourful",
-    "source": "https://www.flickr.com/photos/35888947@N05/3720205861",
-    "title": "ORGY VANS"
+    "sha256": "c5794284571ae2612883134ca642503dab3ff785e8818f8dd9ce915175f6f25f",
+    "source": "https://www.flickr.com/photos/130551911@N05/24276360302",
+    "title": "Let the Sun Shine In #2",
+    "titleContrast": 5.32
   },
   "explainer+clean-corporate": {
+    "bandLuminance": 0.231865,
     "creator": "energepic.com",
     "file": "stock/explainer--clean-corporate.jpg",
     "license": "CC0",
     "query": "desk laptop notebook workspace",
+    "sha256": "a06c6463fe491c9ee08faa273655513ef7427d91b666c88d6df0a1165cc8b76d",
     "source": "https://stocksnap.io/photo/office-work-42H3JH8QI5",
     "title": "Office Work"
   },
   "product-launch+tech-startup": {
+    "bandLuminance": 0.144769,
     "creator": "pixellaphoto",
     "file": "stock/product-launch--tech-startup.jpg",
     "license": "CC0",
     "query": "smartphone desk minimal dark",
+    "sha256": "d8b4cbd5f463980e08db29609ee2f201d54fef0fcb919f861bcec14761848abc",
     "source": "https://www.flickr.com/photos/137643065@N06/24217686692",
     "title": "apple-iphone-smartphone-desk-1"
   },
   "talking-head+loud-social": {
+    "bandLuminance": 0.502647,
     "creator": "unknown",
     "file": "stock/talking-head--loud-social.jpg",
     "license": "CC0",
     "query": "microphone studio recording",
+    "sha256": "7e4d90f9fa7704c627131f6eead4350f412736b720420454055e3603fb1732b7",
     "source": "https://www.rawpixel.com/image/5926178/photo-image-public-domain-microphones-free",
     "title": "Free Microphones Studio Recording photo"
   },
   "talking-head+pov-quiet": {
+    "bandLuminance": 0.178659,
     "creator": "ArtisticPonder",
     "file": "stock/talking-head--pov-quiet.jpg",
     "license": "CC0",
     "query": "window light quiet room",
+    "sha256": "5a55c0b78e853a15ab70b036f51144fb5f37be5d51aaa9730b04d177c445a00e",
     "source": "https://www.flickr.com/photos/197722038@N06/55137487478",
-    "title": "Box Living - Melancholy and Light on the Jutland Coast - 20"
+    "title": "Box Living - Melancholy and Light on the Jutland Coast - 20",
+    "titleContrast": 4.4
   },
   "timeline-explainer+3b1b-dark": {
+    "bandLuminance": 0.005212,
     "creator": "cogdogblog",
     "file": "stock/timeline-explainer--3b1b-dark.jpg",
     "license": "CC0",
     "query": "night sky stars long exposure",
+    "sha256": "36e50c094f06fdd555f18c0a16ccbd768b675b0997a0115bd3043ed83dd2fdd4",
     "source": "https://www.flickr.com/photos/37996646802@N01/3164401585",
     "title": "2009/365/3 Under the Stars"
   },
   "timeline-explainer+arcade-crt": {
+    "bandLuminance": 0.073412,
     "creator": "Luciagarciagon",
     "file": "stock/timeline-explainer--arcade-crt.jpg",
     "license": "CC0",
     "query": "arcade machine screen retro",
+    "sha256": "5758419d773a5124ff7e1716d1f7f203e781fd87e2bd8e5a08c3af25369c95a7",
     "source": "https://www.flickr.com/photos/145039335@N03/29207115550",
-    "title": "Decaying arcade machines"
+    "title": "Decaying arcade machines",
+    "titleContrast": 6.27
   },
   "timeline-explainer+lookbook-sage": {
-    "creator": "Grovemade",
+    "bandLuminance": 0.13976,
+    "creator": "lisafree54",
     "file": "stock/timeline-explainer--lookbook-sage.jpg",
     "license": "CC0",
     "query": "green plant leaves wall",
-    "source": "https://stocksnap.io/photo/interior-design-Q6N8EL794B",
-    "title": "Interior Design"
+    "sha256": "14c58155a2cabc7445bf6733a725a3d767fb89ab8c1ba17076a4cd9bbb24131f",
+    "source": "https://www.flickr.com/photos/136594255@N06/28537935413",
+    "title": "green and bluish-red ivy vines on wall",
+    "titleContrast": 4.39
   },
   "titled-video+analog-editorial": {
+    "bandLuminance": 0.263552,
     "creator": "freestocks.org",
     "file": "stock/titled-video--analog-editorial.jpg",
     "license": "CC0",
     "query": "coffee cup wooden table morning",
+    "sha256": "b4b23494fc2df6e156e452634eb23dc6c63242a8270e91e16eebfafbe8a26956",
     "source": "https://www.flickr.com/photos/135396164@N05/28550715076",
     "title": "White coffee on the table"
   },
   "titled-video+chrome-y2k": {
+    "bandLuminance": 0.007692,
     "creator": "freestocks.org",
     "file": "stock/titled-video--chrome-y2k.jpg",
     "license": "CC0",
     "query": "computer keyboard dark tech",
+    "sha256": "4c8315cdf85b4fc9a00525d3ed5a529de3f42fd9336dd7d99bcf9ca97efa0789",
     "source": "https://www.flickr.com/photos/135396164@N05/40623300100",
-    "title": "Backlit computer keyboard"
+    "title": "Backlit computer keyboard",
+    "titleContrast": 18.2
   },
   "titled-video+postcard-serif": {
+    "bandLuminance": 0.121469,
     "creator": "Amsterdam free photos & pictures of the Dutch city",
     "file": "stock/titled-video--postcard-serif.jpg",
     "license": "CC0",
     "query": "city street autumn buildings",
+    "sha256": "1c360a6fefbf288912b1ffb9718abd5f6c70d3ee0f9a08cc40b209869fd7a08b",
     "source": "https://www.flickr.com/photos/104736837@N03/10905565774",
-    "title": "Autumn in the city Amsterdam with fallen leaves from plane trees; school-building facade near the canal Kostverlorenvaart, on the corner of Postjesweg and Baarsjesweg, in Amsterdam city; urban photography in the Netherlands, Fons Heijnsbroek 2013"
+    "title": "Autumn in the city Amsterdam with fallen leaves from plane trees; school-building facade near the canal Kostverlorenvaart, on the corner of Postjesweg and Baarsjesweg, in Amsterdam city; urban photography in the Netherlands, Fons Heijnsbroek 2013",
+    "titleContrast": 6.01
   }
 }
