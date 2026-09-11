@@ -38,6 +38,24 @@ STYLES_DIR = "src/video_studio/styles"
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "src" / "_data" / "gallery.json"
 
+#: What the five reference templates actually say, for the cards that recreate
+#: them. A preview that shows the FORMAT's name tells you what shape it is; one
+#: that shows the template's own line tells you what it is for, which is the
+#: thing somebody browsing is looking for. Absent, a card shows its format name
+#: and a stand-in caption, which is what every other card does.
+PREVIEW_COPY = {
+    "daily-recap+summer-scrapbook": {
+        "title": "Summer Vibes", "caption": "let the sun melt the stress"},
+    "cinematic+weekend-gothic": {
+        "title": "Weekend", "caption": "added to the list"},
+    "brand-origin+editorial-sage": {
+        "title": "THE everything you need", "caption": "01 / 12"},
+    "titled-video+postcard-serif": {
+        "title": "New York", "caption": "travel · vacation"},
+    "daily-recap+pov-serif": {
+        "title": "pov:", "caption": "capturing everything so you can rewatch it"},
+}
+
 #: The gallery, as a list. Each entry is a format, a style, and one line saying
 #: why the two belong together — the only sentence on the card that is written
 #: here rather than read from the repo.
@@ -221,6 +239,7 @@ def build(read) -> tuple[list[dict], list[str]]:
     entries: list[dict] = []
     problems: list[str] = []
     for fmt_name, style_name, why in PAIRINGS:
+        pairing = f"{fmt_name}+{style_name}"
         try:
             fmt = frontmatter(read(f"{FORMATS_DIR}/{fmt_name}.md"))
         except Exception as e:  # noqa: BLE001 — the reason belongs in the report
@@ -251,6 +270,8 @@ def build(read) -> tuple[list[dict], list[str]]:
             "style": style_name,
             "why": why,
             "title": fmt.get("title", fmt_name),
+            "previewTitle": PREVIEW_COPY.get(pairing, {}).get("title", ""),
+            "previewCaption": PREVIEW_COPY.get(pairing, {}).get("caption", ""),
             "description": fmt.get("description", ""),
             "styleDescription": style_meta.get("description", ""),
             "aspect": fmt.get("aspect", ""),
