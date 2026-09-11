@@ -26,7 +26,8 @@
       },
       "fontFamily": "Inter",
       "titleScale": 0.0437,
-      "captionScale": 0.0146
+      "captionScale": 0.0146,
+      "captionFaceNamed": "Inter"
     },
     {
       "format": "cinematic",
@@ -74,7 +75,8 @@
       },
       "fontFamily": "Inter",
       "titleScale": 0.0778,
-      "captionScale": 0.0259
+      "captionScale": 0.0259,
+      "captionFaceNamed": "Inter"
     },
     {
       "format": "product-launch",
@@ -98,7 +100,8 @@
       },
       "fontFamily": "Inter",
       "titleScale": 0.0778,
-      "captionScale": 0.0259
+      "captionScale": 0.0259,
+      "captionFaceNamed": "Inter"
     },
     {
       "format": "brand-origin",
@@ -122,7 +125,8 @@
       "fontFamily": "Fraunces",
       "titleScale": 0.0437,
       "captionScale": 0.0146,
-      "captionFace": "Fraunces"
+      "captionFace": "Fraunces",
+      "captionFaceNamed": "Fraunces"
     },
     {
       "format": "talking-head",
@@ -169,6 +173,8 @@
       "fontFamily": "Courier New, ui-monospace, Menlo, monospace",
       "titleScale": 0.0781,
       "captionScale": 0.0323,
+      "titleFaceNamed": "Courier New",
+      "captionFaceNamed": "Courier New",
       "uppercase": true
     },
     {
@@ -192,7 +198,9 @@
       "titleScale": 0.1172,
       "captionScale": 0.0359,
       "titleFace": "Fraunces",
-      "captionFace": "Fraunces"
+      "captionFace": "Fraunces",
+      "titleFaceNamed": "Fraunces",
+      "captionFaceNamed": "Fraunces"
     },
     {
       "format": "brand-origin",
@@ -218,6 +226,8 @@
       "captionScale": 0.0208,
       "titleFace": "Bodoni Moda",
       "captionFace": "Fraunces",
+      "titleFaceNamed": "Bodoni Moda",
+      "captionFaceNamed": "Fraunces",
       "uppercase": true
     },
     {
@@ -247,7 +257,9 @@
       "titleScale": 0.1208,
       "captionScale": 0.0219,
       "titleFace": "Gwendolyn",
-      "captionFace": "Cormorant Garamond"
+      "captionFace": "Cormorant Garamond",
+      "titleFaceNamed": "Gwendolyn",
+      "captionFaceNamed": "Cormorant Garamond"
     },
     {
       "format": "cinematic",
@@ -276,6 +288,8 @@
       "titleScale": 0.1229,
       "captionScale": 0.0271,
       "titleFace": "UnifrakturMaguntia",
+      "titleFaceNamed": "UnifrakturMaguntia",
+      "captionFaceNamed": "Inter",
       "uppercase": true
     },
     {
@@ -302,7 +316,9 @@
       "titleScale": 0.1556,
       "captionScale": 0.0407,
       "titleFace": "Bodoni Moda",
-      "captionFace": "Cormorant Garamond"
+      "captionFace": "Cormorant Garamond",
+      "titleFaceNamed": "Bodoni Moda",
+      "captionFaceNamed": "Cormorant Garamond"
     },
     {
       "format": "titled-video",
@@ -327,6 +343,8 @@
       "titleScale": 0.1531,
       "captionScale": 0.0312,
       "titleFace": "Prata",
+      "titleFaceNamed": "Prata",
+      "captionFaceNamed": "Inter",
       "uppercase": true
     },
     {
@@ -350,7 +368,9 @@
       "titleScale": 0.0323,
       "captionScale": 0.0198,
       "titleFace": "EB Garamond",
-      "captionFace": "EB Garamond"
+      "captionFace": "EB Garamond",
+      "titleFaceNamed": "EB Garamond",
+      "captionFaceNamed": "EB Garamond"
     },
     {
       "format": "cinematic",
@@ -377,6 +397,8 @@
       "titleScale": 0.0896,
       "captionScale": 0.026,
       "titleFace": "Monoton",
+      "titleFaceNamed": "Monoton",
+      "captionFaceNamed": "Inter",
       "uppercase": true
     },
     {
@@ -404,6 +426,8 @@
       "titleScale": 0.099,
       "captionScale": 0.0302,
       "titleFace": "Rubik Wet Paint",
+      "titleFaceNamed": "Rubik Wet Paint",
+      "captionFaceNamed": "Inter",
       "uppercase": true
     },
     {
@@ -427,6 +451,8 @@
       "titleScale": 0.1562,
       "captionScale": 0.0406,
       "titleFace": "Nabla",
+      "titleFaceNamed": "Nabla",
+      "captionFaceNamed": "Inter",
       "uppercase": true
     },
     {
@@ -453,6 +479,8 @@
       "captionScale": 0.0281,
       "titleFace": "Rubik Glitch",
       "captionFace": "Archivo Black",
+      "titleFaceNamed": "Rubik Glitch",
+      "captionFaceNamed": "Archivo Black",
       "uppercase": true
     },
     {
@@ -480,6 +508,8 @@
       "captionScale": 0.0593,
       "titleFace": "Press Start 2P",
       "captionFace": "VT323",
+      "titleFaceNamed": "Press Start 2P",
+      "captionFaceNamed": "VT323",
       "uppercase": true
     },
     {
@@ -487,8 +517,8 @@
       "style": "pov-serif",
       "why": "Three panels of an afternoon, captioned like a thought rather than a title.",
       "title": "DailyRecap",
-      "previewTitle": "pov:",
-      "previewCaption": "capturing everything so you can rewatch it",
+      "previewTitle": "pov: capturing everything so you can rewatch it later",
+      "previewCaption": "three panels, one afternoon",
       "description": "Photo-dump recap cut to the track",
       "styleDescription": "A workhorse serif set mid-frame, said quietly",
       "aspect": "9:16",
@@ -506,10 +536,12 @@
         "stroke": "#14120f"
       },
       "fontFamily": "Georgia, EB Garamond, serif",
-      "titleScale": 0.0302,
-      "captionScale": 0.0208,
+      "titleScale": 0.0458,
+      "captionScale": 0.024,
       "titleFace": "EB Garamond",
-      "captionFace": "EB Garamond"
+      "captionFace": "EB Garamond",
+      "titleFaceNamed": "Georgia",
+      "captionFaceNamed": "Georgia"
     },
     {
       "format": "brand-origin",
@@ -536,7 +568,9 @@
       "titleScale": 0.0917,
       "captionScale": 0.0229,
       "titleFace": "Bodoni Moda",
-      "captionFace": "Cormorant Garamond"
+      "captionFace": "Cormorant Garamond",
+      "titleFaceNamed": "Bodoni Moda",
+      "captionFaceNamed": "Cormorant Garamond"
     }
   ]
 }

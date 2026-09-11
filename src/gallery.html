@@ -43,7 +43,7 @@ about: "index.html#about"
 {%- assign shot = stock[key] %}
           <article class="card tpl-card{% if shot.clip %} tpl-card--moves{% endif %}">
             <div class="tpl-preview tpl-preview--{{ t.aspect | replace: ":", "x" }}"
-                 style="--tpl-bg: {{ t.swatch.bg }}; --tpl-fg: {{ t.swatch.fg }}; --tpl-caption: {{ t.swatch.caption }}; --tpl-accent: {{ t.swatch.accent }}; --tpl-stroke: {{ t.swatch.stroke | default: "transparent" }}{% if shot %}; --tpl-shot: url('{{ shot.file }}'){% endif %}{% if t.titleFace %}; --tpl-title-face: '{{ t.titleFace }}'{% endif %}{% if t.titleScale %}; --tpl-title-scale: {{ t.titleScale }}{% endif %}{% if t.captionScale %}; --tpl-caption-scale: {{ t.captionScale }}{% endif %}{% if t.captionFace %}; --tpl-caption-face: '{{ t.captionFace }}'{% endif %}"
+                 style="--tpl-bg: {{ t.swatch.bg }}; --tpl-fg: {{ t.swatch.fg }}; --tpl-caption: {{ t.swatch.caption }}; --tpl-accent: {{ t.swatch.accent }}; --tpl-stroke: {{ t.swatch.stroke | default: "transparent" }}{% if shot %}; --tpl-shot: url('{{ shot.file }}'){% endif %}{% if t.titleFaceNamed or t.titleFace %}; --tpl-title-face: '{{ t.titleFaceNamed | default: t.titleFace }}'{% endif %}{% if t.titleScale %}; --tpl-title-scale: {{ t.titleScale }}{% endif %}{% if t.captionScale %}; --tpl-caption-scale: {{ t.captionScale }}{% endif %}{% if t.captionFaceNamed or t.captionFace %}; --tpl-caption-face: '{{ t.captionFaceNamed | default: t.captionFace }}'{% endif %}"
                  role="img"
                  aria-label="A {{ t.aspect }} preview of {{ t.style }}: {% if t.previewTitle %}the words &ldquo;{{ t.previewTitle }}&rdquo;{% else %}the {{ t.title }} title card{% endif %} over a photograph, with a caption in the preset's own colours and one word in its highlight.">
 {%- if shot.clip %}
@@ -83,7 +83,9 @@ about: "index.html#about"
               <div><dt>Music</dt><dd>{{ t.music }}</dd></div>
 {%- endif %}
 {%- if t.fontFamily %}
-              <div><dt>Type</dt><dd>{% if t.titleFace %}{{ t.titleFace }}{% if t.captionFace and t.captionFace != t.titleFace %} · {{ t.captionFace }}{% endif %}{% else %}{{ t.fontFamily | split: "," | first }}{% endif %}</dd></div>
+{%- assign shownTitleFace = t.titleFaceNamed | default: t.titleFace %}
+{%- assign shownCaptionFace = t.captionFaceNamed | default: t.captionFace %}
+              <div><dt>Type</dt><dd>{% if shownTitleFace %}{{ shownTitleFace }}{% if shownCaptionFace and shownCaptionFace != shownTitleFace %} · {{ shownCaptionFace }}{% endif %}{% else %}{{ t.fontFamily | split: "," | first }}{% endif %}</dd></div>
 {%- endif %}
 {%- if t.needs %}
               <div><dt>Needs</dt><dd><code>{{ t.needs }}</code></dd></div>
