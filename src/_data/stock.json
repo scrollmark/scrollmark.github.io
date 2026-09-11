@@ -16,12 +16,13 @@
     "title": "Intricately decorated Moroccan ceramics and Zellige pottery in Fes Medina"
   },
   "brand-origin+zine-glitch": {
-    "creator": "mnsc",
+    "creator": "unknown",
     "file": "stock/brand-origin--zine-glitch.jpg",
     "license": "CC0",
     "query": "concrete wall texture grey",
-    "source": "https://www.flickr.com/photos/49976053@N00/5094083421",
-    "title": "Texture Dump 12"
+    "source": "https://www.rawpixel.com/image/5906396/cement-wall-texture-free-public-domain-cc0-photo",
+    "title": "Cement wall texture",
+    "titleContrast": 3.08
   },
   "cinematic+documentary": {
     "creator": "Burst",
@@ -32,28 +33,31 @@
     "title": "Fog Trees"
   },
   "cinematic+neon-sign": {
-    "creator": "wwward0",
+    "creator": "unknown",
     "file": "stock/cinematic--neon-sign.jpg",
     "license": "CC0",
     "query": "neon bar sign night",
-    "source": "https://www.flickr.com/photos/15802578@N00/51707917256",
-    "title": "BAR, Monbijou Hotel"
+    "source": "https://www.rawpixel.com/image/5924612/photo-image-background-light-public-domain",
+    "title": "Free open neon sign image",
+    "titleContrast": 5.26
   },
   "cinematic+weekend-gothic": {
-    "creator": "Burst",
+    "creator": "dr-scott",
     "file": "stock/cinematic--weekend-gothic.jpg",
     "license": "CC0",
-    "query": "neon sign night rain street",
-    "source": "https://stocksnap.io/photo/neon-tokyo-VWWBOFQBGZ",
-    "title": "Neon Tokyo"
+    "query": "night sky black",
+    "source": "https://www.flickr.com/photos/60174743@N02/14411447439",
+    "title": "Nighttime Traffic",
+    "titleContrast": 4.41
   },
   "daily-recap+summer-scrapbook": {
-    "creator": "Wonderlane",
+    "creator": "Childe Hassam, born Dorchester, MA 1859-died East Hampton, NY 1935",
     "file": "stock/daily-recap--summer-scrapbook.jpg",
     "license": "CC0",
     "query": "friends summer beach sun",
-    "source": "https://www.flickr.com/photos/71401718@N00/3514833396",
-    "title": "The wave at the little Arch, and friends, Mazatlan, Sinaloa, Mexico"
+    "source": "https://americanart.si.edu/collections/search/artwork/?id=10086",
+    "title": "The South Ledges, Appledore",
+    "titleContrast": 4.0
   },
   "daily-recap+vhs-90s": {
     "creator": "Alex Wong",
@@ -64,12 +68,13 @@
     "title": "Skateboard Skateboarding"
   },
   "daily-recap+wet-paint": {
-    "creator": "JOHN19701970",
+    "creator": "mpardo.photo",
     "file": "stock/daily-recap--wet-paint.jpg",
     "license": "CC0",
     "query": "graffiti wall paint colourful",
-    "source": "https://www.flickr.com/photos/35888947@N05/3720205861",
-    "title": "ORGY VANS"
+    "source": "https://www.flickr.com/photos/130551911@N05/24276360302",
+    "title": "Let the Sun Shine In #2",
+    "titleContrast": 5.32
   },
   "explainer+clean-corporate": {
     "creator": "energepic.com",
@@ -120,12 +125,13 @@
     "title": "Decaying arcade machines"
   },
   "timeline-explainer+lookbook-sage": {
-    "creator": "Grovemade",
+    "creator": "lisafree54",
     "file": "stock/timeline-explainer--lookbook-sage.jpg",
     "license": "CC0",
     "query": "green plant leaves wall",
-    "source": "https://stocksnap.io/photo/interior-design-Q6N8EL794B",
-    "title": "Interior Design"
+    "source": "https://www.flickr.com/photos/136594255@N06/28537935413",
+    "title": "green and bluish-red ivy vines on wall",
+    "titleContrast": 4.39
   },
   "titled-video+analog-editorial": {
     "creator": "freestocks.org",

@@ -26,6 +26,7 @@ import importlib.util
 import json
 import os
 import re
+import subprocess
 import sys
 import urllib.error
 import urllib.request
@@ -354,6 +355,12 @@ def main() -> int:
     # produces, and a stated floor is a claim like any other here: it said
     # 14:1 until a preset measured 13.45. So the claim is parsed out of the CSS
     # and checked against the data it describes.
+    def _luminance_of(value: str) -> float:
+        h = value.lstrip("#")
+        ch = [int(h[i:i + 2], 16) / 255 for i in (0, 2, 4)]
+        ch = [x / 12.92 if x <= 0.03928 else ((x + 0.055) / 1.055) ** 2.4 for x in ch]
+        return 0.2126 * ch[0] + 0.7152 * ch[1] + 0.0722 * ch[2]
+
     def _contrast(a: str, b: str) -> float:
         def lum(h):
             h = h.lstrip("#")
@@ -442,6 +449,49 @@ def main() -> int:
         expect("gallery faces requested", not missing,
                "every face a preset names is in the request"
                + (f" — MISSING: {missing}" if missing else ""))
+
+    # 9e. A title has to be readable against the picture chosen for it.
+    #
+    # Where a preset's title card is transparent, the type sits straight on the
+    # photograph, so the photograph is part of whether it can be read. Seven of
+    # the ten such pairings failed when the stills were picked for subject
+    # alone -- one at 1.24:1, which is a caption you cannot see.
+    #
+    # 3:1 because these are large text, which is the threshold WCAG sets for
+    # it, and because some titles cannot do better against ANY photograph:
+    # weekend-gothic's vermilion sits mid-range, so it needs a near-black band
+    # and can never reach 4.5 over a picture.
+    def _band_luminance(path):
+        result = subprocess.run(
+            ["ffmpeg", "-v", "error", "-i", str(path),
+             "-vf", "crop=iw:ih/5:0:ih*0.28,scale=1:1",
+             "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], capture_output=True)
+        if len(result.stdout) < 3:
+            return None
+        channels = [b / 255 for b in result.stdout[:3]]
+        channels = [c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4
+                    for c in channels]
+        return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2]
+
+    unreadable = []
+    for entry in committed["entries"]:
+        swatch = entry["swatch"]
+        if swatch.get("bg") != "transparent":
+            continue
+        shot = stock.get(f"{entry['format']}+{entry['style']}")
+        if not shot:
+            continue
+        band = _band_luminance(SITE.parent / shot["file"])
+        if band is None:
+            continue
+        title = _luminance_of(swatch["fg"])
+        ratio = (max(title, band) + 0.05) / (min(title, band) + 0.05)
+        if ratio < 3.0:
+            unreadable.append(f"{entry['format']}+{entry['style']} at {ratio:.2f}:1")
+    expect("title on its still", not unreadable,
+           "every transparent title clears 3:1 against its photograph"
+           + (f" — UNREADABLE: {unreadable} (scripts/fetch-stock.py --rebalance)"
+              if unreadable else ""))
 
     # Every pairing must reach the built page, or the data is a file nobody sees.
     gallery_html = pages.get("gallery.html", "")
