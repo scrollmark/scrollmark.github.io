@@ -1575,3 +1575,38 @@ footer {
   word-break: break-word;
   min-width: 0;
 }
+
+/* ── Previews that move ──
+   The clip sits under the type and over the still, which is its own poster, so
+   the first frame is the picture the card already showed and nothing jumps
+   when it starts. It plays on hover and on keyboard focus and never on its
+   own: five autoplaying videos is a page that drains a battery to show what a
+   still already shows. */
+.tpl-clip {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.25s ease-out;
+}
+
+.tpl-card:hover .tpl-clip,
+.tpl-card:focus-within .tpl-clip {
+  opacity: 1;
+}
+
+/* Asked for less motion: the still stays, and the script never calls play(). */
+@media (prefers-reduced-motion: reduce) {
+  .tpl-card:hover .tpl-clip,
+  .tpl-card:focus-within .tpl-clip {
+    opacity: 0;
+  }
+}
+
+.tpl-preview-title,
+.tpl-preview-caption {
+  position: relative;
+  z-index: 1;
+}

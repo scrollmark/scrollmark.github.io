@@ -404,6 +404,19 @@ def main() -> int:
             continue
         expect("gallery still shipped", (SITE / shot["file"]).is_file(),
                f"{shot['file']} is in the built site")
+        if shot.get("clip"):
+            clip = SITE / shot["clip"]
+            expect("gallery clip shipped", clip.is_file(),
+                   f"{shot['clip']} is in the built site")
+            # A card's clip has to stay small enough to serve on hover. The
+            # band is the one it was encoded into; a re-encode that drifts out
+            # of it is a page that got heavier without anyone deciding to.
+            size = clip.stat().st_size if clip.is_file() else 0
+            expect("gallery clip weight", 200 * 1024 <= size <= 400 * 1024,
+                   f"{shot['clip']} is {size // 1024}KB, inside 200-400KB")
+            expect("gallery clip is posted by its still",
+                   f'poster="{shot["file"]}"' in pages.get("gallery.html", ""),
+                   f"{shot['clip']} shows its own still until it plays")
         missing = [k for k in ("creator", "source", "license") if not shot.get(k)]
         expect("gallery still credited", not missing,
                f"{pairing} names its photographer and licence"

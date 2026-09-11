@@ -260,6 +260,7 @@ def main() -> int:
     for pairing in OURS:
         name = pairing.replace("+", "--") + ".jpg"
         if (STOCK_DIR / name).is_file():
+            clip = STOCK_DIR / (pairing.replace("+", "--") + ".mp4")
             credits[pairing] = {
                 **credits.get(pairing, {}),
                 "file": f"stock/{name}",
@@ -267,6 +268,11 @@ def main() -> int:
                 "creator": "Scrollmark",
                 "source": "in-house",
                 "license": "OWN",
+                # A card with a clip plays it on hover; the still is its poster,
+                # so a card with no clip, or a visitor who never hovers, is
+                # exactly what it was.
+                **({"clip": f"stock/{clip.name}", "clipBytes": clip.stat().st_size}
+                   if clip.is_file() else {}),
             }
 
     if args.measure:
